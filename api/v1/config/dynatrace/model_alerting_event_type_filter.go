@@ -8,8 +8,9 @@
  */
 
 package dynatrace
+
 // AlertingEventTypeFilter Configuration of the event filter for the alerting profile.   You have two mutually exclusive options:  * Select an event type from the list of the predefined events. Specify it in the **predefinedEventFilter** field.  * Set a rule for custom events. Specify it in the **customEventFilter** field.
 type AlertingEventTypeFilter struct {
-	PredefinedEventFilter AlertingPredefinedEventFilter `json:"predefinedEventFilter,omitempty"`
-	CustomEventFilter AlertingCustomEventFilter `json:"customEventFilter,omitempty"`
+	PredefinedEventFilter *AlertingPredefinedEventFilter `json:"predefinedEventFilter,omitempty"`
+	CustomEventFilter     *AlertingCustomEventFilter     `json:"customEventFilter,omitempty"`
 }
