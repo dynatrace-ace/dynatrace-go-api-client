@@ -15,5 +15,5 @@ type AlertingProfileSeverityRule struct {
 	SeverityLevel string                   `json:"severityLevel"`
 	TagFilter     AlertingProfileTagFilter `json:"tagFilter"`
 	// Send a notification if a problem remains open longer than *X* minutes.
-	DelayInMinutes int32 `json:"delayInMinutes"`
+	DelayInMinutes int `json:"delayInMinutes"`
 }
