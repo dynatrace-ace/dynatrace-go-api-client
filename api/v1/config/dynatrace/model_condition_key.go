@@ -8,10 +8,13 @@
  */
 
 package dynatrace
+
 // ConditionKey The key to identify the data we're matching.   Depending on the type of the key, the actual JSON may contain additional fields. Find the list in the description of the **type** field.
 type ConditionKey struct {
 	// The attribute to be used for comparision.
 	Attribute string `json:"attribute"`
-	// Defines the actual set of fields depending on the value. See one of the following objects:   * `PROCESS_CUSTOM_METADATA_KEY` -> CustomProcessMetadataConditionKey  * `HOST_CUSTOM_METADATA_KEY` -> CustomHostMetadataConditionKey  * `PROCESS_PREDEFINED_METADATA_KEY` -> ProcessMetadataConditionKey  * `STRING` -> StringConditionKey  
+	// DynamicKey generated based on selected type
+	DynamicKey string `json:"dynamicKey,omitempty"`
+	// Defines the actual set of fields depending on the value. See one of the following objects:   * `PROCESS_CUSTOM_METADATA_KEY` -> CustomProcessMetadataConditionKey  * `HOST_CUSTOM_METADATA_KEY` -> CustomHostMetadataConditionKey  * `PROCESS_PREDEFINED_METADATA_KEY` -> ProcessMetadataConditionKey  * `STRING` -> StringConditionKey
 	Type string `json:"type,omitempty"`
 }
