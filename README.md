@@ -1,6 +1,6 @@
 # dynatrace-go-api-client
 
-Repository for the Go API? client for the [dynatrace API] The code is generated using [openapi-generator].
+Repository for the Go API client for the [dynatrace API]. The code is generated using [openapi-generator].
 
 ## The dynatrace API v1 Config Client
 
