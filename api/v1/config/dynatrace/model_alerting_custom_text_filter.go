@@ -8,6 +8,7 @@
  */
 
 package dynatrace
+
 // AlertingCustomTextFilter Configuration of a matching filter.
 type AlertingCustomTextFilter struct {
 	// The filter is enabled (`true`) or disabled (`false`).

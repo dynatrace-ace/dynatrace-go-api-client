@@ -8,11 +8,12 @@
  */
 
 package dynatrace
+
 // AlertingProfileSeverityRule A severity rule of the alerting profile.    A severity rule defines the level of severity that must be met before an alert is sent our for a detected problem. Additionally it restricts the alerting to certain monitored entities.
 type AlertingProfileSeverityRule struct {
 	// The severity level to trigger the alert.
-	SeverityLevel string `json:"severityLevel"`
-	TagFilter AlertingProfileTagFilter `json:"tagFilter"`
+	SeverityLevel string                   `json:"severityLevel"`
+	TagFilter     AlertingProfileTagFilter `json:"tagFilter"`
 	// Send a notification if a problem remains open longer than *X* minutes.
 	DelayInMinutes int32 `json:"delayInMinutes"`
 }

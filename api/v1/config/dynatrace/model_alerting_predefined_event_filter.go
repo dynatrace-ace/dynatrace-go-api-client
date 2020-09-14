@@ -8,6 +8,7 @@
  */
 
 package dynatrace
+
 // AlertingPredefinedEventFilter Configuration of a predefined event filter.
 type AlertingPredefinedEventFilter struct {
 	// The type of the predefined event.
