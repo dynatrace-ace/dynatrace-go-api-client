@@ -8,14 +8,15 @@
  */
 
 package dynatrace
+
 // Recurrence The recurrence of the maintenance window.
 type Recurrence struct {
 	// The day of the week for weekly maintenance.   The format is the full name of the day in upper case, for example `THURSDAY`.
 	DayOfWeek string `json:"dayOfWeek,omitempty"`
 	// The day of the month for monthly maintenance.   The value of `31` is treated as the last day of the month for months that don't have a 31st day. The value of `30` is also treated as the last day of the month for February.
-	DayOfMonth int32 `json:"dayOfMonth,omitempty"`
+	DayOfMonth int `json:"dayOfMonth,omitempty"`
 	// The start time of the maintenance window in HH:mm format.
 	StartTime string `json:"startTime"`
 	// The duration of the maintenance window in minutes.
-	DurationMinutes int32 `json:"durationMinutes"`
+	DurationMinutes int `json:"durationMinutes"`
 }
