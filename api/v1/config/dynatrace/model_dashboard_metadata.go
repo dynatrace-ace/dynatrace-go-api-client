@@ -8,6 +8,7 @@
  */
 
 package dynatrace
+
 // DashboardMetadata Parameters of a dashboard.
 type DashboardMetadata struct {
 	// The name of the dashboard.
@@ -15,9 +16,11 @@ type DashboardMetadata struct {
 	// The dashboard is shared (`true`) or private (`false`).
 	Shared bool `json:"shared,omitempty"`
 	// The owner of the dashboard.
-	Owner string `json:"owner,omitempty"`
-	SharingDetails SharingInfo `json:"sharingDetails,omitempty"`
+	Owner           string          `json:"owner,omitempty"`
+	SharingDetails  SharingInfo     `json:"sharingDetails,omitempty"`
 	DashboardFilter DashboardFilter `json:"dashboardFilter,omitempty"`
 	// A set of tags assigned to the dashboard.
 	Tags []string `json:"tags,omitempty"`
+	// A set of all possible global dashboard filters that can be applied to dashboard
+	ValidFilterKeys []string `json:"validFilterKeys,omitempty"`
 }
