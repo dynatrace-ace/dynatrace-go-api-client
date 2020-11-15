@@ -8,14 +8,39 @@
  */
 
 package dynatrace
+
 // Tile Configuration of a tile.   The actual set of fields depends on the type of the tile. See the description of the **tileType** field.
 type Tile struct {
 	// The name of the tile.
 	Name string `json:"name"`
-	// Defines the actual set of fields depending on the value. See one of the following objects:   * `DATA_EXPLORER` -> DataExplorerTile  * `CUSTOM_CHARTING` -> CustomChartingTile  * `DTAQL` -> UserSessionQueryTile  * `MARKDOWN` -> MarkdownTile  * `HOSTS` -> FilterableEntityTile  * `APPLICATIONS` -> FilterableEntityTile  * `SERVICES` -> FilterableEntityTile  * `DATABASES_OVERVIEW` -> FilterableEntityTile  * `SYNTHETIC_TESTS` -> FilterableEntityTile  * `APPLICATION_WORLDMAP` -> AssignedEntitiesWithMetricTile  * `RESOURCES` -> AssignedEntitiesWithMetricTile  * `THIRD_PARTY_MOST_ACTIVE` -> AssignedEntitiesWithMetricTile  * `UEM_CONVERSIONS_PER_GOAL` -> AssignedEntitiesWithMetricTile  * `HOST` -> AssignedEntitiesWithMetricTile  * `PROCESS_GROUPS_ONE` -> AssignedEntitiesWithMetricTile  * `SYNTHETIC_SINGLE_WEBCHECK` -> SyntheticSingleWebcheckTile  * `APPLICATION` -> AssignedEntitiesTile  * `VIRTUALIZATION` -> AssignedEntitiesTile  * `AWS` -> AssignedEntitiesTile  * `SERVICE_VERSATILE` -> AssignedEntitiesTile  * `SESSION_METRICS` -> AssignedEntitiesTile  * `USERS` -> AssignedEntitiesTile  * `UEM_KEY_USER_ACTIONS` -> AssignedEntitiesTile  * `BOUNCE_RATE` -> AssignedEntitiesTile  * `UEM_CONVERSIONS_OVERALL` -> AssignedEntitiesTile  * `UEM_JSERRORS_OVERALL` -> AssignedEntitiesTile  * `MOBILE_APPLICATION` -> AssignedEntitiesTile  * `SYNTHETIC_SINGLE_EXT_TEST` -> AssignedEntitiesTile  * `SYNTHETIC_HTTP_MONITOR` -> AssignedEntitiesTile  * `DATABASE` -> AssignedEntitiesTile  * `CUSTOM_APPLICATION` -> AssignedEntitiesTile  * `APPLICATION_METHOD` -> AssignedEntitiesTile  * `LOG_ANALYTICS` -> AssignedEntitiesTile  * `OPENSTACK` -> AssignedEntitiesTile  * `OPENSTACK_PROJECT` -> AssignedEntitiesTile  * `OPENSTACK_AV_ZONE` -> AssignedEntitiesTile  * `DEVICE_APPLICATION_METHOD` -> AssignedEntitiesTile  * `DEM_KEY_USER_ACTION` -> AssignedEntitiesTile  
+	// Defines the actual set of fields depending on the value. See one of the following objects:   * `DATA_EXPLORER` -> DataExplorerTile  * `CUSTOM_CHARTING` -> CustomChartingTile  * `DTAQL` -> UserSessionQueryTile  * `MARKDOWN` -> MarkdownTile  * `HOSTS` -> FilterableEntityTile  * `APPLICATIONS` -> FilterableEntityTile  * `SERVICES` -> FilterableEntityTile  * `DATABASES_OVERVIEW` -> FilterableEntityTile  * `SYNTHETIC_TESTS` -> FilterableEntityTile  * `APPLICATION_WORLDMAP` -> AssignedEntitiesWithMetricTile  * `RESOURCES` -> AssignedEntitiesWithMetricTile  * `THIRD_PARTY_MOST_ACTIVE` -> AssignedEntitiesWithMetricTile  * `UEM_CONVERSIONS_PER_GOAL` -> AssignedEntitiesWithMetricTile  * `HOST` -> AssignedEntitiesWithMetricTile  * `PROCESS_GROUPS_ONE` -> AssignedEntitiesWithMetricTile  * `SYNTHETIC_SINGLE_WEBCHECK` -> SyntheticSingleWebcheckTile  * `APPLICATION` -> AssignedEntitiesTile  * `VIRTUALIZATION` -> AssignedEntitiesTile  * `AWS` -> AssignedEntitiesTile  * `SERVICE_VERSATILE` -> AssignedEntitiesTile  * `SESSION_METRICS` -> AssignedEntitiesTile  * `USERS` -> AssignedEntitiesTile  * `UEM_KEY_USER_ACTIONS` -> AssignedEntitiesTile  * `BOUNCE_RATE` -> AssignedEntitiesTile  * `UEM_CONVERSIONS_OVERALL` -> AssignedEntitiesTile  * `UEM_JSERRORS_OVERALL` -> AssignedEntitiesTile  * `MOBILE_APPLICATION` -> AssignedEntitiesTile  * `SYNTHETIC_SINGLE_EXT_TEST` -> AssignedEntitiesTile  * `SYNTHETIC_HTTP_MONITOR` -> AssignedEntitiesTile  * `DATABASE` -> AssignedEntitiesTile  * `CUSTOM_APPLICATION` -> AssignedEntitiesTile  * `APPLICATION_METHOD` -> AssignedEntitiesTile  * `LOG_ANALYTICS` -> AssignedEntitiesTile  * `OPENSTACK` -> AssignedEntitiesTile  * `OPENSTACK_PROJECT` -> AssignedEntitiesTile  * `OPENSTACK_AV_ZONE` -> AssignedEntitiesTile  * `DEVICE_APPLICATION_METHOD` -> AssignedEntitiesTile  * `DEM_KEY_USER_ACTION` -> AssignedEntitiesTile
 	TileType string `json:"tileType"`
 	// The tile is configured and ready to use (`true`) or just placed on the dashboard (`false`).
-	Configured bool `json:"configured,omitempty"`
-	Bounds TileBounds `json:"bounds"`
-	TileFilter TileFilter `json:"tileFilter,omitempty"`
+	Configured bool       `json:"configured,omitempty"`
+	Bounds     TileBounds `json:"bounds"`
+	TileFilter TileFilter `json:"tileFilter"`
+	// The list of Dynatrace entities, assigned to the tile.
+	AssignedEntities []string `json:"assignedEntities,omitempty"`
+	// The metric assigned to the tile.
+	Metric string `json:"metric,omitempty"`
+	// Configuration of the custom filter of a tile.
+	FilterConfig *CustomFilterConfig `json:"filterConfig,omitempty"`
+	// The tile is visible and ready to use (true) or just placed on the dashboard (false).
+	ChartVisible bool `json:"chartVisible,omitempty"`
+	// The markdown-formatted content of the tile.
+	Markdown string `json:"markdown,omitempty"`
+	// Include (`false') or exclude (`true`) maintenance windows from availability calculations.
+	ExcludeMaintenanceWindows bool `json:"excludeMaintenanceWindows,omitempty"`
+	// The name of the tile, set by user.
+	CustomName string `json:"customName,omitempty"`
+	// A [user session query](https://www.dynatrace.com/support/help/shortlink/usql-info) executed by the tile.
+	Query string `json:"query,omitempty"`
+	// The visualization of the tile.
+	Type string `json:"type,omitempty"`
+	// The comparison timeframe of the query.    If specified, you additionally get the results of the same query with the specified time shift.
+	TimeFrameShift string `json:"timeFrameShift,omitempty"`
+	// Configuration of a User session query visualization tile.
+	VisualizationConfig UserSessionQueryTileConfiguration `json:"visualizationConfig,omitempty"`
+	// The limit of the results, if not set will use the default value of the system
+	Limit int `json:"limit,omitempty"`
 }
