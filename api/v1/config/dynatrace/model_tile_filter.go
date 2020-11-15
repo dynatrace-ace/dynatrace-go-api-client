@@ -8,9 +8,10 @@
  */
 
 package dynatrace
+
 // TileFilter A filter applied to a tile.    It overrides dashboard's filter.
 type TileFilter struct {
 	// The default timeframe of the tile.
-	Timeframe string `json:"timeframe,omitempty"`
-	ManagementZone EntityShortRepresentation `json:"managementZone,omitempty"`
+	Timeframe      string                     `json:"timeframe"`
+	ManagementZone *EntityShortRepresentation `json:"managementZone"`
 }

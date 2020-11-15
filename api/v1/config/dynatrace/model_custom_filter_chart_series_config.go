@@ -8,6 +8,7 @@
  */
 
 package dynatrace
+
 // CustomFilterChartSeriesConfig Configuration of a charted metric.
 type CustomFilterChartSeriesConfig struct {
 	// The name of the charted metric.
@@ -15,15 +16,15 @@ type CustomFilterChartSeriesConfig struct {
 	// The charted aggregation of the metric.
 	Aggregation string `json:"aggregation"`
 	// The charted percentile.    Only applicable if the **aggregation** is set to `PERCENTILE`.
-	Percentile int64 `json:"percentile,omitempty"`
+	Percentile int `json:"percentile,omitempty"`
 	// The visualization of the timeseries chart.
 	Type string `json:"type"`
 	// The type of the Dynatrace entity that delivered the charted metric.
 	EntityType string `json:"entityType"`
 	// Configuration of the charted metric splitting.
 	Dimensions []CustomFilterChartSeriesDimensionConfig `json:"dimensions"`
-	// Sort ascending (`true`) or descending (`false`). 
-	SortAscending bool `json:"sortAscending,omitempty"`
-	SortColumn bool `json:"sortColumn,omitempty"`
+	// Sort ascending (`true`) or descending (`false`).
+	SortAscending   bool   `json:"sortAscending,omitempty"`
+	SortColumn      bool   `json:"sortColumn,omitempty"`
 	AggregationRate string `json:"aggregationRate,omitempty"`
 }

@@ -8,11 +8,12 @@
  */
 
 package dynatrace
+
 // Schedule The schedule of the maintenance window.
 type Schedule struct {
 	// The type of the schedule recurrence.
-	RecurrenceType string `json:"recurrenceType"`
-	Recurrence Recurrence `json:"recurrence,omitempty"`
+	RecurrenceType string      `json:"recurrenceType"`
+	Recurrence     *Recurrence `json:"recurrence,omitempty"`
 	// The start date and time of the maintenance window validity period in yyyy-mm-dd HH:mm format.
 	Start string `json:"start"`
 	// The end date and time of the maintenance window validity period in yyyy-mm-dd HH:mm format.

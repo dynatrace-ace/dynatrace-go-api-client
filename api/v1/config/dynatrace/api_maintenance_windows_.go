@@ -15,6 +15,7 @@ import (
 	_nethttp "net/http"
 	_neturl "net/url"
 	"strings"
+
 	"github.com/antihax/optional"
 )
 
@@ -42,7 +43,7 @@ func (a *MaintenanceWindowsApiService) DeleteMaintenanceWindow(ctx _context.Cont
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/maintenanceWindows/{id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.QueryEscape(parameterToString(id, "")) , -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.QueryEscape(parameterToString(id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -122,7 +123,7 @@ func (a *MaintenanceWindowsApiService) GetMaintenanceWindow(ctx _context.Context
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/maintenanceWindows/{id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.QueryEscape(parameterToString(id, "")) , -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.QueryEscape(parameterToString(id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -281,7 +282,7 @@ func (a *MaintenanceWindowsApiService) ReturnAllMaintenanceWindows(ctx _context.
 
 // StoreMaintenanceWindowOpts Optional parameters for the method 'StoreMaintenanceWindow'
 type StoreMaintenanceWindowOpts struct {
-    MaintenanceWindow optional.Interface
+	MaintenanceWindow optional.Interface
 }
 
 /*
@@ -305,7 +306,7 @@ func (a *MaintenanceWindowsApiService) StoreMaintenanceWindow(ctx _context.Conte
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/maintenanceWindows/{id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.QueryEscape(parameterToString(id, "")) , -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.QueryEscape(parameterToString(id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -396,7 +397,7 @@ func (a *MaintenanceWindowsApiService) StoreMaintenanceWindow(ctx _context.Conte
 
 // StoreMaintenanceWindow1Opts Optional parameters for the method 'StoreMaintenanceWindow1'
 type StoreMaintenanceWindow1Opts struct {
-    MaintenanceWindow optional.Interface
+	MaintenanceWindow optional.Interface
 }
 
 /*
@@ -508,7 +509,7 @@ func (a *MaintenanceWindowsApiService) StoreMaintenanceWindow1(ctx _context.Cont
 
 // ValidateConfiguration7Opts Optional parameters for the method 'ValidateConfiguration7'
 type ValidateConfiguration7Opts struct {
-    MaintenanceWindow optional.Interface
+	MaintenanceWindow optional.Interface
 }
 
 /*
@@ -529,7 +530,7 @@ func (a *MaintenanceWindowsApiService) ValidateConfiguration7(ctx _context.Conte
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/maintenanceWindows/{id}/validator"
-	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.QueryEscape(parameterToString(id, "")) , -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.QueryEscape(parameterToString(id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -611,7 +612,7 @@ func (a *MaintenanceWindowsApiService) ValidateConfiguration7(ctx _context.Conte
 
 // ValidateConfiguration8Opts Optional parameters for the method 'ValidateConfiguration8'
 type ValidateConfiguration8Opts struct {
-    MaintenanceWindow optional.Interface
+	MaintenanceWindow optional.Interface
 }
 
 /*

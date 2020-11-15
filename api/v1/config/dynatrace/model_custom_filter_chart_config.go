@@ -8,8 +8,15 @@
  */
 
 package dynatrace
+
 // CustomFilterChartConfig Configuration of a custom chart.
 type CustomFilterChartConfig struct {
+	// The optional custom y-axis limits.
+	AxisLimits interface{} `json:"axisLimits,omitempty"`
+	// The custom unit for the left Y-axis.
+	LeftAxisCustomUnit string `json:"leftAxisCustomUnit,omitempty"`
+	// The custom unit for the right Y-axis.
+	RightAxisCustomUnit string `json:"rightAxisCustomUnit,omitempty"`
 	// Defines if a legend should be shown.
 	LegendShown bool `json:"legendShown,omitempty"`
 	// The type of the chart.
@@ -17,11 +24,5 @@ type CustomFilterChartConfig struct {
 	// A list of charted metrics.
 	Series []CustomFilterChartSeriesConfig `json:"series"`
 	// Additional information about charted metric.
-	ResultMetadata map[string]CustomChartingItemMetadataConfig `json:"resultMetadata"`
-	// The optional custom y-axis limits.
-	AxisLimits map[string]float64 `json:"axisLimits,omitempty"`
-	// The custom unit for the left Y-axis.
-	LeftAxisCustomUnit string `json:"leftAxisCustomUnit,omitempty"`
-	// The custom unit for the right Y-axis.
-	RightAxisCustomUnit string `json:"rightAxisCustomUnit,omitempty"`
+	ResultMetadata CustomChartingItemMetadataConfig `json:"resultMetadata"`
 }

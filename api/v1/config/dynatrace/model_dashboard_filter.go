@@ -8,9 +8,10 @@
  */
 
 package dynatrace
+
 // DashboardFilter Filters, applied to a dashboard.
 type DashboardFilter struct {
 	// The default timeframe of the dashboard.
-	Timeframe string `json:"timeframe,omitempty"`
-	ManagementZone EntityShortRepresentation `json:"managementZone,omitempty"`
+	Timeframe      string                     `json:"timeframe,omitempty"`
+	ManagementZone *EntityShortRepresentation `json:"managementZone,omitempty"`
 }

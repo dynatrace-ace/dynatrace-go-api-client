@@ -8,10 +8,11 @@
  */
 
 package dynatrace
+
 // CustomChartingItemMetadataConfig Additional metadata for charted metric.
 type CustomChartingItemMetadataConfig struct {
 	// The timestamp of the last metadata modification, in UTC milliseconds.
-	LastModified int64 `json:"lastModified,omitempty"`
+	LastModified int `json:"lastModified,omitempty"`
 	// The color of the metric in the chart, hex format.
-	CustomColor string `json:"customColor"`
+	CustomColor string `json:"customColor,omitempty"`
 }

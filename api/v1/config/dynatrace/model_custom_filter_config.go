@@ -8,15 +8,16 @@
  */
 
 package dynatrace
+
 // CustomFilterConfig Configuration of the custom filter of a tile.
 type CustomFilterConfig struct {
 	// The type of the filter.    It shows to which entity the filter belongs.    Custom charts have the `MIXED` type.
-	Type string `json:"type"`
+	Type string `json:"type,omitempty"`
 	// The name of the tile, set by user
-	CustomName string `json:"customName"`
+	CustomName string `json:"customName,omitempty"`
 	// The default name of the tile
-	DefaultName string `json:"defaultName"`
-	ChartConfig CustomFilterChartConfig `json:"chartConfig"`
+	DefaultName string                  `json:"defaultName,omitempty"`
+	ChartConfig CustomFilterChartConfig `json:"chartConfig,omitempty"`
 	// A list of filters, applied to specific entity types.
-	FiltersPerEntityType map[string]map[string][]string `json:"filtersPerEntityType"`
+	FiltersPerEntityType interface{} `json:"filtersPerEntityType,omitmepty"`
 }

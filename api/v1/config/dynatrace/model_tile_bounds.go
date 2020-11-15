@@ -8,14 +8,15 @@
  */
 
 package dynatrace
+
 // TileBounds The position and size of a tile.
 type TileBounds struct {
 	// The vertical distance from the top left corner of the dashboard to the top left corner of the tile, in pixels.
-	Top int32 `json:"top,omitempty"`
+	Top int `json:"top"`
 	// The horizontal distance from the top left corner of the dashboard to the top left corner of the tile, in pixels.
-	Left int32 `json:"left,omitempty"`
+	Left int `json:"left"`
 	// The width of the tile, in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width int `json:"width"`
 	// The height of the tile, in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height int `json:"height"`
 }
