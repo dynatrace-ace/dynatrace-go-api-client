@@ -24,5 +24,5 @@ type CustomFilterChartConfig struct {
 	// A list of charted metrics.
 	Series []CustomFilterChartSeriesConfig `json:"series"`
 	// Additional information about charted metric.
-	ResultMetadata CustomChartingItemMetadataConfig `json:"resultMetadata"`
+	ResultMetadata interface{} `json:"resultMetadata"`
 }
