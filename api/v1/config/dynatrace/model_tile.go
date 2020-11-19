@@ -40,7 +40,7 @@ type Tile struct {
 	// The comparison timeframe of the query.    If specified, you additionally get the results of the same query with the specified time shift.
 	TimeFrameShift string `json:"timeFrameShift,omitempty"`
 	// Configuration of a User session query visualization tile.
-	VisualizationConfig UserSessionQueryTileConfiguration `json:"visualizationConfig,omitempty"`
+	VisualizationConfig *UserSessionQueryTileConfiguration `json:"visualizationConfig,omitempty"`
 	// The limit of the results, if not set will use the default value of the system
 	Limit int `json:"limit,omitempty"`
 }
