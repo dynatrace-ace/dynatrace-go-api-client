@@ -1,6 +1,6 @@
 # \AnomalyDetectionAWSApi
 
-All URIs are relative to *https://nph08633.live.dynatrace.com/api/config/v1*
+All URIs are relative to *http://https:/api/config/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -12,13 +12,44 @@ Method | HTTP request | Description
 
 ## GetAwsAnomalyDetectionConfig
 
-> AwsAnomalyDetectionConfig GetAwsAnomalyDetectionConfig(ctx, )
+> AwsAnomalyDetectionConfig GetAwsAnomalyDetectionConfig(ctx).Execute()
 
 Gets the configuration of anomaly detection for AWS
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AnomalyDetectionAWSApi.GetAwsAnomalyDetectionConfig(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AnomalyDetectionAWSApi.GetAwsAnomalyDetectionConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetAwsAnomalyDetectionConfig`: AwsAnomalyDetectionConfig
+    fmt.Fprintf(os.Stdout, "Response from `AnomalyDetectionAWSApi.GetAwsAnomalyDetectionConfig`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetAwsAnomalyDetectionConfigRequest struct via the builder pattern
+
 
 ### Return type
 
@@ -26,7 +57,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -40,26 +71,47 @@ This endpoint does not need any parameter.
 
 ## UpdateAwsAnomalyDetectionConfig
 
-> UpdateAwsAnomalyDetectionConfig(ctx, optional)
+> UpdateAwsAnomalyDetectionConfig(ctx).AwsAnomalyDetectionConfig(awsAnomalyDetectionConfig).Execute()
 
 Updates the configuration of anomaly detection for AWS
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    awsAnomalyDetectionConfig := *openapiclient.NewAwsAnomalyDetectionConfig(*openapiclient.NewRdsHighCpuDetectionConfig(false), *openapiclient.NewRdsHighWriteReadLatencyDetectionConfig(false), *openapiclient.NewRdsLowStorageDetectionConfig(false), *openapiclient.NewRdsHighMemoryDetectionConfig(false), *openapiclient.NewElbHighConnectionErrorsDetectionConfig(false), *openapiclient.NewRdsRestartsSequenceDetectionConfig(false), *openapiclient.NewLambdaHighErrorRateDetectionConfig(false)) // AwsAnomalyDetectionConfig | JSON body of the request, containing parameters of the AWS anomaly detection configuration. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AnomalyDetectionAWSApi.UpdateAwsAnomalyDetectionConfig(context.Background()).AwsAnomalyDetectionConfig(awsAnomalyDetectionConfig).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AnomalyDetectionAWSApi.UpdateAwsAnomalyDetectionConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateAwsAnomalyDetectionConfigRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***UpdateAwsAnomalyDetectionConfigOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a UpdateAwsAnomalyDetectionConfigOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **awsAnomalyDetectionConfig** | [**optional.Interface of AwsAnomalyDetectionConfig**](AwsAnomalyDetectionConfig.md)| JSON body of the request, containing parameters of the AWS anomaly detection configuration. | 
+ **awsAnomalyDetectionConfig** | [**AwsAnomalyDetectionConfig**](AwsAnomalyDetectionConfig.md) | JSON body of the request, containing parameters of the AWS anomaly detection configuration. | 
 
 ### Return type
 
@@ -67,7 +119,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -81,26 +133,47 @@ Name | Type | Description  | Notes
 
 ## ValidateAwsAnomalyDetectionConfig
 
-> ValidateAwsAnomalyDetectionConfig(ctx, optional)
+> ValidateAwsAnomalyDetectionConfig(ctx).AwsAnomalyDetectionConfig(awsAnomalyDetectionConfig).Execute()
 
 Validates the configuration of anomaly detection for AWS for the `PUT /anomalyDetection/aws` request
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    awsAnomalyDetectionConfig := *openapiclient.NewAwsAnomalyDetectionConfig(*openapiclient.NewRdsHighCpuDetectionConfig(false), *openapiclient.NewRdsHighWriteReadLatencyDetectionConfig(false), *openapiclient.NewRdsLowStorageDetectionConfig(false), *openapiclient.NewRdsHighMemoryDetectionConfig(false), *openapiclient.NewElbHighConnectionErrorsDetectionConfig(false), *openapiclient.NewRdsRestartsSequenceDetectionConfig(false), *openapiclient.NewLambdaHighErrorRateDetectionConfig(false)) // AwsAnomalyDetectionConfig | JSON body of the request, containing parameters of the AWS anomaly detection configuration. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AnomalyDetectionAWSApi.ValidateAwsAnomalyDetectionConfig(context.Background()).AwsAnomalyDetectionConfig(awsAnomalyDetectionConfig).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AnomalyDetectionAWSApi.ValidateAwsAnomalyDetectionConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateAwsAnomalyDetectionConfigRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***ValidateAwsAnomalyDetectionConfigOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a ValidateAwsAnomalyDetectionConfigOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **awsAnomalyDetectionConfig** | [**optional.Interface of AwsAnomalyDetectionConfig**](AwsAnomalyDetectionConfig.md)| JSON body of the request, containing parameters of the AWS anomaly detection configuration. | 
+ **awsAnomalyDetectionConfig** | [**AwsAnomalyDetectionConfig**](AwsAnomalyDetectionConfig.md) | JSON body of the request, containing parameters of the AWS anomaly detection configuration. | 
 
 ### Return type
 
@@ -108,7 +181,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 

@@ -1,24 +1,55 @@
 # \FrequentIssueDetectionApi
 
-All URIs are relative to *https://nph08633.live.dynatrace.com/api/config/v1*
+All URIs are relative to *http://https:/api/config/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetConfiguration5**](FrequentIssueDetectionApi.md#GetConfiguration5) | **Get** /frequentIssueDetection | Gets the configuration of frequent issue detection
-[**UpdateConfiguration3**](FrequentIssueDetectionApi.md#UpdateConfiguration3) | **Put** /frequentIssueDetection | Updates the configuration of frequent issue detection
-[**ValidateConfiguration6**](FrequentIssueDetectionApi.md#ValidateConfiguration6) | **Post** /frequentIssueDetection/validator | Validates the frequent issue detection configuration for the &#x60;PUT /frequentIssueDetection&#x60; request
+[**GetFrequentIssueDetectionConfig**](FrequentIssueDetectionApi.md#GetFrequentIssueDetectionConfig) | **Get** /frequentIssueDetection | Gets the configuration of frequent issue detection
+[**UpdateFrequentIssueDetectionConfig**](FrequentIssueDetectionApi.md#UpdateFrequentIssueDetectionConfig) | **Put** /frequentIssueDetection | Updates the configuration of frequent issue detection
+[**ValidateFrequentIssueDetectionConfig**](FrequentIssueDetectionApi.md#ValidateFrequentIssueDetectionConfig) | **Post** /frequentIssueDetection/validator | Validates the payload for the &#x60;PUT /frequentIssueDetection&#x60; request
 
 
 
-## GetConfiguration5
+## GetFrequentIssueDetectionConfig
 
-> FrequentIssueDetectionConfig GetConfiguration5(ctx, )
+> FrequentIssueDetectionConfig GetFrequentIssueDetectionConfig(ctx).Execute()
 
 Gets the configuration of frequent issue detection
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FrequentIssueDetectionApi.GetFrequentIssueDetectionConfig(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FrequentIssueDetectionApi.GetFrequentIssueDetectionConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetFrequentIssueDetectionConfig`: FrequentIssueDetectionConfig
+    fmt.Fprintf(os.Stdout, "Response from `FrequentIssueDetectionApi.GetFrequentIssueDetectionConfig`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetFrequentIssueDetectionConfigRequest struct via the builder pattern
+
 
 ### Return type
 
@@ -26,7 +57,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -38,28 +69,49 @@ This endpoint does not need any parameter.
 [[Back to README]](../README.md)
 
 
-## UpdateConfiguration3
+## UpdateFrequentIssueDetectionConfig
 
-> UpdateConfiguration3(ctx, optional)
+> UpdateFrequentIssueDetectionConfig(ctx).FrequentIssueDetectionConfig(frequentIssueDetectionConfig).Execute()
 
 Updates the configuration of frequent issue detection
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    frequentIssueDetectionConfig := *openapiclient.NewFrequentIssueDetectionConfig(false, false, false) // FrequentIssueDetectionConfig | The JSON body of the request, containing parameters of the frequent issue detection configuration (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FrequentIssueDetectionApi.UpdateFrequentIssueDetectionConfig(context.Background()).FrequentIssueDetectionConfig(frequentIssueDetectionConfig).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FrequentIssueDetectionApi.UpdateFrequentIssueDetectionConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateFrequentIssueDetectionConfigRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***UpdateConfiguration3Opts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a UpdateConfiguration3Opts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **frequentIssueDetectionConfig** | [**optional.Interface of FrequentIssueDetectionConfig**](FrequentIssueDetectionConfig.md)| The JSON body of the request, containing parameters of the frequent issue detection configuration | 
+ **frequentIssueDetectionConfig** | [**FrequentIssueDetectionConfig**](FrequentIssueDetectionConfig.md) | The JSON body of the request, containing parameters of the frequent issue detection configuration | 
 
 ### Return type
 
@@ -67,7 +119,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -79,28 +131,49 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ValidateConfiguration6
+## ValidateFrequentIssueDetectionConfig
 
-> ValidateConfiguration6(ctx, optional)
+> ValidateFrequentIssueDetectionConfig(ctx).FrequentIssueDetectionConfig(frequentIssueDetectionConfig).Execute()
 
-Validates the frequent issue detection configuration for the `PUT /frequentIssueDetection` request
+Validates the payload for the `PUT /frequentIssueDetection` request
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    frequentIssueDetectionConfig := *openapiclient.NewFrequentIssueDetectionConfig(false, false, false) // FrequentIssueDetectionConfig | The JSON body of the request, containing parameters of the frequent issue detection configuration (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FrequentIssueDetectionApi.ValidateFrequentIssueDetectionConfig(context.Background()).FrequentIssueDetectionConfig(frequentIssueDetectionConfig).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FrequentIssueDetectionApi.ValidateFrequentIssueDetectionConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateFrequentIssueDetectionConfigRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***ValidateConfiguration6Opts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a ValidateConfiguration6Opts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **frequentIssueDetectionConfig** | [**optional.Interface of FrequentIssueDetectionConfig**](FrequentIssueDetectionConfig.md)| The JSON body of the request, containing parameters of the frequent issue detection configuration | 
+ **frequentIssueDetectionConfig** | [**FrequentIssueDetectionConfig**](FrequentIssueDetectionConfig.md) | The JSON body of the request, containing parameters of the frequent issue detection configuration | 
 
 ### Return type
 
@@ -108,7 +181,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 

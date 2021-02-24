@@ -1,43 +1,66 @@
 # \KubernetesCredentialsConfigurationApi
 
-All URIs are relative to *https://nph08633.live.dynatrace.com/api/config/v1*
+All URIs are relative to *http://https:/api/config/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateConfiguration3**](KubernetesCredentialsConfigurationApi.md#CreateConfiguration3) | **Post** /kubernetes/credentials | Creates a new Kubernetes credentials configuration | maturity&#x3D;EARLY_ADOPTER
-[**DeleteConfiguration4**](KubernetesCredentialsConfigurationApi.md#DeleteConfiguration4) | **Delete** /kubernetes/credentials/{id} | Deletes the specified Kubernetes credentials configuration | maturity&#x3D;EARLY_ADOPTER
-[**GetConfiguration8**](KubernetesCredentialsConfigurationApi.md#GetConfiguration8) | **Get** /kubernetes/credentials/{id} | Gets the configuration of the specified Kubernetes credentials | maturity&#x3D;EARLY_ADOPTER
-[**GetConfigurations2**](KubernetesCredentialsConfigurationApi.md#GetConfigurations2) | **Get** /kubernetes/credentials | Lists all available Kubernetes credentials configurations | maturity&#x3D;EARLY_ADOPTER
-[**UpdateConfiguration5**](KubernetesCredentialsConfigurationApi.md#UpdateConfiguration5) | **Put** /kubernetes/credentials/{id} | Updates an existing Kubernetes credentials configuration | maturity&#x3D;EARLY_ADOPTER
-[**ValidateConfiguration12**](KubernetesCredentialsConfigurationApi.md#ValidateConfiguration12) | **Post** /kubernetes/credentials/validator | Validates the payload for the &#x60;POST /kubernetes/credentials&#x60; request | maturity&#x3D;EARLY_ADOPTER
-[**ValidateConfigurationUpdate1**](KubernetesCredentialsConfigurationApi.md#ValidateConfigurationUpdate1) | **Post** /kubernetes/credentials/{id}/validator | Validates the payload for the &#x60;PUT /kubernetes/credentials/{id}&#x60; request | maturity&#x3D;EARLY_ADOPTER
+[**CreateKubernetesCredentialsConfig**](KubernetesCredentialsConfigurationApi.md#CreateKubernetesCredentialsConfig) | **Post** /kubernetes/credentials | Creates a new Kubernetes credentials configuration | maturity&#x3D;EARLY_ADOPTER
+[**DeleteKubernetesCredentialsConfig**](KubernetesCredentialsConfigurationApi.md#DeleteKubernetesCredentialsConfig) | **Delete** /kubernetes/credentials/{id} | Deletes the specified Kubernetes credentials configuration | maturity&#x3D;EARLY_ADOPTER
+[**GetKubernetesCredentialsConfig**](KubernetesCredentialsConfigurationApi.md#GetKubernetesCredentialsConfig) | **Get** /kubernetes/credentials/{id} | Gets the configuration of the specified Kubernetes credentials | maturity&#x3D;EARLY_ADOPTER
+[**ListKubernetesCredentialsConfigs**](KubernetesCredentialsConfigurationApi.md#ListKubernetesCredentialsConfigs) | **Get** /kubernetes/credentials | Lists all available Kubernetes credentials configurations | maturity&#x3D;EARLY_ADOPTER
+[**UpdateKubernetesCredentialsConfig**](KubernetesCredentialsConfigurationApi.md#UpdateKubernetesCredentialsConfig) | **Put** /kubernetes/credentials/{id} | Updates an existing Kubernetes credentials configuration | maturity&#x3D;EARLY_ADOPTER
+[**ValidateCreateKubernetesCredentialsConfig**](KubernetesCredentialsConfigurationApi.md#ValidateCreateKubernetesCredentialsConfig) | **Post** /kubernetes/credentials/validator | Validates the payload for the &#x60;POST /kubernetes/credentials&#x60; request | maturity&#x3D;EARLY_ADOPTER
+[**ValidateUpdateKubernetesCredentialsConfig**](KubernetesCredentialsConfigurationApi.md#ValidateUpdateKubernetesCredentialsConfig) | **Post** /kubernetes/credentials/{id}/validator | Validates the payload for the &#x60;PUT /kubernetes/credentials/{id}&#x60; request | maturity&#x3D;EARLY_ADOPTER
 
 
 
-## CreateConfiguration3
+## CreateKubernetesCredentialsConfig
 
-> EntityShortRepresentation CreateConfiguration3(ctx, optional)
+> EntityShortRepresentation CreateKubernetesCredentialsConfig(ctx).KubernetesCredentials(kubernetesCredentials).Execute()
 
 Creates a new Kubernetes credentials configuration | maturity=EARLY_ADOPTER
 
-The body must not provide an ID as it will be automatically assigned by the Dynatrace server.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    kubernetesCredentials := *openapiclient.NewKubernetesCredentials("Label_example", "EndpointUrl_example") // KubernetesCredentials | The JSON body of the request. Contains parameters of the new Kubernetes credentials configuration. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.KubernetesCredentialsConfigurationApi.CreateKubernetesCredentialsConfig(context.Background()).KubernetesCredentials(kubernetesCredentials).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `KubernetesCredentialsConfigurationApi.CreateKubernetesCredentialsConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `CreateKubernetesCredentialsConfig`: EntityShortRepresentation
+    fmt.Fprintf(os.Stdout, "Response from `KubernetesCredentialsConfigurationApi.CreateKubernetesCredentialsConfig`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateKubernetesCredentialsConfigRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***CreateConfiguration3Opts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a CreateConfiguration3Opts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **kubernetesCredentials** | [**optional.Interface of KubernetesCredentials**](KubernetesCredentials.md)| The JSON body of the request. Contains parameters of the new Kubernetes credentials configuration. | 
+ **kubernetesCredentials** | [**KubernetesCredentials**](KubernetesCredentials.md) | The JSON body of the request. Contains parameters of the new Kubernetes credentials configuration. | 
 
 ### Return type
 
@@ -45,7 +68,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -57,19 +80,53 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## DeleteConfiguration4
+## DeleteKubernetesCredentialsConfig
 
-> DeleteConfiguration4(ctx, id)
+> DeleteKubernetesCredentialsConfig(ctx, id).Execute()
 
 Deletes the specified Kubernetes credentials configuration | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the Kubernetes credentials configuration be deleted.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.KubernetesCredentialsConfigurationApi.DeleteKubernetesCredentialsConfig(context.Background(), id).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `KubernetesCredentialsConfigurationApi.DeleteKubernetesCredentialsConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the Kubernetes credentials configuration be deleted. | 
+**id** | **string** | The ID of the Kubernetes credentials configuration be deleted. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteKubernetesCredentialsConfigRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -77,7 +134,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -89,19 +146,55 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetConfiguration8
+## GetKubernetesCredentialsConfig
 
-> KubernetesCredentials GetConfiguration8(ctx, id)
+> KubernetesCredentials GetKubernetesCredentialsConfig(ctx, id).Execute()
 
 Gets the configuration of the specified Kubernetes credentials | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the required Kubernetes credentials configuration.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.KubernetesCredentialsConfigurationApi.GetKubernetesCredentialsConfig(context.Background(), id).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `KubernetesCredentialsConfigurationApi.GetKubernetesCredentialsConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetKubernetesCredentialsConfig`: KubernetesCredentials
+    fmt.Fprintf(os.Stdout, "Response from `KubernetesCredentialsConfigurationApi.GetKubernetesCredentialsConfig`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the required Kubernetes credentials configuration. | 
+**id** | **string** | The ID of the required Kubernetes credentials configuration. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetKubernetesCredentialsConfigRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -109,7 +202,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -121,15 +214,46 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetConfigurations2
+## ListKubernetesCredentialsConfigs
 
-> StubList GetConfigurations2(ctx, )
+> StubList ListKubernetesCredentialsConfigs(ctx).Execute()
 
 Lists all available Kubernetes credentials configurations | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.KubernetesCredentialsConfigurationApi.ListKubernetesCredentialsConfigs(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `KubernetesCredentialsConfigurationApi.ListKubernetesCredentialsConfigs``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ListKubernetesCredentialsConfigs`: StubList
+    fmt.Fprintf(os.Stdout, "Response from `KubernetesCredentialsConfigurationApi.ListKubernetesCredentialsConfigs`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiListKubernetesCredentialsConfigsRequest struct via the builder pattern
+
 
 ### Return type
 
@@ -137,7 +261,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -149,32 +273,59 @@ This endpoint does not need any parameter.
 [[Back to README]](../README.md)
 
 
-## UpdateConfiguration5
+## UpdateKubernetesCredentialsConfig
 
-> EntityShortRepresentation UpdateConfiguration5(ctx, id, optional)
+> EntityShortRepresentation UpdateKubernetesCredentialsConfig(ctx, id).KubernetesCredentials(kubernetesCredentials).Execute()
 
 Updates an existing Kubernetes credentials configuration | maturity=EARLY_ADOPTER
 
-You can't change the URL of the Kubernetes cluster.   If a configuration with the specified ID doesn't exist, a new configuration is created.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the Kubernetes credentials configuration to be updated.
+    kubernetesCredentials := *openapiclient.NewKubernetesCredentials("Label_example", "EndpointUrl_example") // KubernetesCredentials | The JSON body of the request. Contains updated parameters of the Kubernetes credentials configuration. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.KubernetesCredentialsConfigurationApi.UpdateKubernetesCredentialsConfig(context.Background(), id).KubernetesCredentials(kubernetesCredentials).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `KubernetesCredentialsConfigurationApi.UpdateKubernetesCredentialsConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `UpdateKubernetesCredentialsConfig`: EntityShortRepresentation
+    fmt.Fprintf(os.Stdout, "Response from `KubernetesCredentialsConfigurationApi.UpdateKubernetesCredentialsConfig`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the Kubernetes credentials configuration to be updated. | 
- **optional** | ***UpdateConfiguration5Opts** | optional parameters | nil if no parameters
+**id** | **string** | The ID of the Kubernetes credentials configuration to be updated. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a UpdateConfiguration5Opts struct
+Other parameters are passed through a pointer to a apiUpdateKubernetesCredentialsConfigRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **kubernetesCredentials** | [**optional.Interface of KubernetesCredentials**](KubernetesCredentials.md)| The JSON body of the request. Contains updated parameters of the Kubernetes credentials configuration. | 
+ **kubernetesCredentials** | [**KubernetesCredentials**](KubernetesCredentials.md) | The JSON body of the request. Contains updated parameters of the Kubernetes credentials configuration. | 
 
 ### Return type
 
@@ -182,7 +333,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -194,28 +345,49 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ValidateConfiguration12
+## ValidateCreateKubernetesCredentialsConfig
 
-> ValidateConfiguration12(ctx, optional)
+> ValidateCreateKubernetesCredentialsConfig(ctx).KubernetesCredentials(kubernetesCredentials).Execute()
 
 Validates the payload for the `POST /kubernetes/credentials` request | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    kubernetesCredentials := *openapiclient.NewKubernetesCredentials("Label_example", "EndpointUrl_example") // KubernetesCredentials | The JSON body of the request. Contains the Kubernetes credentials configuration to be validated. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.KubernetesCredentialsConfigurationApi.ValidateCreateKubernetesCredentialsConfig(context.Background()).KubernetesCredentials(kubernetesCredentials).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `KubernetesCredentialsConfigurationApi.ValidateCreateKubernetesCredentialsConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateCreateKubernetesCredentialsConfigRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***ValidateConfiguration12Opts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a ValidateConfiguration12Opts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **kubernetesCredentials** | [**optional.Interface of KubernetesCredentials**](KubernetesCredentials.md)| The JSON body of the request. Contains the Kubernetes credentials configuration to be validated. | 
+ **kubernetesCredentials** | [**KubernetesCredentials**](KubernetesCredentials.md) | The JSON body of the request. Contains the Kubernetes credentials configuration to be validated. | 
 
 ### Return type
 
@@ -223,7 +395,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -235,30 +407,55 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ValidateConfigurationUpdate1
+## ValidateUpdateKubernetesCredentialsConfig
 
-> ValidateConfigurationUpdate1(ctx, id, optional)
+> ValidateUpdateKubernetesCredentialsConfig(ctx, id).KubernetesCredentials(kubernetesCredentials).Execute()
 
 Validates the payload for the `PUT /kubernetes/credentials/{id}` request | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the Kubernetes credentials configuration to be validated.
+    kubernetesCredentials := *openapiclient.NewKubernetesCredentials("Label_example", "EndpointUrl_example") // KubernetesCredentials | The JSON body of the request. Contains the Kubernetes credentials configuration to be validated. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.KubernetesCredentialsConfigurationApi.ValidateUpdateKubernetesCredentialsConfig(context.Background(), id).KubernetesCredentials(kubernetesCredentials).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `KubernetesCredentialsConfigurationApi.ValidateUpdateKubernetesCredentialsConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the Kubernetes credentials configuration to be validated. | 
- **optional** | ***ValidateConfigurationUpdate1Opts** | optional parameters | nil if no parameters
+**id** | **string** | The ID of the Kubernetes credentials configuration to be validated. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a ValidateConfigurationUpdate1Opts struct
+Other parameters are passed through a pointer to a apiValidateUpdateKubernetesCredentialsConfigRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **kubernetesCredentials** | [**optional.Interface of KubernetesCredentials**](KubernetesCredentials.md)| The JSON body of the request. Contains the Kubernetes credentials configuration to be validated. | 
+ **kubernetesCredentials** | [**KubernetesCredentials**](KubernetesCredentials.md) | The JSON body of the request. Contains the Kubernetes credentials configuration to be validated. | 
 
 ### Return type
 
@@ -266,7 +463,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 

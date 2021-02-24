@@ -4,14 +4,94 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **string** | The ID of the notification configuration. | [optional] 
-**Name** | **string** | The name of the notification configuration. | 
-**AlertingProfile** | **string** | The ID of the associated alerting profile. | 
-**Active** | **bool** | The configuration is enabled (&#x60;true&#x60;) or disabled (&#x60;false&#x60;). | 
-**Type** | **string** | Defines the actual set of fields depending on the value. See one of the following objects:   * &#x60;EMAIL&#x60; -&gt; EmailNotificationConfig  * &#x60;PAGER_DUTY&#x60; -&gt; PagerDutyNotificationConfig  * &#x60;WEBHOOK&#x60; -&gt; WebHookNotificationConfig  * &#x60;SLACK&#x60; -&gt; SlackNotificationConfig  * &#x60;HIPCHAT&#x60; -&gt; HipChatNotificationConfig  * &#x60;VICTOROPS&#x60; -&gt; VictorOpsNotificationConfig  * &#x60;SERVICE_NOW&#x60; -&gt; ServiceNowNotificationConfig  * &#x60;XMATTERS&#x60; -&gt; XMattersNotificationConfig  * &#x60;ANSIBLETOWER&#x60; -&gt; AnsibleTowerNotificationConfig  * &#x60;OPS_GENIE&#x60; -&gt; OpsGenieNotificationConfig  * &#x60;JIRA&#x60; -&gt; JiraNotificationConfig  * &#x60;TRELLO&#x60; -&gt; TrelloNotificationConfig   | 
 **Account** | **string** | The name of the PagerDuty account. | 
-**ServiceApiKey** | **string** | The API key to access PagerDuty. | [optional] 
+**ServiceApiKey** | Pointer to **string** | The API key to access PagerDuty. | [optional] 
 **ServiceName** | **string** | The name of the service. | 
+
+## Methods
+
+### NewPagerDutyNotificationConfig
+
+`func NewPagerDutyNotificationConfig(account string, serviceName string, ) *PagerDutyNotificationConfig`
+
+NewPagerDutyNotificationConfig instantiates a new PagerDutyNotificationConfig object
+This constructor will assign default values to properties that have it defined,
+and makes sure properties required by API are set, but the set of arguments
+will change when the set of required properties is changed
+
+### NewPagerDutyNotificationConfigWithDefaults
+
+`func NewPagerDutyNotificationConfigWithDefaults() *PagerDutyNotificationConfig`
+
+NewPagerDutyNotificationConfigWithDefaults instantiates a new PagerDutyNotificationConfig object
+This constructor will only assign default values to properties that have it defined,
+but it doesn't guarantee that properties required by API are set
+
+### GetAccount
+
+`func (o *PagerDutyNotificationConfig) GetAccount() string`
+
+GetAccount returns the Account field if non-nil, zero value otherwise.
+
+### GetAccountOk
+
+`func (o *PagerDutyNotificationConfig) GetAccountOk() (*string, bool)`
+
+GetAccountOk returns a tuple with the Account field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAccount
+
+`func (o *PagerDutyNotificationConfig) SetAccount(v string)`
+
+SetAccount sets Account field to given value.
+
+
+### GetServiceApiKey
+
+`func (o *PagerDutyNotificationConfig) GetServiceApiKey() string`
+
+GetServiceApiKey returns the ServiceApiKey field if non-nil, zero value otherwise.
+
+### GetServiceApiKeyOk
+
+`func (o *PagerDutyNotificationConfig) GetServiceApiKeyOk() (*string, bool)`
+
+GetServiceApiKeyOk returns a tuple with the ServiceApiKey field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetServiceApiKey
+
+`func (o *PagerDutyNotificationConfig) SetServiceApiKey(v string)`
+
+SetServiceApiKey sets ServiceApiKey field to given value.
+
+### HasServiceApiKey
+
+`func (o *PagerDutyNotificationConfig) HasServiceApiKey() bool`
+
+HasServiceApiKey returns a boolean if a field has been set.
+
+### GetServiceName
+
+`func (o *PagerDutyNotificationConfig) GetServiceName() string`
+
+GetServiceName returns the ServiceName field if non-nil, zero value otherwise.
+
+### GetServiceNameOk
+
+`func (o *PagerDutyNotificationConfig) GetServiceNameOk() (*string, bool)`
+
+GetServiceNameOk returns a tuple with the ServiceName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetServiceName
+
+`func (o *PagerDutyNotificationConfig) SetServiceName(v string)`
+
+SetServiceName sets ServiceName field to given value.
+
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

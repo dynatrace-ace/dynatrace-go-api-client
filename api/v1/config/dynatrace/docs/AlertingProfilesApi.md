@@ -1,6 +1,6 @@
 # \AlertingProfilesApi
 
-All URIs are relative to *https://nph08633.live.dynatrace.com/api/config/v1*
+All URIs are relative to *http://https:/api/config/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -16,28 +16,51 @@ Method | HTTP request | Description
 
 ## CreateAlertingProfile
 
-> EntityShortRepresentation CreateAlertingProfile(ctx, optional)
+> EntityShortRepresentation CreateAlertingProfile(ctx).AlertingProfile(alertingProfile).Execute()
 
 Creates a new alerting profile | maturity=EARLY_ADOPTER
 
-The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    alertingProfile := *openapiclient.NewAlertingProfile("DisplayName_example") // AlertingProfile | The JSON body of the request. Contains parameters of the new alerting profile. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AlertingProfilesApi.CreateAlertingProfile(context.Background()).AlertingProfile(alertingProfile).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AlertingProfilesApi.CreateAlertingProfile``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `CreateAlertingProfile`: EntityShortRepresentation
+    fmt.Fprintf(os.Stdout, "Response from `AlertingProfilesApi.CreateAlertingProfile`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateAlertingProfileRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***CreateAlertingProfileOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a CreateAlertingProfileOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **alertingProfile** | [**optional.Interface of AlertingProfile**](AlertingProfile.md)| The JSON body of the request. Contains parameters of the new alerting profile. | 
+ **alertingProfile** | [**AlertingProfile**](AlertingProfile.md) | The JSON body of the request. Contains parameters of the new alerting profile. | 
 
 ### Return type
 
@@ -45,7 +68,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -59,30 +82,57 @@ Name | Type | Description  | Notes
 
 ## CreateOrUpdateAlertingProfile
 
-> EntityShortRepresentation CreateOrUpdateAlertingProfile(ctx, id, optional)
+> EntityShortRepresentation CreateOrUpdateAlertingProfile(ctx, id).AlertingProfile(alertingProfile).Execute()
 
 Updates an existing alerting profile | maturity=EARLY_ADOPTER
 
-If an alerting profile with the specified ID doesn't exist, a new one is created.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := TODO // string | The ID of the alerting profile to be updated.
+    alertingProfile := *openapiclient.NewAlertingProfile("DisplayName_example") // AlertingProfile | The JSON body of the request. Contains updated parameters of the alerting profile. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AlertingProfilesApi.CreateOrUpdateAlertingProfile(context.Background(), id).AlertingProfile(alertingProfile).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AlertingProfilesApi.CreateOrUpdateAlertingProfile``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `CreateOrUpdateAlertingProfile`: EntityShortRepresentation
+    fmt.Fprintf(os.Stdout, "Response from `AlertingProfilesApi.CreateOrUpdateAlertingProfile`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md)| The ID of the alerting profile to be updated. | 
- **optional** | ***CreateOrUpdateAlertingProfileOpts** | optional parameters | nil if no parameters
+**id** | [**string**](.md) | The ID of the alerting profile to be updated. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a CreateOrUpdateAlertingProfileOpts struct
+Other parameters are passed through a pointer to a apiCreateOrUpdateAlertingProfileRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **alertingProfile** | [**optional.Interface of AlertingProfile**](AlertingProfile.md)| The JSON body of the request. Contains updated parameters of the alerting profile. | 
+ **alertingProfile** | [**AlertingProfile**](AlertingProfile.md) | The JSON body of the request. Contains updated parameters of the alerting profile. | 
 
 ### Return type
 
@@ -90,7 +140,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -104,19 +154,53 @@ Name | Type | Description  | Notes
 
 ## DeleteAlertingProfile
 
-> DeleteAlertingProfile(ctx, id)
+> DeleteAlertingProfile(ctx, id).Execute()
 
 Deletes the specified alerting profile | maturity=EARLY_ADOPTER
 
-The default alerting profile cannot be deleted.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := TODO // string | The ID of the alerting profile to be deleted.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AlertingProfilesApi.DeleteAlertingProfile(context.Background(), id).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AlertingProfilesApi.DeleteAlertingProfile``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md)| The ID of the alerting profile to be deleted. | 
+**id** | [**string**](.md) | The ID of the alerting profile to be deleted. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteAlertingProfileRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -124,7 +208,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -138,17 +222,53 @@ Name | Type | Description  | Notes
 
 ## GetAlertingProfile
 
-> AlertingProfile GetAlertingProfile(ctx, id)
+> AlertingProfile GetAlertingProfile(ctx, id).Execute()
 
 Gets the properties of the specified alerting profile | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := TODO // string | The ID of the required alerting profile.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AlertingProfilesApi.GetAlertingProfile(context.Background(), id).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AlertingProfilesApi.GetAlertingProfile``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetAlertingProfile`: AlertingProfile
+    fmt.Fprintf(os.Stdout, "Response from `AlertingProfilesApi.GetAlertingProfile`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md)| The ID of the required alerting profile. | 
+**id** | [**string**](.md) | The ID of the required alerting profile. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetAlertingProfileRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -156,7 +276,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -170,13 +290,44 @@ Name | Type | Description  | Notes
 
 ## GetAlertingProfiles
 
-> StubList GetAlertingProfiles(ctx, )
+> StubList GetAlertingProfiles(ctx).Execute()
 
 Lists all alerting profiles available in your environment | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AlertingProfilesApi.GetAlertingProfiles(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AlertingProfilesApi.GetAlertingProfiles``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetAlertingProfiles`: StubList
+    fmt.Fprintf(os.Stdout, "Response from `AlertingProfilesApi.GetAlertingProfiles`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetAlertingProfilesRequest struct via the builder pattern
+
 
 ### Return type
 
@@ -184,7 +335,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -198,26 +349,47 @@ This endpoint does not need any parameter.
 
 ## ValidateCreateAlertingProfile
 
-> ValidateCreateAlertingProfile(ctx, optional)
+> ValidateCreateAlertingProfile(ctx).AlertingProfile(alertingProfile).Execute()
 
 Validates the payload the `POST /alertingProfiles` request | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    alertingProfile := *openapiclient.NewAlertingProfile("DisplayName_example") // AlertingProfile | The JSON body of the request. Contains parameters of the alerting profile to be validated. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AlertingProfilesApi.ValidateCreateAlertingProfile(context.Background()).AlertingProfile(alertingProfile).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AlertingProfilesApi.ValidateCreateAlertingProfile``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateCreateAlertingProfileRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***ValidateCreateAlertingProfileOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a ValidateCreateAlertingProfileOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **alertingProfile** | [**optional.Interface of AlertingProfile**](AlertingProfile.md)| The JSON body of the request. Contains parameters of the alerting profile to be validated. | 
+ **alertingProfile** | [**AlertingProfile**](AlertingProfile.md) | The JSON body of the request. Contains parameters of the alerting profile to be validated. | 
 
 ### Return type
 
@@ -225,7 +397,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -239,28 +411,53 @@ Name | Type | Description  | Notes
 
 ## ValidateCreateOrUpdateAlertingProfile
 
-> ValidateCreateOrUpdateAlertingProfile(ctx, id, optional)
+> ValidateCreateOrUpdateAlertingProfile(ctx, id).AlertingProfile(alertingProfile).Execute()
 
 Validates the payload the `PUT /alertingProfiles/{id}` request | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := TODO // string | The ID of the alerting profile to be validated.
+    alertingProfile := *openapiclient.NewAlertingProfile("DisplayName_example") // AlertingProfile | The JSON body of the request. Contains parameters of the alerting profile to be validated. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AlertingProfilesApi.ValidateCreateOrUpdateAlertingProfile(context.Background(), id).AlertingProfile(alertingProfile).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AlertingProfilesApi.ValidateCreateOrUpdateAlertingProfile``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md)| The ID of the alerting profile to be validated. | 
- **optional** | ***ValidateCreateOrUpdateAlertingProfileOpts** | optional parameters | nil if no parameters
+**id** | [**string**](.md) | The ID of the alerting profile to be validated. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a ValidateCreateOrUpdateAlertingProfileOpts struct
+Other parameters are passed through a pointer to a apiValidateCreateOrUpdateAlertingProfileRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **alertingProfile** | [**optional.Interface of AlertingProfile**](AlertingProfile.md)| The JSON body of the request. Contains parameters of the alerting profile to be validated. | 
+ **alertingProfile** | [**AlertingProfile**](AlertingProfile.md) | The JSON body of the request. Contains parameters of the alerting profile to be validated. | 
 
 ### Return type
 
@@ -268,7 +465,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 

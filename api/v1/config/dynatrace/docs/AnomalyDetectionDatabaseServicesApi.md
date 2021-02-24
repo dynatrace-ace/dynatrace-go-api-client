@@ -1,24 +1,55 @@
 # \AnomalyDetectionDatabaseServicesApi
 
-All URIs are relative to *https://nph08633.live.dynatrace.com/api/config/v1*
+All URIs are relative to *http://https:/api/config/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetConfiguration1**](AnomalyDetectionDatabaseServicesApi.md#GetConfiguration1) | **Get** /anomalyDetection/databaseServices | Gets the configuration of anomaly detection for database services
-[**UpdateConfiguration1**](AnomalyDetectionDatabaseServicesApi.md#UpdateConfiguration1) | **Put** /anomalyDetection/databaseServices | Updates the configuration of anomaly detection for database services
-[**ValidateConfiguration1**](AnomalyDetectionDatabaseServicesApi.md#ValidateConfiguration1) | **Post** /anomalyDetection/databaseServices/validator | Validates the payload for the &#x60;PUT /anomalyDetection/databaseServices&#x60; request
+[**GetDatabaseServiceAnomalyDetectionConfig**](AnomalyDetectionDatabaseServicesApi.md#GetDatabaseServiceAnomalyDetectionConfig) | **Get** /anomalyDetection/databaseServices | Gets the configuration of anomaly detection for database services
+[**UpdateDatabaseServiceAnomalyDetectionConfig**](AnomalyDetectionDatabaseServicesApi.md#UpdateDatabaseServiceAnomalyDetectionConfig) | **Put** /anomalyDetection/databaseServices | Updates the configuration of anomaly detection for database services
+[**ValidateDatabaseServiceAnomalyDetectionConfig**](AnomalyDetectionDatabaseServicesApi.md#ValidateDatabaseServiceAnomalyDetectionConfig) | **Post** /anomalyDetection/databaseServices/validator | Validates the payload for the &#x60;PUT /anomalyDetection/databaseServices&#x60; request
 
 
 
-## GetConfiguration1
+## GetDatabaseServiceAnomalyDetectionConfig
 
-> DatabaseAnomalyDetectionConfig GetConfiguration1(ctx, )
+> DatabaseAnomalyDetectionConfig GetDatabaseServiceAnomalyDetectionConfig(ctx).Execute()
 
 Gets the configuration of anomaly detection for database services
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AnomalyDetectionDatabaseServicesApi.GetDatabaseServiceAnomalyDetectionConfig(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AnomalyDetectionDatabaseServicesApi.GetDatabaseServiceAnomalyDetectionConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetDatabaseServiceAnomalyDetectionConfig`: DatabaseAnomalyDetectionConfig
+    fmt.Fprintf(os.Stdout, "Response from `AnomalyDetectionDatabaseServicesApi.GetDatabaseServiceAnomalyDetectionConfig`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetDatabaseServiceAnomalyDetectionConfigRequest struct via the builder pattern
+
 
 ### Return type
 
@@ -26,7 +57,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -38,28 +69,49 @@ This endpoint does not need any parameter.
 [[Back to README]](../README.md)
 
 
-## UpdateConfiguration1
+## UpdateDatabaseServiceAnomalyDetectionConfig
 
-> UpdateConfiguration1(ctx, optional)
+> UpdateDatabaseServiceAnomalyDetectionConfig(ctx).DatabaseAnomalyDetectionConfig(databaseAnomalyDetectionConfig).Execute()
 
 Updates the configuration of anomaly detection for database services
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    databaseAnomalyDetectionConfig := *openapiclient.NewDatabaseAnomalyDetectionConfig(*openapiclient.NewResponseTimeDegradationDetectionConfig("DetectionMode_example"), *openapiclient.NewFailureRateIncreaseDetectionConfig("DetectionMode_example"), *openapiclient.NewDatabaseConnectionFailureDetectionConfig(false)) // DatabaseAnomalyDetectionConfig | The JSON body of the request. Contains parameters of the database service anomaly detection configuration. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AnomalyDetectionDatabaseServicesApi.UpdateDatabaseServiceAnomalyDetectionConfig(context.Background()).DatabaseAnomalyDetectionConfig(databaseAnomalyDetectionConfig).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AnomalyDetectionDatabaseServicesApi.UpdateDatabaseServiceAnomalyDetectionConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateDatabaseServiceAnomalyDetectionConfigRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***UpdateConfiguration1Opts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a UpdateConfiguration1Opts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **databaseAnomalyDetectionConfig** | [**optional.Interface of DatabaseAnomalyDetectionConfig**](DatabaseAnomalyDetectionConfig.md)| The JSON body of the request. Contains parameters of the database service anomaly detection configuration. | 
+ **databaseAnomalyDetectionConfig** | [**DatabaseAnomalyDetectionConfig**](DatabaseAnomalyDetectionConfig.md) | The JSON body of the request. Contains parameters of the database service anomaly detection configuration. | 
 
 ### Return type
 
@@ -67,7 +119,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -79,28 +131,49 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ValidateConfiguration1
+## ValidateDatabaseServiceAnomalyDetectionConfig
 
-> ValidateConfiguration1(ctx, optional)
+> ValidateDatabaseServiceAnomalyDetectionConfig(ctx).DatabaseAnomalyDetectionConfig(databaseAnomalyDetectionConfig).Execute()
 
 Validates the payload for the `PUT /anomalyDetection/databaseServices` request
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    databaseAnomalyDetectionConfig := *openapiclient.NewDatabaseAnomalyDetectionConfig(*openapiclient.NewResponseTimeDegradationDetectionConfig("DetectionMode_example"), *openapiclient.NewFailureRateIncreaseDetectionConfig("DetectionMode_example"), *openapiclient.NewDatabaseConnectionFailureDetectionConfig(false)) // DatabaseAnomalyDetectionConfig | The JSON body of the request. Contains parameters of the database service anomaly detection configuration. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AnomalyDetectionDatabaseServicesApi.ValidateDatabaseServiceAnomalyDetectionConfig(context.Background()).DatabaseAnomalyDetectionConfig(databaseAnomalyDetectionConfig).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AnomalyDetectionDatabaseServicesApi.ValidateDatabaseServiceAnomalyDetectionConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateDatabaseServiceAnomalyDetectionConfigRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***ValidateConfiguration1Opts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a ValidateConfiguration1Opts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **databaseAnomalyDetectionConfig** | [**optional.Interface of DatabaseAnomalyDetectionConfig**](DatabaseAnomalyDetectionConfig.md)| The JSON body of the request. Contains parameters of the database service anomaly detection configuration. | 
+ **databaseAnomalyDetectionConfig** | [**DatabaseAnomalyDetectionConfig**](DatabaseAnomalyDetectionConfig.md) | The JSON body of the request. Contains parameters of the database service anomaly detection configuration. | 
 
 ### Return type
 
@@ -108,7 +181,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 

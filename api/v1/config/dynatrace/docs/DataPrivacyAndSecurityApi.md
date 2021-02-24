@@ -1,24 +1,55 @@
 # \DataPrivacyAndSecurityApi
 
-All URIs are relative to *https://nph08633.live.dynatrace.com/api/config/v1*
+All URIs are relative to *http://https:/api/config/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**GetDataPrivacySettings1**](DataPrivacyAndSecurityApi.md#GetDataPrivacySettings1) | **Get** /dataPrivacy | Lists the global data privacy and security settings.
 [**UpdateDataPrivacySettings1**](DataPrivacyAndSecurityApi.md#UpdateDataPrivacySettings1) | **Put** /dataPrivacy | Updates the global data privacy and security settings.
-[**ValidateConfiguration5**](DataPrivacyAndSecurityApi.md#ValidateConfiguration5) | **Post** /dataPrivacy/validator | Validates new data privacy and security settings for the &#x60;PUT /dataPrivacy&#x60; request.
+[**ValidateDataPrivacySettings1**](DataPrivacyAndSecurityApi.md#ValidateDataPrivacySettings1) | **Post** /dataPrivacy/validator | Validates new data privacy and security settings for the &#x60;PUT /dataPrivacy&#x60; request.
 
 
 
 ## GetDataPrivacySettings1
 
-> DataPrivacyAndSecurity GetDataPrivacySettings1(ctx, )
+> DataPrivacyAndSecurity GetDataPrivacySettings1(ctx).Execute()
 
 Lists the global data privacy and security settings.
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.DataPrivacyAndSecurityApi.GetDataPrivacySettings1(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `DataPrivacyAndSecurityApi.GetDataPrivacySettings1``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetDataPrivacySettings1`: DataPrivacyAndSecurity
+    fmt.Fprintf(os.Stdout, "Response from `DataPrivacyAndSecurityApi.GetDataPrivacySettings1`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetDataPrivacySettings1Request struct via the builder pattern
+
 
 ### Return type
 
@@ -26,7 +57,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -40,19 +71,49 @@ This endpoint does not need any parameter.
 
 ## UpdateDataPrivacySettings1
 
-> UpdateDataPrivacySettings1(ctx, dataPrivacyAndSecurity)
+> UpdateDataPrivacySettings1(ctx).DataPrivacyAndSecurity(dataPrivacyAndSecurity).Execute()
 
 Updates the global data privacy and security settings.
 
-This request updates global settings, affecting all your applications. To update application-specific data privacy settings, use the `PUT /applications/web/{id}/dataPrivacy` request.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    dataPrivacyAndSecurity := *openapiclient.NewDataPrivacyAndSecurity(false, false, false) // DataPrivacyAndSecurity | 
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.DataPrivacyAndSecurityApi.UpdateDataPrivacySettings1(context.Background()).DataPrivacyAndSecurity(dataPrivacyAndSecurity).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `DataPrivacyAndSecurityApi.UpdateDataPrivacySettings1``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateDataPrivacySettings1Request struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**dataPrivacyAndSecurity** | [**DataPrivacyAndSecurity**](DataPrivacyAndSecurity.md)|  | 
+ **dataPrivacyAndSecurity** | [**DataPrivacyAndSecurity**](DataPrivacyAndSecurity.md) |  | 
 
 ### Return type
 
@@ -60,7 +121,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[DataPrivacy](../README.md#DataPrivacy)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -72,19 +133,49 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ValidateConfiguration5
+## ValidateDataPrivacySettings1
 
-> ValidateConfiguration5(ctx, dataPrivacyAndSecurity)
+> ValidateDataPrivacySettings1(ctx).DataPrivacyAndSecurity(dataPrivacyAndSecurity).Execute()
 
 Validates new data privacy and security settings for the `PUT /dataPrivacy` request.
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    dataPrivacyAndSecurity := *openapiclient.NewDataPrivacyAndSecurity(false, false, false) // DataPrivacyAndSecurity | 
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.DataPrivacyAndSecurityApi.ValidateDataPrivacySettings1(context.Background()).DataPrivacyAndSecurity(dataPrivacyAndSecurity).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `DataPrivacyAndSecurityApi.ValidateDataPrivacySettings1``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateDataPrivacySettings1Request struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**dataPrivacyAndSecurity** | [**DataPrivacyAndSecurity**](DataPrivacyAndSecurity.md)|  | 
+ **dataPrivacyAndSecurity** | [**DataPrivacyAndSecurity**](DataPrivacyAndSecurity.md) |  | 
 
 ### Return type
 
@@ -92,7 +183,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[DataPrivacy](../README.md#DataPrivacy)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 

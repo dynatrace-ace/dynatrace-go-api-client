@@ -1,6 +1,6 @@
 # \ExtensionsApi
 
-All URIs are relative to *https://nph08633.live.dynatrace.com/api/config/v1*
+All URIs are relative to *http://https:/api/config/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -26,28 +26,55 @@ Method | HTTP request | Description
 
 ## CreateLocalExtensionConfiguration
 
-> EntityShortRepresentation CreateLocalExtensionConfiguration(ctx, id, optional)
+> EntityShortRepresentation CreateLocalExtensionConfiguration(ctx, id).ExtensionConfigurationDto(extensionConfigurationDto).Execute()
 
 Creates instance of local configuration for given extension | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the extension
+    extensionConfigurationDto := *openapiclient.NewExtensionConfigurationDto(false, false) // ExtensionConfigurationDto | The JSON body of the request. Contains new configuration of the extension. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ExtensionsApi.CreateLocalExtensionConfiguration(context.Background(), id).ExtensionConfigurationDto(extensionConfigurationDto).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ExtensionsApi.CreateLocalExtensionConfiguration``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `CreateLocalExtensionConfiguration`: EntityShortRepresentation
+    fmt.Fprintf(os.Stdout, "Response from `ExtensionsApi.CreateLocalExtensionConfiguration`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the extension | 
- **optional** | ***CreateLocalExtensionConfigurationOpts** | optional parameters | nil if no parameters
+**id** | **string** | The ID of the extension | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a CreateLocalExtensionConfigurationOpts struct
+Other parameters are passed through a pointer to a apiCreateLocalExtensionConfigurationRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **extensionConfigurationDto** | [**optional.Interface of ExtensionConfigurationDto**](ExtensionConfigurationDto.md)| The JSON body of the request. Contains new configuration of the extension. | 
+ **extensionConfigurationDto** | [**ExtensionConfigurationDto**](ExtensionConfigurationDto.md) | The JSON body of the request. Contains new configuration of the extension. | 
 
 ### Return type
 
@@ -55,7 +82,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -69,19 +96,53 @@ Name | Type | Description  | Notes
 
 ## DeleteExtension
 
-> DeleteExtension(ctx, id)
+> DeleteExtension(ctx, id).Execute()
 
 Deletes the ZIP file of the specified extension | maturity=EARLY_ADOPTER
 
-Deletion of the extension file uninstalls the extension, making it unavailable for use.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the extension to be deleted.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ExtensionsApi.DeleteExtension(context.Background(), id).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ExtensionsApi.DeleteExtension``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the extension to be deleted. | 
+**id** | **string** | The ID of the extension to be deleted. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteExtensionRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -89,7 +150,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -103,18 +164,54 @@ Name | Type | Description  | Notes
 
 ## DeleteLocalExtensionConfiguration
 
-> DeleteLocalExtensionConfiguration(ctx, id, configurationId)
+> DeleteLocalExtensionConfiguration(ctx, id, configurationId).Execute()
 
 Deletes an existing configuration of the extension | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the extension where you want to delete the configuration.
+    configurationId := "configurationId_example" // string | The ID of the configuration to be deleted.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ExtensionsApi.DeleteLocalExtensionConfiguration(context.Background(), id, configurationId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ExtensionsApi.DeleteLocalExtensionConfiguration``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the extension where you want to delete the configuration. | 
-**configurationId** | **string**| The ID of the configuration to be deleted. | 
+**id** | **string** | The ID of the extension where you want to delete the configuration. | 
+**configurationId** | **string** | The ID of the configuration to be deleted. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteLocalExtensionConfigurationRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
 
 ### Return type
 
@@ -122,7 +219,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -136,17 +233,53 @@ Name | Type | Description  | Notes
 
 ## GetExtension
 
-> Extension GetExtension(ctx, id)
+> Extension GetExtension(ctx, id).Execute()
 
 Lists the properties of the specified extension | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the required extension.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ExtensionsApi.GetExtension(context.Background(), id).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ExtensionsApi.GetExtension``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetExtension`: Extension
+    fmt.Fprintf(os.Stdout, "Response from `ExtensionsApi.GetExtension`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the required extension. | 
+**id** | **string** | The ID of the required extension. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetExtensionRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -154,7 +287,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -168,17 +301,51 @@ Name | Type | Description  | Notes
 
 ## GetExtensionBinary
 
-> GetExtensionBinary(ctx, id)
+> GetExtensionBinary(ctx, id).Execute()
 
 Downloads the ZIP file of the specified extension | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the extension you want to download.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ExtensionsApi.GetExtensionBinary(context.Background(), id).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ExtensionsApi.GetExtensionBinary``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the extension you want to download. | 
+**id** | **string** | The ID of the extension you want to download. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetExtensionBinaryRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -186,7 +353,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -200,29 +367,57 @@ Name | Type | Description  | Notes
 
 ## GetExtensionConfigurations
 
-> ExtensionConfigurationList GetExtensionConfigurations(ctx, id, optional)
+> ExtensionConfigurationList GetExtensionConfigurations(ctx, id).PageSize(pageSize).NextPageKey(nextPageKey).Execute()
 
 Returns list of all local configuration instances for given extension | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the required extension.
+    pageSize := int32(56) // int32 | The number of results per result page. Must be between 1 and 500 (optional) (default to 200)
+    nextPageKey := "nextPageKey_example" // string | The cursor for the next page of results. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ExtensionsApi.GetExtensionConfigurations(context.Background(), id).PageSize(pageSize).NextPageKey(nextPageKey).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ExtensionsApi.GetExtensionConfigurations``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetExtensionConfigurations`: ExtensionConfigurationList
+    fmt.Fprintf(os.Stdout, "Response from `ExtensionsApi.GetExtensionConfigurations`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the required extension. | 
- **optional** | ***GetExtensionConfigurationsOpts** | optional parameters | nil if no parameters
+**id** | **string** | The ID of the required extension. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a GetExtensionConfigurationsOpts struct
+Other parameters are passed through a pointer to a apiGetExtensionConfigurationsRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **pageSize** | **optional.Int32**| The number of results per result page. Must be between 1 and 500 | [default to 200]
- **nextPageKey** | **optional.String**| The cursor for the next page of results. | 
+ **pageSize** | **int32** | The number of results per result page. Must be between 1 and 500 | [default to 200]
+ **nextPageKey** | **string** | The cursor for the next page of results. | 
 
 ### Return type
 
@@ -230,7 +425,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -244,17 +439,53 @@ Name | Type | Description  | Notes
 
 ## GetExtensionGlobalConfiguration
 
-> GlobalExtensionConfiguration GetExtensionGlobalConfiguration(ctx, id)
+> GlobalExtensionConfiguration GetExtensionGlobalConfiguration(ctx, id).Execute()
 
 Get the global configuration of the specified OneAgent or JMX extension | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the extension to be updated.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ExtensionsApi.GetExtensionGlobalConfiguration(context.Background(), id).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ExtensionsApi.GetExtensionGlobalConfiguration``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetExtensionGlobalConfiguration`: GlobalExtensionConfiguration
+    fmt.Fprintf(os.Stdout, "Response from `ExtensionsApi.GetExtensionGlobalConfiguration`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the extension to be updated. | 
+**id** | **string** | The ID of the extension to be updated. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetExtensionGlobalConfigurationRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -262,7 +493,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -276,30 +507,59 @@ Name | Type | Description  | Notes
 
 ## GetExtensionStates
 
-> ExtensionStateList GetExtensionStates(ctx, id, optional)
+> ExtensionStateList GetExtensionStates(ctx, id).PageSize(pageSize).NextPageKey(nextPageKey).State(state).Execute()
 
 Lists the states of the specified extension | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the required extension.
+    pageSize := int32(56) // int32 | The number of results per result page. Must be between 1 and 500 (optional) (default to 200)
+    nextPageKey := "nextPageKey_example" // string | The cursor for the next page of results. (optional)
+    state := "state_example" // string | Extension state to filter. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ExtensionsApi.GetExtensionStates(context.Background(), id).PageSize(pageSize).NextPageKey(nextPageKey).State(state).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ExtensionsApi.GetExtensionStates``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetExtensionStates`: ExtensionStateList
+    fmt.Fprintf(os.Stdout, "Response from `ExtensionsApi.GetExtensionStates`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the required extension. | 
- **optional** | ***GetExtensionStatesOpts** | optional parameters | nil if no parameters
+**id** | **string** | The ID of the required extension. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a GetExtensionStatesOpts struct
+Other parameters are passed through a pointer to a apiGetExtensionStatesRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **pageSize** | **optional.Int32**| The number of results per result page. Must be between 1 and 500 | [default to 200]
- **nextPageKey** | **optional.String**| The cursor for the next page of results. | 
- **state** | **optional.String**| Extension state to filter. | 
+ **pageSize** | **int32** | The number of results per result page. Must be between 1 and 500 | [default to 200]
+ **nextPageKey** | **string** | The cursor for the next page of results. | 
+ **state** | **string** | Extension state to filter. | 
 
 ### Return type
 
@@ -307,7 +567,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -321,27 +581,51 @@ Name | Type | Description  | Notes
 
 ## GetExtensions
 
-> ExtensionListDto GetExtensions(ctx, optional)
+> ExtensionListDto GetExtensions(ctx).PageSize(pageSize).NextPageKey(nextPageKey).Execute()
 
 Lists all uploaded extensions | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    pageSize := int32(56) // int32 | The number of results per result page. Must be between 1 and 500 (optional) (default to 200)
+    nextPageKey := "nextPageKey_example" // string | The cursor for the next page of results. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ExtensionsApi.GetExtensions(context.Background()).PageSize(pageSize).NextPageKey(nextPageKey).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ExtensionsApi.GetExtensions``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetExtensions`: ExtensionListDto
+    fmt.Fprintf(os.Stdout, "Response from `ExtensionsApi.GetExtensions`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetExtensionsRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***GetExtensionsOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a GetExtensionsOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pageSize** | **optional.Int32**| The number of results per result page. Must be between 1 and 500 | [default to 200]
- **nextPageKey** | **optional.String**| The cursor for the next page of results. | 
+ **pageSize** | **int32** | The number of results per result page. Must be between 1 and 500 | [default to 200]
+ **nextPageKey** | **string** | The cursor for the next page of results. | 
 
 ### Return type
 
@@ -349,7 +633,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -363,33 +647,65 @@ Name | Type | Description  | Notes
 
 ## GetHostsForTechnology
 
-> HostList GetHostsForTechnology(ctx, technology, optional)
+> HostList GetHostsForTechnology(ctx, technology).Tag(tag).ManagementZone(managementZone).HostGroupId(hostGroupId).HostGroupName(hostGroupName).PageSize(pageSize).NextPageKey(nextPageKey).Execute()
 
 Lists all available hosts that have specified technology running | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    technology := "technology_example" // string | Name of requested technology
+    tag := []string{"Inner_example"} // []string | Filters the resulting set of hosts by the specified tag.    You can specify several tags in the following format: `tag=tag1&tag=tag2`. The host has to match **all** the specified tags. (optional)
+    managementZone := int64(789) // int64 | Only return hosts that are part of the specified management zone. (optional)
+    hostGroupId := "hostGroupId_example" // string | Filters the resulting set of hosts by the specified host group.    Specify the Dynatrace IDs of the host group you're interested in. (optional)
+    hostGroupName := "hostGroupName_example" // string | Filters the resulting set of hosts by the specified host group.    Specify the name of the host group you're interested in. (optional)
+    pageSize := int32(56) // int32 | The number of results per result page. Must be between 1 and 500 (optional) (default to 200)
+    nextPageKey := "nextPageKey_example" // string | The cursor for the next page of results. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ExtensionsApi.GetHostsForTechnology(context.Background(), technology).Tag(tag).ManagementZone(managementZone).HostGroupId(hostGroupId).HostGroupName(hostGroupName).PageSize(pageSize).NextPageKey(nextPageKey).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ExtensionsApi.GetHostsForTechnology``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetHostsForTechnology`: HostList
+    fmt.Fprintf(os.Stdout, "Response from `ExtensionsApi.GetHostsForTechnology`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**technology** | **string**| Name of requested technology | 
- **optional** | ***GetHostsForTechnologyOpts** | optional parameters | nil if no parameters
+**technology** | **string** | Name of requested technology | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a GetHostsForTechnologyOpts struct
+Other parameters are passed through a pointer to a apiGetHostsForTechnologyRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **tag** | [**optional.Interface of []string**](string.md)| Filters the resulting set of hosts by the specified tag.    You can specify several tags in the following format: &#x60;tag&#x3D;tag1&amp;tag&#x3D;tag2&#x60;. The host has to match **all** the specified tags. | 
- **managementZone** | **optional.Int64**| Only return hosts that are part of the specified management zone. | 
- **hostGroupId** | **optional.String**| Filters the resulting set of hosts by the specified host group.    Specify the Dynatrace IDs of the host group you&#39;re interested in. | 
- **hostGroupName** | **optional.String**| Filters the resulting set of hosts by the specified host group.    Specify the name of the host group you&#39;re interested in. | 
- **pageSize** | **optional.Int32**| The number of results per result page. Must be between 1 and 500 | [default to 200]
- **nextPageKey** | **optional.String**| The cursor for the next page of results. | 
+ **tag** | **[]string** | Filters the resulting set of hosts by the specified tag.    You can specify several tags in the following format: &#x60;tag&#x3D;tag1&amp;tag&#x3D;tag2&#x60;. The host has to match **all** the specified tags. | 
+ **managementZone** | **int64** | Only return hosts that are part of the specified management zone. | 
+ **hostGroupId** | **string** | Filters the resulting set of hosts by the specified host group.    Specify the Dynatrace IDs of the host group you&#39;re interested in. | 
+ **hostGroupName** | **string** | Filters the resulting set of hosts by the specified host group.    Specify the name of the host group you&#39;re interested in. | 
+ **pageSize** | **int32** | The number of results per result page. Must be between 1 and 500 | [default to 200]
+ **nextPageKey** | **string** | The cursor for the next page of results. | 
 
 ### Return type
 
@@ -397,7 +713,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -411,18 +727,56 @@ Name | Type | Description  | Notes
 
 ## GetLocalExtensionConfiguration
 
-> ExtensionConfigurationDto GetLocalExtensionConfiguration(ctx, id, configurationId)
+> ExtensionConfigurationDto GetLocalExtensionConfiguration(ctx, id, configurationId).Execute()
 
 Returns instance of local configuration for given extension | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the extension.
+    configurationId := "configurationId_example" // string | The ID of the configuration.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ExtensionsApi.GetLocalExtensionConfiguration(context.Background(), id, configurationId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ExtensionsApi.GetLocalExtensionConfiguration``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetLocalExtensionConfiguration`: ExtensionConfigurationDto
+    fmt.Fprintf(os.Stdout, "Response from `ExtensionsApi.GetLocalExtensionConfiguration`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the extension. | 
-**configurationId** | **string**| The ID of the configuration. | 
+**id** | **string** | The ID of the extension. | 
+**configurationId** | **string** | The ID of the configuration. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetLocalExtensionConfigurationRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
 
 ### Return type
 
@@ -430,7 +784,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -444,13 +798,44 @@ Name | Type | Description  | Notes
 
 ## GetRemoteExtensionModules
 
-> StubList GetRemoteExtensionModules(ctx, )
+> StubList GetRemoteExtensionModules(ctx).Execute()
 
 List available ActiveGate extension modules | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ExtensionsApi.GetRemoteExtensionModules(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ExtensionsApi.GetRemoteExtensionModules``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetRemoteExtensionModules`: StubList
+    fmt.Fprintf(os.Stdout, "Response from `ExtensionsApi.GetRemoteExtensionModules`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetRemoteExtensionModulesRequest struct via the builder pattern
+
 
 ### Return type
 
@@ -458,7 +843,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -472,28 +857,53 @@ This endpoint does not need any parameter.
 
 ## UpdateGlobalExtensionConfiguration
 
-> UpdateGlobalExtensionConfiguration(ctx, id, optional)
+> UpdateGlobalExtensionConfiguration(ctx, id).GlobalExtensionConfiguration(globalExtensionConfiguration).Execute()
 
 Updates the configuration of the specified OneAgent or JMX extension | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the extension to be updated.
+    globalExtensionConfiguration := *openapiclient.NewGlobalExtensionConfiguration(false) // GlobalExtensionConfiguration | The JSON body of the request. Contains updated configuration of the extension. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ExtensionsApi.UpdateGlobalExtensionConfiguration(context.Background(), id).GlobalExtensionConfiguration(globalExtensionConfiguration).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ExtensionsApi.UpdateGlobalExtensionConfiguration``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the extension to be updated. | 
- **optional** | ***UpdateGlobalExtensionConfigurationOpts** | optional parameters | nil if no parameters
+**id** | **string** | The ID of the extension to be updated. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a UpdateGlobalExtensionConfigurationOpts struct
+Other parameters are passed through a pointer to a apiUpdateGlobalExtensionConfigurationRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **globalExtensionConfiguration** | [**optional.Interface of GlobalExtensionConfiguration**](GlobalExtensionConfiguration.md)| The JSON body of the request. Contains updated configuration of the extension. | 
+ **globalExtensionConfiguration** | [**GlobalExtensionConfiguration**](GlobalExtensionConfiguration.md) | The JSON body of the request. Contains updated configuration of the extension. | 
 
 ### Return type
 
@@ -501,7 +911,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -515,30 +925,56 @@ Name | Type | Description  | Notes
 
 ## UpdateLocalExtensionConfiguration
 
-> UpdateLocalExtensionConfiguration(ctx, id, configurationId, optional)
+> UpdateLocalExtensionConfiguration(ctx, id, configurationId).ExtensionConfigurationDto(extensionConfigurationDto).Execute()
 
 Updates instance of local configuration for given extension | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the extension where you want to update the configuration.   If you set the extension ID in the body as well, it must match this ID.
+    configurationId := "configurationId_example" // string | The ID of the configuration to be updated.
+    extensionConfigurationDto := *openapiclient.NewExtensionConfigurationDto(false, false) // ExtensionConfigurationDto | The JSON body of the request. Contains updated parameters of the extension configuration. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ExtensionsApi.UpdateLocalExtensionConfiguration(context.Background(), id, configurationId).ExtensionConfigurationDto(extensionConfigurationDto).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ExtensionsApi.UpdateLocalExtensionConfiguration``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the extension where you want to update the configuration.   If you set the extension ID in the body as well, it must match this ID. | 
-**configurationId** | **string**| The ID of the configuration to be updated. | 
- **optional** | ***UpdateLocalExtensionConfigurationOpts** | optional parameters | nil if no parameters
+**id** | **string** | The ID of the extension where you want to update the configuration.   If you set the extension ID in the body as well, it must match this ID. | 
+**configurationId** | **string** | The ID of the configuration to be updated. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a UpdateLocalExtensionConfigurationOpts struct
+Other parameters are passed through a pointer to a apiUpdateLocalExtensionConfigurationRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
- **extensionConfigurationDto** | [**optional.Interface of ExtensionConfigurationDto**](ExtensionConfigurationDto.md)| The JSON body of the request. Contains updated parameters of the extension configuration. | 
+ **extensionConfigurationDto** | [**ExtensionConfigurationDto**](ExtensionConfigurationDto.md) | The JSON body of the request. Contains updated parameters of the extension configuration. | 
 
 ### Return type
 
@@ -546,7 +982,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -560,28 +996,51 @@ Name | Type | Description  | Notes
 
 ## UploadExtension
 
-> EntityShortRepresentation UploadExtension(ctx, file, optional)
+> EntityShortRepresentation UploadExtension(ctx).OverrideAlerts(overrideAlerts).InlineObject(inlineObject).Execute()
 
 Uploads a ZIP extension file | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    overrideAlerts := true // bool | Use extension-defined thresholds for alerts (`true`) or user-defined thresholds (`false`).    Extension-defined thresholds are stored in the `plugin.json` file.   If not set, user-defined thresholds are used. (optional) (default to false)
+    inlineObject := *openapiclient.Newinline_object("TODO") // InlineObject |  (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ExtensionsApi.UploadExtension(context.Background()).OverrideAlerts(overrideAlerts).InlineObject(inlineObject).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ExtensionsApi.UploadExtension``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `UploadExtension`: EntityShortRepresentation
+    fmt.Fprintf(os.Stdout, "Response from `ExtensionsApi.UploadExtension`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUploadExtensionRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**file** | ***os.File*****os.File**| Extension ZIP file to be uploaded.    File name must match the **name** field in the &#x60;plugin.json&#x60; file.   For example, for the extension whose **name** is &#x60;custom.remote.python.demo&#x60;, the name of the extension file must be &#x60;custom.remote.python.demo.zip&#x60;. | 
- **optional** | ***UploadExtensionOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a UploadExtensionOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **overrideAlerts** | **optional.Bool**| Use extension-defined thresholds for alerts (&#x60;true&#x60;) or user-defined thresholds (&#x60;false&#x60;).    Extension-defined thresholds are stored in the &#x60;plugin.json&#x60; file.   If not set, user-defined thresholds are used. | [default to false]
+ **overrideAlerts** | **bool** | Use extension-defined thresholds for alerts (&#x60;true&#x60;) or user-defined thresholds (&#x60;false&#x60;).    Extension-defined thresholds are stored in the &#x60;plugin.json&#x60; file.   If not set, user-defined thresholds are used. | [default to false]
+ **inlineObject** | [**InlineObject**](InlineObject.md) |  | 
 
 ### Return type
 
@@ -589,7 +1048,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -603,28 +1062,49 @@ Name | Type | Description  | Notes
 
 ## ValidateExtension
 
-> ValidateExtension(ctx, file, optional)
+> ValidateExtension(ctx).JsonOnly(jsonOnly).InlineObject1(inlineObject1).Execute()
 
 Validates a ZIP extension file for `POST/extensions` request | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    jsonOnly := true // bool | Validate only the `plugin.json` file (`true`) or the entire extension structure (`false`).    If not set, the entire extension is validated.  (optional) (default to false)
+    inlineObject1 := *openapiclient.Newinline_object_1("TODO") // InlineObject1 |  (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ExtensionsApi.ValidateExtension(context.Background()).JsonOnly(jsonOnly).InlineObject1(inlineObject1).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ExtensionsApi.ValidateExtension``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateExtensionRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**file** | ***os.File*****os.File**| The ZIP extension file to be uploaded.    The file name must match the ID of the extension. Example: &#x60;custom.remote.python.demo.zip&#x60; | 
- **optional** | ***ValidateExtensionOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a ValidateExtensionOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **jsonOnly** | **optional.Bool**| Validate only the &#x60;plugin.json&#x60; file (&#x60;true&#x60;) or the entire extension structure (&#x60;false&#x60;).    If not set, the entire extension is validated.  | [default to false]
+ **jsonOnly** | **bool** | Validate only the &#x60;plugin.json&#x60; file (&#x60;true&#x60;) or the entire extension structure (&#x60;false&#x60;).    If not set, the entire extension is validated.  | [default to false]
+ **inlineObject1** | [**InlineObject1**](InlineObject1.md) |  | 
 
 ### Return type
 
@@ -632,7 +1112,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -646,28 +1126,53 @@ Name | Type | Description  | Notes
 
 ## ValidateLocalExtensionConfiguration
 
-> ValidateLocalExtensionConfiguration(ctx, id, optional)
+> ValidateLocalExtensionConfiguration(ctx, id).ExtensionConfigurationDto(extensionConfigurationDto).Execute()
 
 Validates the payload for the `POST /extensions/{id}/instances` request | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the extension.
+    extensionConfigurationDto := *openapiclient.NewExtensionConfigurationDto(false, false) // ExtensionConfigurationDto | The JSON body of the request. Contains new configuration of the extension to be validated. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ExtensionsApi.ValidateLocalExtensionConfiguration(context.Background(), id).ExtensionConfigurationDto(extensionConfigurationDto).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ExtensionsApi.ValidateLocalExtensionConfiguration``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the extension. | 
- **optional** | ***ValidateLocalExtensionConfigurationOpts** | optional parameters | nil if no parameters
+**id** | **string** | The ID of the extension. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a ValidateLocalExtensionConfigurationOpts struct
+Other parameters are passed through a pointer to a apiValidateLocalExtensionConfigurationRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **extensionConfigurationDto** | [**optional.Interface of ExtensionConfigurationDto**](ExtensionConfigurationDto.md)| The JSON body of the request. Contains new configuration of the extension to be validated. | 
+ **extensionConfigurationDto** | [**ExtensionConfigurationDto**](ExtensionConfigurationDto.md) | The JSON body of the request. Contains new configuration of the extension to be validated. | 
 
 ### Return type
 
@@ -675,7 +1180,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 

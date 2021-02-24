@@ -1,41 +1,62 @@
 # \NotificationsApi
 
-All URIs are relative to *https://nph08633.live.dynatrace.com/api/config/v1*
+All URIs are relative to *http://https:/api/config/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**CreateNotificationConfig**](NotificationsApi.md#CreateNotificationConfig) | **Post** /notifications | Creates a new notification configuration
-[**CreateOrUpdateNotificationConfig**](NotificationsApi.md#CreateOrUpdateNotificationConfig) | **Put** /notifications/{id} | Updates an existing notification configuration or creates a new one
-[**DeleteNotificatonConfig**](NotificationsApi.md#DeleteNotificatonConfig) | **Delete** /notifications/{id} | Deletes the specified notification configuration
+[**DeleteNotificationConfig**](NotificationsApi.md#DeleteNotificationConfig) | **Delete** /notifications/{id} | Deletes the specified notification configuration
 [**GetNotificationConfig**](NotificationsApi.md#GetNotificationConfig) | **Get** /notifications/{id} | Gets the properties of the specified notification configuration
-[**ReturnAllNotificationCofigs**](NotificationsApi.md#ReturnAllNotificationCofigs) | **Get** /notifications | Lists all notification configurations available in your environment
-[**ValidateCreateConfiguration**](NotificationsApi.md#ValidateCreateConfiguration) | **Post** /notifications/validator | Validates the payload for the &#x60;POST /notifications&#x60; request
-[**ValidateCreateOrUpdateConfiguration**](NotificationsApi.md#ValidateCreateOrUpdateConfiguration) | **Post** /notifications/{id}/validator | Validates the payload the &#x60;PUT /notifications/{id}&#x60; request
+[**ListNotificationConfigs**](NotificationsApi.md#ListNotificationConfigs) | **Get** /notifications | Lists all notification configurations available in your environment
+[**UpdateNotificationConfig**](NotificationsApi.md#UpdateNotificationConfig) | **Put** /notifications/{id} | Updates an existing notification configuration or creates a new one
+[**ValidateCreateNotificationConfig**](NotificationsApi.md#ValidateCreateNotificationConfig) | **Post** /notifications/validator | Validates the payload for the &#x60;POST /notifications&#x60; request
+[**ValidateUpdateNotificationConfig**](NotificationsApi.md#ValidateUpdateNotificationConfig) | **Post** /notifications/{id}/validator | Validates the payload the &#x60;PUT /notifications/{id}&#x60; request
 
 
 
 ## CreateNotificationConfig
 
-> CreateNotificationConfig(ctx, optional)
+> CreateNotificationConfig(ctx).NotificationConfig(notificationConfig).Execute()
 
 Creates a new notification configuration
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    notificationConfig := *openapiclient.NewNotificationConfig("Name_example", "AlertingProfile_example", false, "Type_example", []string{"Receivers_example"}, []string{"CcReceivers_example"}, []string{"BccReceivers_example"}) // NotificationConfig | The JSON body of the request. Contains parameters of the new notification configuration. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.NotificationsApi.CreateNotificationConfig(context.Background()).NotificationConfig(notificationConfig).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationsApi.CreateNotificationConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateNotificationConfigRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***CreateNotificationConfigOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a CreateNotificationConfigOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **notificationConfig** | [**optional.Interface of NotificationConfig**](NotificationConfig.md)| The JSON body of the request. Contains parameters of the new notification configuration. | 
+ **notificationConfig** | [**NotificationConfig**](NotificationConfig.md) | The JSON body of the request. Contains parameters of the new notification configuration. | 
 
 ### Return type
 
@@ -43,7 +64,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -55,64 +76,53 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## CreateOrUpdateNotificationConfig
+## DeleteNotificationConfig
 
-> NotificationConfigStub CreateOrUpdateNotificationConfig(ctx, id, optional)
-
-Updates an existing notification configuration or creates a new one
-
-If a notification configuration with the specified ID doesn't exist, a new configuration is created.
-
-### Required Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md)| The ID of the notification configuration to be updated.    If you set the ID in the body as well, it must match this ID. | 
- **optional** | ***CreateOrUpdateNotificationConfigOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a CreateOrUpdateNotificationConfigOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **notificationConfig** | [**optional.Interface of NotificationConfig**](NotificationConfig.md)| The JSON body of the request. Contains updated parameters of the notification configuration. | 
-
-### Return type
-
-[**NotificationConfigStub**](NotificationConfigStub.md)
-
-### Authorization
-
-[WriteConfigToken](../README.md#WriteConfigToken)
-
-### HTTP request headers
-
-- **Content-Type**: application/json; charset=utf-8
-- **Accept**: application/json; charset=utf-8
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## DeleteNotificatonConfig
-
-> DeleteNotificatonConfig(ctx, id)
+> DeleteNotificationConfig(ctx, id).Execute()
 
 Deletes the specified notification configuration
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := TODO // string | The ID of the notification configuration to be deleted.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.NotificationsApi.DeleteNotificationConfig(context.Background(), id).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationsApi.DeleteNotificationConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md)| The ID of the notification configuration to be deleted. | 
+**id** | [**string**](.md) | The ID of the notification configuration to be deleted. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteNotificationConfigRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -120,7 +130,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -134,17 +144,53 @@ Name | Type | Description  | Notes
 
 ## GetNotificationConfig
 
-> NotificationConfig GetNotificationConfig(ctx, id)
+> NotificationConfig GetNotificationConfig(ctx, id).Execute()
 
 Gets the properties of the specified notification configuration
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := TODO // string | The ID of the required notification configuration.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.NotificationsApi.GetNotificationConfig(context.Background(), id).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationsApi.GetNotificationConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetNotificationConfig`: NotificationConfig
+    fmt.Fprintf(os.Stdout, "Response from `NotificationsApi.GetNotificationConfig`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md)| The ID of the required notification configuration. | 
+**id** | [**string**](.md) | The ID of the required notification configuration. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetNotificationConfigRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -152,7 +198,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -164,15 +210,46 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ReturnAllNotificationCofigs
+## ListNotificationConfigs
 
-> NotificationConfigStubListDto ReturnAllNotificationCofigs(ctx, )
+> NotificationConfigStubListDto ListNotificationConfigs(ctx).Execute()
 
 Lists all notification configurations available in your environment
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.NotificationsApi.ListNotificationConfigs(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationsApi.ListNotificationConfigs``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ListNotificationConfigs`: NotificationConfigStubListDto
+    fmt.Fprintf(os.Stdout, "Response from `NotificationsApi.ListNotificationConfigs`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiListNotificationConfigsRequest struct via the builder pattern
+
 
 ### Return type
 
@@ -180,7 +257,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -192,36 +269,67 @@ This endpoint does not need any parameter.
 [[Back to README]](../README.md)
 
 
-## ValidateCreateConfiguration
+## UpdateNotificationConfig
 
-> ValidateCreateConfiguration(ctx, optional)
+> NotificationConfigStub UpdateNotificationConfig(ctx, id).NotificationConfig(notificationConfig).Execute()
 
-Validates the payload for the `POST /notifications` request
+Updates an existing notification configuration or creates a new one
 
-### Required Parameters
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := TODO // string | The ID of the notification configuration to be updated.    If you set the ID in the body as well, it must match this ID.
+    notificationConfig := *openapiclient.NewNotificationConfig("Name_example", "AlertingProfile_example", false, "Type_example", []string{"Receivers_example"}, []string{"CcReceivers_example"}, []string{"BccReceivers_example"}) // NotificationConfig | The JSON body of the request. Contains updated parameters of the notification configuration. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.NotificationsApi.UpdateNotificationConfig(context.Background(), id).NotificationConfig(notificationConfig).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationsApi.UpdateNotificationConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `UpdateNotificationConfig`: NotificationConfigStub
+    fmt.Fprintf(os.Stdout, "Response from `NotificationsApi.UpdateNotificationConfig`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***ValidateCreateConfigurationOpts** | optional parameters | nil if no parameters
+**id** | [**string**](.md) | The ID of the notification configuration to be updated.    If you set the ID in the body as well, it must match this ID. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a ValidateCreateConfigurationOpts struct
+Other parameters are passed through a pointer to a apiUpdateNotificationConfigRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **notificationConfig** | [**optional.Interface of NotificationConfig**](NotificationConfig.md)| The JSON body of the request. Contains the notification configuration to be validated. | 
+
+ **notificationConfig** | [**NotificationConfig**](NotificationConfig.md) | The JSON body of the request. Contains updated parameters of the notification configuration. | 
 
 ### Return type
 
- (empty response body)
+[**NotificationConfigStub**](NotificationConfigStub.md)
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -233,30 +341,49 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ValidateCreateOrUpdateConfiguration
+## ValidateCreateNotificationConfig
 
-> ValidateCreateOrUpdateConfiguration(ctx, id, optional)
+> ValidateCreateNotificationConfig(ctx).NotificationConfig(notificationConfig).Execute()
 
-Validates the payload the `PUT /notifications/{id}` request
+Validates the payload for the `POST /notifications` request
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    notificationConfig := *openapiclient.NewNotificationConfig("Name_example", "AlertingProfile_example", false, "Type_example", []string{"Receivers_example"}, []string{"CcReceivers_example"}, []string{"BccReceivers_example"}) // NotificationConfig | The JSON body of the request. Contains the notification configuration to be validated. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.NotificationsApi.ValidateCreateNotificationConfig(context.Background()).NotificationConfig(notificationConfig).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationsApi.ValidateCreateNotificationConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateCreateNotificationConfigRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md)| The ID of the notification configuration to be validated. | 
- **optional** | ***ValidateCreateOrUpdateConfigurationOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a ValidateCreateOrUpdateConfigurationOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **notificationConfig** | [**optional.Interface of NotificationConfig**](NotificationConfig.md)| The JSON body of the request. Contains the notification configuration to be validated. | 
+ **notificationConfig** | [**NotificationConfig**](NotificationConfig.md) | The JSON body of the request. Contains the notification configuration to be validated. | 
 
 ### Return type
 
@@ -264,7 +391,75 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
+
+### HTTP request headers
+
+- **Content-Type**: application/json; charset=utf-8
+- **Accept**: application/json; charset=utf-8
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ValidateUpdateNotificationConfig
+
+> ValidateUpdateNotificationConfig(ctx, id).NotificationConfig(notificationConfig).Execute()
+
+Validates the payload the `PUT /notifications/{id}` request
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := TODO // string | The ID of the notification configuration to be validated.
+    notificationConfig := *openapiclient.NewNotificationConfig("Name_example", "AlertingProfile_example", false, "Type_example", []string{"Receivers_example"}, []string{"CcReceivers_example"}, []string{"BccReceivers_example"}) // NotificationConfig | The JSON body of the request. Contains the notification configuration to be validated. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.NotificationsApi.ValidateUpdateNotificationConfig(context.Background(), id).NotificationConfig(notificationConfig).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationsApi.ValidateUpdateNotificationConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**id** | [**string**](.md) | The ID of the notification configuration to be validated. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateUpdateNotificationConfigRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **notificationConfig** | [**NotificationConfig**](NotificationConfig.md) | The JSON body of the request. Contains the notification configuration to be validated. | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 

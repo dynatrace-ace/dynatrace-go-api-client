@@ -1,41 +1,64 @@
 # \CalculatedMetricsSyntheticApi
 
-All URIs are relative to *https://nph08633.live.dynatrace.com/api/config/v1*
+All URIs are relative to *http://https:/api/config/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**Create2**](CalculatedMetricsSyntheticApi.md#Create2) | **Post** /calculatedMetrics/synthetic | Stores the provided calculated synthetic metric configuration. | maturity&#x3D;EARLY_ADOPTER
-[**Delete5**](CalculatedMetricsSyntheticApi.md#Delete5) | **Delete** /calculatedMetrics/synthetic/{metricKey} | Deletes the calculated synthetic metric configuration with the given id. | maturity&#x3D;EARLY_ADOPTER
-[**GetItem4**](CalculatedMetricsSyntheticApi.md#GetItem4) | **Get** /calculatedMetrics/synthetic/{metricKey} | Gets the definition of the specified calculated synthetic metric. | maturity&#x3D;EARLY_ADOPTER
-[**GetList4**](CalculatedMetricsSyntheticApi.md#GetList4) | **Get** /calculatedMetrics/synthetic | Lists all calculated synthetic metric configurations. | maturity&#x3D;EARLY_ADOPTER
-[**Update2**](CalculatedMetricsSyntheticApi.md#Update2) | **Put** /calculatedMetrics/synthetic/{metricKey} | Updates the specified calculated synthetic metric. | maturity&#x3D;EARLY_ADOPTER
+[**CreateSyntheticMetric**](CalculatedMetricsSyntheticApi.md#CreateSyntheticMetric) | **Post** /calculatedMetrics/synthetic | Creates a new calculated synthetic metric | maturity&#x3D;EARLY_ADOPTER
+[**DeleteSyntheticMetric**](CalculatedMetricsSyntheticApi.md#DeleteSyntheticMetric) | **Delete** /calculatedMetrics/synthetic/{metricKey} | Deletes the specified calculated synthetic metric | maturity&#x3D;EARLY_ADOPTER
+[**GetSyntheticMetric**](CalculatedMetricsSyntheticApi.md#GetSyntheticMetric) | **Get** /calculatedMetrics/synthetic/{metricKey} | Gets the descriptor of the specified calculated synthetic metric | maturity&#x3D;EARLY_ADOPTER
+[**ListSyntheticMetrics**](CalculatedMetricsSyntheticApi.md#ListSyntheticMetrics) | **Get** /calculatedMetrics/synthetic | Lists all calculated synthetic metrics available in your environment | maturity&#x3D;EARLY_ADOPTER
+[**UpdateSyntheticMetric**](CalculatedMetricsSyntheticApi.md#UpdateSyntheticMetric) | **Put** /calculatedMetrics/synthetic/{metricKey} | Updates the specified calculated synthetic metric | maturity&#x3D;EARLY_ADOPTER
 [**ValidateCreateSyntheticMetric**](CalculatedMetricsSyntheticApi.md#ValidateCreateSyntheticMetric) | **Post** /calculatedMetrics/synthetic/validator | Validates the payload for the &#x60;POST /calculatedMetrics/synthetic&#x60; request | maturity&#x3D;EARLY_ADOPTER
 [**ValidateUpdateSyntheticMetric**](CalculatedMetricsSyntheticApi.md#ValidateUpdateSyntheticMetric) | **Post** /calculatedMetrics/synthetic/{metricKey}/validator | Validates the payload for the &#x60;PUT /calculatedMetrics/synthetic/{metricKey}&#x60; request | maturity&#x3D;EARLY_ADOPTER
 
 
 
-## Create2
+## CreateSyntheticMetric
 
-> EntityShortRepresentation Create2(ctx, optional)
+> EntityShortRepresentation CreateSyntheticMetric(ctx).CalculatedSyntheticMetric(calculatedSyntheticMetric).Execute()
 
-Stores the provided calculated synthetic metric configuration. | maturity=EARLY_ADOPTER
+Creates a new calculated synthetic metric | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    calculatedSyntheticMetric := *openapiclient.NewCalculatedSyntheticMetric("MonitorIdentifier_example", "Name_example", "MetricKey_example", false, "Metric_example") // CalculatedSyntheticMetric | The JSON body of the request. Contains definition of the new calculated synthetic metric. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CalculatedMetricsSyntheticApi.CreateSyntheticMetric(context.Background()).CalculatedSyntheticMetric(calculatedSyntheticMetric).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CalculatedMetricsSyntheticApi.CreateSyntheticMetric``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `CreateSyntheticMetric`: EntityShortRepresentation
+    fmt.Fprintf(os.Stdout, "Response from `CalculatedMetricsSyntheticApi.CreateSyntheticMetric`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateSyntheticMetricRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***Create2Opts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a Create2Opts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **syntheticMetric** | [**optional.Interface of SyntheticMetric**](SyntheticMetric.md)| JSON body of the request containing definition of the new calculated synthetic metric. | 
+ **calculatedSyntheticMetric** | [**CalculatedSyntheticMetric**](CalculatedSyntheticMetric.md) | The JSON body of the request. Contains definition of the new calculated synthetic metric. | 
 
 ### Return type
 
@@ -43,7 +66,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -55,19 +78,53 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## Delete5
+## DeleteSyntheticMetric
 
-> Delete5(ctx, metricKey)
+> DeleteSyntheticMetric(ctx, metricKey).Execute()
 
-Deletes the calculated synthetic metric configuration with the given id. | maturity=EARLY_ADOPTER
+Deletes the specified calculated synthetic metric | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    metricKey := "metricKey_example" // string | The key of the calculated synthetic metric to be deleted.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CalculatedMetricsSyntheticApi.DeleteSyntheticMetric(context.Background(), metricKey).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CalculatedMetricsSyntheticApi.DeleteSyntheticMetric``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**metricKey** | **string**| The ID of the calculated synthetic metric to delete. | 
+**metricKey** | **string** | The key of the calculated synthetic metric to be deleted. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteSyntheticMetricRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -75,7 +132,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -87,27 +144,63 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetItem4
+## GetSyntheticMetric
 
-> SyntheticMetric GetItem4(ctx, metricKey)
+> CalculatedSyntheticMetric GetSyntheticMetric(ctx, metricKey).Execute()
 
-Gets the definition of the specified calculated synthetic metric. | maturity=EARLY_ADOPTER
+Gets the descriptor of the specified calculated synthetic metric | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    metricKey := "metricKey_example" // string | The key of the required calculated synthetic metric.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CalculatedMetricsSyntheticApi.GetSyntheticMetric(context.Background(), metricKey).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CalculatedMetricsSyntheticApi.GetSyntheticMetric``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetSyntheticMetric`: CalculatedSyntheticMetric
+    fmt.Fprintf(os.Stdout, "Response from `CalculatedMetricsSyntheticApi.GetSyntheticMetric`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**metricKey** | **string**| The ID of the calculated synthetic metric you&#39;re inquiring. | 
+**metricKey** | **string** | The key of the required calculated synthetic metric. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetSyntheticMetricRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
-[**SyntheticMetric**](SyntheticMetric.md)
+[**CalculatedSyntheticMetric**](CalculatedSyntheticMetric.md)
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -119,15 +212,46 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetList4
+## ListSyntheticMetrics
 
-> StubList GetList4(ctx, )
+> StubList ListSyntheticMetrics(ctx).Execute()
 
-Lists all calculated synthetic metric configurations. | maturity=EARLY_ADOPTER
+Lists all calculated synthetic metrics available in your environment | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CalculatedMetricsSyntheticApi.ListSyntheticMetrics(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CalculatedMetricsSyntheticApi.ListSyntheticMetrics``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ListSyntheticMetrics`: StubList
+    fmt.Fprintf(os.Stdout, "Response from `CalculatedMetricsSyntheticApi.ListSyntheticMetrics`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiListSyntheticMetricsRequest struct via the builder pattern
+
 
 ### Return type
 
@@ -135,7 +259,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -147,38 +271,63 @@ This endpoint does not need any parameter.
 [[Back to README]](../README.md)
 
 
-## Update2
+## UpdateSyntheticMetric
 
-> EntityShortRepresentation Update2(ctx, metricKey, optional)
+> UpdateSyntheticMetric(ctx, metricKey).SyntheticMetricUpdate(syntheticMetricUpdate).Execute()
 
-Updates the specified calculated synthetic metric. | maturity=EARLY_ADOPTER
+Updates the specified calculated synthetic metric | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    metricKey := "metricKey_example" // string | The key of the calculated synthetic metric to be updated.
+    syntheticMetricUpdate := *openapiclient.NewSyntheticMetricUpdate() // SyntheticMetricUpdate | The JSON body of the request. Contains the update to the calculated synthetic metric. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CalculatedMetricsSyntheticApi.UpdateSyntheticMetric(context.Background(), metricKey).SyntheticMetricUpdate(syntheticMetricUpdate).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CalculatedMetricsSyntheticApi.UpdateSyntheticMetric``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**metricKey** | **string**| The ID of the calculated synthetic metric to update. | 
- **optional** | ***Update2Opts** | optional parameters | nil if no parameters
+**metricKey** | **string** | The key of the calculated synthetic metric to be updated. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a Update2Opts struct
+Other parameters are passed through a pointer to a apiUpdateSyntheticMetricRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **syntheticMetricUpdate** | [**optional.Interface of SyntheticMetricUpdate**](SyntheticMetricUpdate.md)| JSON body of the request containing updated definition of the calculated synthetic metric. | 
+ **syntheticMetricUpdate** | [**SyntheticMetricUpdate**](SyntheticMetricUpdate.md) | The JSON body of the request. Contains the update to the calculated synthetic metric. | 
 
 ### Return type
 
-[**EntityShortRepresentation**](EntityShortRepresentation.md)
+ (empty response body)
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -192,19 +341,47 @@ Name | Type | Description  | Notes
 
 ## ValidateCreateSyntheticMetric
 
-> ValidateCreateSyntheticMetric(ctx, syntheticMetric)
+> ValidateCreateSyntheticMetric(ctx).CalculatedSyntheticMetric(calculatedSyntheticMetric).Execute()
 
 Validates the payload for the `POST /calculatedMetrics/synthetic` request | maturity=EARLY_ADOPTER
 
-The body must not provide an ID.
+### Example
 
-### Required Parameters
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    calculatedSyntheticMetric := *openapiclient.NewCalculatedSyntheticMetric("MonitorIdentifier_example", "Name_example", "MetricKey_example", false, "Metric_example") // CalculatedSyntheticMetric | The JSON body of the request. Contains the definition of the metric to be validated.   The key of the metric must be omitted. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CalculatedMetricsSyntheticApi.ValidateCreateSyntheticMetric(context.Background()).CalculatedSyntheticMetric(calculatedSyntheticMetric).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CalculatedMetricsSyntheticApi.ValidateCreateSyntheticMetric``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateCreateSyntheticMetricRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**syntheticMetric** | [**SyntheticMetric**](SyntheticMetric.md)|  | 
+ **calculatedSyntheticMetric** | [**CalculatedSyntheticMetric**](CalculatedSyntheticMetric.md) | The JSON body of the request. Contains the definition of the metric to be validated.   The key of the metric must be omitted. | 
 
 ### Return type
 
@@ -212,7 +389,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -226,18 +403,53 @@ Name | Type | Description  | Notes
 
 ## ValidateUpdateSyntheticMetric
 
-> ValidateUpdateSyntheticMetric(ctx, metricKey, syntheticMetricUpdate)
+> ValidateUpdateSyntheticMetric(ctx, metricKey).SyntheticMetricUpdate(syntheticMetricUpdate).Execute()
 
 Validates the payload for the `PUT /calculatedMetrics/synthetic/{metricKey}` request | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    metricKey := "metricKey_example" // string | The key of the metric to be validated.
+    syntheticMetricUpdate := *openapiclient.NewSyntheticMetricUpdate() // SyntheticMetricUpdate | The JSON body of the request. Contains the update to the metric to be validated. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CalculatedMetricsSyntheticApi.ValidateUpdateSyntheticMetric(context.Background(), metricKey).SyntheticMetricUpdate(syntheticMetricUpdate).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CalculatedMetricsSyntheticApi.ValidateUpdateSyntheticMetric``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**metricKey** | **string**|  | 
-**syntheticMetricUpdate** | [**SyntheticMetricUpdate**](SyntheticMetricUpdate.md)|  | 
+**metricKey** | **string** | The key of the metric to be validated. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateUpdateSyntheticMetricRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **syntheticMetricUpdate** | [**SyntheticMetricUpdate**](SyntheticMetricUpdate.md) | The JSON body of the request. Contains the update to the metric to be validated. | 
 
 ### Return type
 
@@ -245,7 +457,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 

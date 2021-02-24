@@ -4,13 +4,68 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** | The name of the credentials set. | 
-**Id** | **string** | The ID of the credentials set. | [optional] 
-**Description** | **string** | A short description of the credentials set.. | 
-**OwnerAccessOnly** | **bool** | The credentials set is available to every user (&#x60;false&#x60;) or to owner only (&#x60;true&#x60;). | [optional] 
-**Type** | **string** | Defines the actual set of fields depending on the value. See one of the following objects:   * &#x60;CERTIFICATE&#x60; -&gt; CertificateCredentials  * &#x60;USERNAME_PASSWORD&#x60; -&gt; UserPasswordCredentials  * &#x60;TOKEN&#x60; -&gt; TokenCredentials   | [optional] 
 **User** | **string** | The username of the credentials set. | 
 **Password** | **string** | The password of the credential. | 
+
+## Methods
+
+### NewUserPasswordCredentials
+
+`func NewUserPasswordCredentials(user string, password string, ) *UserPasswordCredentials`
+
+NewUserPasswordCredentials instantiates a new UserPasswordCredentials object
+This constructor will assign default values to properties that have it defined,
+and makes sure properties required by API are set, but the set of arguments
+will change when the set of required properties is changed
+
+### NewUserPasswordCredentialsWithDefaults
+
+`func NewUserPasswordCredentialsWithDefaults() *UserPasswordCredentials`
+
+NewUserPasswordCredentialsWithDefaults instantiates a new UserPasswordCredentials object
+This constructor will only assign default values to properties that have it defined,
+but it doesn't guarantee that properties required by API are set
+
+### GetUser
+
+`func (o *UserPasswordCredentials) GetUser() string`
+
+GetUser returns the User field if non-nil, zero value otherwise.
+
+### GetUserOk
+
+`func (o *UserPasswordCredentials) GetUserOk() (*string, bool)`
+
+GetUserOk returns a tuple with the User field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUser
+
+`func (o *UserPasswordCredentials) SetUser(v string)`
+
+SetUser sets User field to given value.
+
+
+### GetPassword
+
+`func (o *UserPasswordCredentials) GetPassword() string`
+
+GetPassword returns the Password field if non-nil, zero value otherwise.
+
+### GetPasswordOk
+
+`func (o *UserPasswordCredentials) GetPasswordOk() (*string, bool)`
+
+GetPasswordOk returns a tuple with the Password field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPassword
+
+`func (o *UserPasswordCredentials) SetPassword(v string)`
+
+SetPassword sets Password field to given value.
+
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

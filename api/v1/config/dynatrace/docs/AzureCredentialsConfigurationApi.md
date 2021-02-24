@@ -1,43 +1,66 @@
 # \AzureCredentialsConfigurationApi
 
-All URIs are relative to *https://nph08633.live.dynatrace.com/api/config/v1*
+All URIs are relative to *http://https:/api/config/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateConfiguration2**](AzureCredentialsConfigurationApi.md#CreateConfiguration2) | **Post** /azure/credentials | Creates a new Azure credentials configuration
-[**DeleteConfiguration3**](AzureCredentialsConfigurationApi.md#DeleteConfiguration3) | **Delete** /azure/credentials/{id} | Deletes the specified Azure credentials configuration
-[**GetConfiguration7**](AzureCredentialsConfigurationApi.md#GetConfiguration7) | **Get** /azure/credentials/{id} | Gets the configuration of the specified Azure credentials
-[**GetConfigurations1**](AzureCredentialsConfigurationApi.md#GetConfigurations1) | **Get** /azure/credentials | Lists all available Azure credentials configurations
-[**UpdateConfiguration4**](AzureCredentialsConfigurationApi.md#UpdateConfiguration4) | **Put** /azure/credentials/{id} | Updates an existing Azure credentials configuration
-[**ValidateConfiguration11**](AzureCredentialsConfigurationApi.md#ValidateConfiguration11) | **Post** /azure/credentials/validator | Validates the payload for the &#x60;POST /azure/credentials&#x60; request
+[**CreateAzureCredentialsConfig**](AzureCredentialsConfigurationApi.md#CreateAzureCredentialsConfig) | **Post** /azure/credentials | Creates a new Azure credentials configuration
+[**DeleteAzureCredentialsConfig**](AzureCredentialsConfigurationApi.md#DeleteAzureCredentialsConfig) | **Delete** /azure/credentials/{id} | Deletes the specified Azure credentials configuration
+[**GetAzureCredentialsConfig**](AzureCredentialsConfigurationApi.md#GetAzureCredentialsConfig) | **Get** /azure/credentials/{id} | Gets the configuration of the specified Azure credentials
+[**ListAzureCredentialsConfigs**](AzureCredentialsConfigurationApi.md#ListAzureCredentialsConfigs) | **Get** /azure/credentials | Lists all available Azure credentials configurations
+[**UpdateAzureCredentialsConfig**](AzureCredentialsConfigurationApi.md#UpdateAzureCredentialsConfig) | **Put** /azure/credentials/{id} | Updates an existing Azure credentials configuration
+[**ValidateAzureCredentialsConfig**](AzureCredentialsConfigurationApi.md#ValidateAzureCredentialsConfig) | **Post** /azure/credentials/validator | Validates the payload for the &#x60;POST /azure/credentials&#x60; request
 [**ValidateConfigurationUpdate**](AzureCredentialsConfigurationApi.md#ValidateConfigurationUpdate) | **Post** /azure/credentials/{id}/validator | Validates the payload for the &#x60;PUT /azure/credentials/{id}&#x60; request
 
 
 
-## CreateConfiguration2
+## CreateAzureCredentialsConfig
 
-> EntityShortRepresentation CreateConfiguration2(ctx, optional)
+> EntityShortRepresentation CreateAzureCredentialsConfig(ctx).AzureCredentials(azureCredentials).Execute()
 
 Creates a new Azure credentials configuration
 
-The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    azureCredentials := *openapiclient.NewAzureCredentials("Label_example", "AppId_example", "DirectoryId_example", false, false, []openapiclient.CloudTag{*openapiclient.NewCloudTag()}) // AzureCredentials | The JSON body of the request. Contains parameters of the new Azure credentials configuration. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AzureCredentialsConfigurationApi.CreateAzureCredentialsConfig(context.Background()).AzureCredentials(azureCredentials).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AzureCredentialsConfigurationApi.CreateAzureCredentialsConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `CreateAzureCredentialsConfig`: EntityShortRepresentation
+    fmt.Fprintf(os.Stdout, "Response from `AzureCredentialsConfigurationApi.CreateAzureCredentialsConfig`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateAzureCredentialsConfigRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***CreateConfiguration2Opts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a CreateConfiguration2Opts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **azureCredentials** | [**optional.Interface of AzureCredentials**](AzureCredentials.md)| The JSON body of the request. Contains parameters of the new Azure credentials configuration. | 
+ **azureCredentials** | [**AzureCredentials**](AzureCredentials.md) | The JSON body of the request. Contains parameters of the new Azure credentials configuration. | 
 
 ### Return type
 
@@ -45,7 +68,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -57,19 +80,53 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## DeleteConfiguration3
+## DeleteAzureCredentialsConfig
 
-> DeleteConfiguration3(ctx, id)
+> DeleteAzureCredentialsConfig(ctx, id).Execute()
 
 Deletes the specified Azure credentials configuration
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the Azure credentials configuration to be deleted.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AzureCredentialsConfigurationApi.DeleteAzureCredentialsConfig(context.Background(), id).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AzureCredentialsConfigurationApi.DeleteAzureCredentialsConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the Azure credentials configuration to be deleted. | 
+**id** | **string** | The ID of the Azure credentials configuration to be deleted. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteAzureCredentialsConfigRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -77,7 +134,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -89,19 +146,55 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetConfiguration7
+## GetAzureCredentialsConfig
 
-> AzureCredentials GetConfiguration7(ctx, id)
+> AzureCredentials GetAzureCredentialsConfig(ctx, id).Execute()
 
 Gets the configuration of the specified Azure credentials
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the required Azure credentials configuration.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AzureCredentialsConfigurationApi.GetAzureCredentialsConfig(context.Background(), id).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AzureCredentialsConfigurationApi.GetAzureCredentialsConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetAzureCredentialsConfig`: AzureCredentials
+    fmt.Fprintf(os.Stdout, "Response from `AzureCredentialsConfigurationApi.GetAzureCredentialsConfig`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the required Azure credentials configuration. | 
+**id** | **string** | The ID of the required Azure credentials configuration. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetAzureCredentialsConfigRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -109,7 +202,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -121,15 +214,46 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetConfigurations1
+## ListAzureCredentialsConfigs
 
-> StubList GetConfigurations1(ctx, )
+> StubList ListAzureCredentialsConfigs(ctx).Execute()
 
 Lists all available Azure credentials configurations
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AzureCredentialsConfigurationApi.ListAzureCredentialsConfigs(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AzureCredentialsConfigurationApi.ListAzureCredentialsConfigs``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ListAzureCredentialsConfigs`: StubList
+    fmt.Fprintf(os.Stdout, "Response from `AzureCredentialsConfigurationApi.ListAzureCredentialsConfigs`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiListAzureCredentialsConfigsRequest struct via the builder pattern
+
 
 ### Return type
 
@@ -137,7 +261,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -149,32 +273,59 @@ This endpoint does not need any parameter.
 [[Back to README]](../README.md)
 
 
-## UpdateConfiguration4
+## UpdateAzureCredentialsConfig
 
-> EntityShortRepresentation UpdateConfiguration4(ctx, id, optional)
+> EntityShortRepresentation UpdateAzureCredentialsConfig(ctx, id).AzureCredentials(azureCredentials).Execute()
 
 Updates an existing Azure credentials configuration
 
-* You can't change the Application ID or Directory ID of an Azure configuration. If you need to change them, create a new credentials configuration.  * If a configuration with the specified ID doesn't exist, a new configuration is created.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the Azure credentials configuration to be updated.
+    azureCredentials := *openapiclient.NewAzureCredentials("Label_example", "AppId_example", "DirectoryId_example", false, false, []openapiclient.CloudTag{*openapiclient.NewCloudTag()}) // AzureCredentials | The JSON body of the request. Contains updated parameters of the Azure credentials configuration. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AzureCredentialsConfigurationApi.UpdateAzureCredentialsConfig(context.Background(), id).AzureCredentials(azureCredentials).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AzureCredentialsConfigurationApi.UpdateAzureCredentialsConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `UpdateAzureCredentialsConfig`: EntityShortRepresentation
+    fmt.Fprintf(os.Stdout, "Response from `AzureCredentialsConfigurationApi.UpdateAzureCredentialsConfig`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the Azure credentials configuration to be updated. | 
- **optional** | ***UpdateConfiguration4Opts** | optional parameters | nil if no parameters
+**id** | **string** | The ID of the Azure credentials configuration to be updated. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a UpdateConfiguration4Opts struct
+Other parameters are passed through a pointer to a apiUpdateAzureCredentialsConfigRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **azureCredentials** | [**optional.Interface of AzureCredentials**](AzureCredentials.md)| The JSON body of the request. Contains updated parameters of the Azure credentials configuration. | 
+ **azureCredentials** | [**AzureCredentials**](AzureCredentials.md) | The JSON body of the request. Contains updated parameters of the Azure credentials configuration. | 
 
 ### Return type
 
@@ -182,7 +333,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -194,28 +345,49 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ValidateConfiguration11
+## ValidateAzureCredentialsConfig
 
-> ValidateConfiguration11(ctx, optional)
+> ValidateAzureCredentialsConfig(ctx).AzureCredentials(azureCredentials).Execute()
 
 Validates the payload for the `POST /azure/credentials` request
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    azureCredentials := *openapiclient.NewAzureCredentials("Label_example", "AppId_example", "DirectoryId_example", false, false, []openapiclient.CloudTag{*openapiclient.NewCloudTag()}) // AzureCredentials | The JSON body of the request. Contains the Azure credentials configuration to be validated. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AzureCredentialsConfigurationApi.ValidateAzureCredentialsConfig(context.Background()).AzureCredentials(azureCredentials).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AzureCredentialsConfigurationApi.ValidateAzureCredentialsConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateAzureCredentialsConfigRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***ValidateConfiguration11Opts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a ValidateConfiguration11Opts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **azureCredentials** | [**optional.Interface of AzureCredentials**](AzureCredentials.md)| The JSON body of the request. Contains the Azure credentials configuration to be validated. | 
+ **azureCredentials** | [**AzureCredentials**](AzureCredentials.md) | The JSON body of the request. Contains the Azure credentials configuration to be validated. | 
 
 ### Return type
 
@@ -223,7 +395,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -237,28 +409,53 @@ Name | Type | Description  | Notes
 
 ## ValidateConfigurationUpdate
 
-> ValidateConfigurationUpdate(ctx, id, optional)
+> ValidateConfigurationUpdate(ctx, id).AzureCredentials(azureCredentials).Execute()
 
 Validates the payload for the `PUT /azure/credentials/{id}` request
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the Azure credentials configuration to be validated.
+    azureCredentials := *openapiclient.NewAzureCredentials("Label_example", "AppId_example", "DirectoryId_example", false, false, []openapiclient.CloudTag{*openapiclient.NewCloudTag()}) // AzureCredentials | The JSON body of the request. Contains the Azure credentials configuration to be validated. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AzureCredentialsConfigurationApi.ValidateConfigurationUpdate(context.Background(), id).AzureCredentials(azureCredentials).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AzureCredentialsConfigurationApi.ValidateConfigurationUpdate``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the Azure credentials configuration to be validated. | 
- **optional** | ***ValidateConfigurationUpdateOpts** | optional parameters | nil if no parameters
+**id** | **string** | The ID of the Azure credentials configuration to be validated. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a ValidateConfigurationUpdateOpts struct
+Other parameters are passed through a pointer to a apiValidateConfigurationUpdateRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **azureCredentials** | [**optional.Interface of AzureCredentials**](AzureCredentials.md)| The JSON body of the request. Contains the Azure credentials configuration to be validated. | 
+ **azureCredentials** | [**AzureCredentials**](AzureCredentials.md) | The JSON body of the request. Contains the Azure credentials configuration to be validated. | 
 
 ### Return type
 
@@ -266,7 +463,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 

@@ -1,41 +1,64 @@
 # \CalculatedMetricsWebApplicationsApi
 
-All URIs are relative to *https://nph08633.live.dynatrace.com/api/config/v1*
+All URIs are relative to *http://https:/api/config/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**Create1**](CalculatedMetricsWebApplicationsApi.md#Create1) | **Post** /calculatedMetrics/rum | Stores the provided calculated RUM metric configuration. | maturity&#x3D;EARLY_ADOPTER
-[**Delete3**](CalculatedMetricsWebApplicationsApi.md#Delete3) | **Delete** /calculatedMetrics/rum/{metricKey} | Deletes the calculated RUM metric configuration with the given id. | maturity&#x3D;EARLY_ADOPTER
-[**GetItem2**](CalculatedMetricsWebApplicationsApi.md#GetItem2) | **Get** /calculatedMetrics/rum/{metricKey} | Gets the definition of the specified calculated RUM metric. | maturity&#x3D;EARLY_ADOPTER
-[**GetList2**](CalculatedMetricsWebApplicationsApi.md#GetList2) | **Get** /calculatedMetrics/rum | Lists all calculated RUM metric configurations. | maturity&#x3D;EARLY_ADOPTER
-[**Update1**](CalculatedMetricsWebApplicationsApi.md#Update1) | **Put** /calculatedMetrics/rum/{metricKey} | Updates the specified calculated RUM metric. | maturity&#x3D;EARLY_ADOPTER
-[**ValidateCreateRumMetric**](CalculatedMetricsWebApplicationsApi.md#ValidateCreateRumMetric) | **Post** /calculatedMetrics/rum/validator | Validates the payload for the &#x60;POST /calculatedMetrics/rum&#x60; request | maturity&#x3D;EARLY_ADOPTER
-[**ValidateUpdateRumMetric**](CalculatedMetricsWebApplicationsApi.md#ValidateUpdateRumMetric) | **Post** /calculatedMetrics/rum/{metricKey}/validator | Validates the payload for the &#x60;PUT /calculatedMetrics/rum/{metricKey}&#x60; request | maturity&#x3D;EARLY_ADOPTER
+[**CreateRumMetric**](CalculatedMetricsWebApplicationsApi.md#CreateRumMetric) | **Post** /calculatedMetrics/rum | Creates a new calculated RUM metric
+[**DeleteRumMetric**](CalculatedMetricsWebApplicationsApi.md#DeleteRumMetric) | **Delete** /calculatedMetrics/rum/{metricKey} | Deletes the specified calculated RUM metric
+[**GetRumMetric**](CalculatedMetricsWebApplicationsApi.md#GetRumMetric) | **Get** /calculatedMetrics/rum/{metricKey} | Gets the descriptor of the specified calculated RUM metric
+[**ListRumMetrics**](CalculatedMetricsWebApplicationsApi.md#ListRumMetrics) | **Get** /calculatedMetrics/rum | Lists all calculated RUM metrics
+[**UpdateRumMetric**](CalculatedMetricsWebApplicationsApi.md#UpdateRumMetric) | **Put** /calculatedMetrics/rum/{metricKey} | Updates the specified calculated RUM metric
+[**ValidateCreateRumMetric**](CalculatedMetricsWebApplicationsApi.md#ValidateCreateRumMetric) | **Post** /calculatedMetrics/rum/validator | Validates the payload for the &#x60;POST /calculatedMetrics/rum&#x60; request
+[**ValidateUpdateRumMetric**](CalculatedMetricsWebApplicationsApi.md#ValidateUpdateRumMetric) | **Post** /calculatedMetrics/rum/{metricKey}/validator | Validates the payload for the &#x60;PUT /calculatedMetrics/rum/{metricKey}&#x60; request
 
 
 
-## Create1
+## CreateRumMetric
 
-> EntityShortRepresentation Create1(ctx, optional)
+> EntityShortRepresentation CreateRumMetric(ctx).RumMetric(rumMetric).Execute()
 
-Stores the provided calculated RUM metric configuration. | maturity=EARLY_ADOPTER
+Creates a new calculated RUM metric
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    rumMetric := *openapiclient.NewRumMetric("ApplicationIdentifier_example", "Name_example", "MetricKey_example", false, *openapiclient.NewRumMetricDefinition("Metric_example")) // RumMetric | The JSON body of the request. Contains the definition of the new calculated RUM metric. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CalculatedMetricsWebApplicationsApi.CreateRumMetric(context.Background()).RumMetric(rumMetric).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CalculatedMetricsWebApplicationsApi.CreateRumMetric``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `CreateRumMetric`: EntityShortRepresentation
+    fmt.Fprintf(os.Stdout, "Response from `CalculatedMetricsWebApplicationsApi.CreateRumMetric`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateRumMetricRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***Create1Opts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a Create1Opts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **rumMetric** | [**optional.Interface of RumMetric**](RumMetric.md)| JSON body of the request containing definition of the new calculated RUM metric. | 
+ **rumMetric** | [**RumMetric**](RumMetric.md) | The JSON body of the request. Contains the definition of the new calculated RUM metric. | 
 
 ### Return type
 
@@ -43,7 +66,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -55,19 +78,53 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## Delete3
+## DeleteRumMetric
 
-> Delete3(ctx, metricKey)
+> DeleteRumMetric(ctx, metricKey).Execute()
 
-Deletes the calculated RUM metric configuration with the given id. | maturity=EARLY_ADOPTER
+Deletes the specified calculated RUM metric
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    metricKey := "metricKey_example" // string | The key of the metric to be deleted.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CalculatedMetricsWebApplicationsApi.DeleteRumMetric(context.Background(), metricKey).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CalculatedMetricsWebApplicationsApi.DeleteRumMetric``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**metricKey** | **string**| The ID of the calculated RUM metric to delete. | 
+**metricKey** | **string** | The key of the metric to be deleted. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteRumMetricRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -75,7 +132,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -87,19 +144,55 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetItem2
+## GetRumMetric
 
-> RumMetric GetItem2(ctx, metricKey)
+> RumMetric GetRumMetric(ctx, metricKey).Execute()
 
-Gets the definition of the specified calculated RUM metric. | maturity=EARLY_ADOPTER
+Gets the descriptor of the specified calculated RUM metric
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    metricKey := "metricKey_example" // string | The key of the required metric.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CalculatedMetricsWebApplicationsApi.GetRumMetric(context.Background(), metricKey).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CalculatedMetricsWebApplicationsApi.GetRumMetric``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetRumMetric`: RumMetric
+    fmt.Fprintf(os.Stdout, "Response from `CalculatedMetricsWebApplicationsApi.GetRumMetric`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**metricKey** | **string**| The ID of the calculated RUM metric you&#39;re inquiring. | 
+**metricKey** | **string** | The key of the required metric. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetRumMetricRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -107,7 +200,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -119,15 +212,46 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetList2
+## ListRumMetrics
 
-> StubList GetList2(ctx, )
+> StubList ListRumMetrics(ctx).Execute()
 
-Lists all calculated RUM metric configurations. | maturity=EARLY_ADOPTER
+Lists all calculated RUM metrics
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CalculatedMetricsWebApplicationsApi.ListRumMetrics(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CalculatedMetricsWebApplicationsApi.ListRumMetrics``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ListRumMetrics`: StubList
+    fmt.Fprintf(os.Stdout, "Response from `CalculatedMetricsWebApplicationsApi.ListRumMetrics`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiListRumMetricsRequest struct via the builder pattern
+
 
 ### Return type
 
@@ -135,7 +259,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -147,38 +271,63 @@ This endpoint does not need any parameter.
 [[Back to README]](../README.md)
 
 
-## Update1
+## UpdateRumMetric
 
-> EntityShortRepresentation Update1(ctx, metricKey, optional)
+> UpdateRumMetric(ctx, metricKey).RumMetricUpdate(rumMetricUpdate).Execute()
 
-Updates the specified calculated RUM metric. | maturity=EARLY_ADOPTER
+Updates the specified calculated RUM metric
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    metricKey := "metricKey_example" // string | The key of the calculated RUM metric to be updated.
+    rumMetricUpdate := *openapiclient.NewRumMetricUpdate() // RumMetricUpdate | The JSON body of the request. Contains the updated parameters of the calculated RUM metric. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CalculatedMetricsWebApplicationsApi.UpdateRumMetric(context.Background(), metricKey).RumMetricUpdate(rumMetricUpdate).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CalculatedMetricsWebApplicationsApi.UpdateRumMetric``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**metricKey** | **string**| The ID of the calculated RUM metric to update. | 
- **optional** | ***Update1Opts** | optional parameters | nil if no parameters
+**metricKey** | **string** | The key of the calculated RUM metric to be updated. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a Update1Opts struct
+Other parameters are passed through a pointer to a apiUpdateRumMetricRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **rumMetricUpdate** | [**optional.Interface of RumMetricUpdate**](RumMetricUpdate.md)| JSON body of the request containing updated definition of the calculated RUM metric. | 
+ **rumMetricUpdate** | [**RumMetricUpdate**](RumMetricUpdate.md) | The JSON body of the request. Contains the updated parameters of the calculated RUM metric. | 
 
 ### Return type
 
-[**EntityShortRepresentation**](EntityShortRepresentation.md)
+ (empty response body)
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -192,19 +341,49 @@ Name | Type | Description  | Notes
 
 ## ValidateCreateRumMetric
 
-> ValidateCreateRumMetric(ctx, rumMetric)
+> ValidateCreateRumMetric(ctx).RumMetric(rumMetric).Execute()
 
-Validates the payload for the `POST /calculatedMetrics/rum` request | maturity=EARLY_ADOPTER
+Validates the payload for the `POST /calculatedMetrics/rum` request
 
-The body must not provide an ID.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    rumMetric := *openapiclient.NewRumMetric("ApplicationIdentifier_example", "Name_example", "MetricKey_example", false, *openapiclient.NewRumMetricDefinition("Metric_example")) // RumMetric | The JSON body of the request. Contains the parameters of the calculated RUM metric to be validated. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CalculatedMetricsWebApplicationsApi.ValidateCreateRumMetric(context.Background()).RumMetric(rumMetric).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CalculatedMetricsWebApplicationsApi.ValidateCreateRumMetric``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateCreateRumMetricRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**rumMetric** | [**RumMetric**](RumMetric.md)|  | 
+ **rumMetric** | [**RumMetric**](RumMetric.md) | The JSON body of the request. Contains the parameters of the calculated RUM metric to be validated. | 
 
 ### Return type
 
@@ -212,7 +391,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -226,18 +405,53 @@ Name | Type | Description  | Notes
 
 ## ValidateUpdateRumMetric
 
-> ValidateUpdateRumMetric(ctx, metricKey, rumMetricUpdate)
+> ValidateUpdateRumMetric(ctx, metricKey).RumMetricUpdate(rumMetricUpdate).Execute()
 
-Validates the payload for the `PUT /calculatedMetrics/rum/{metricKey}` request | maturity=EARLY_ADOPTER
+Validates the payload for the `PUT /calculatedMetrics/rum/{metricKey}` request
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    metricKey := "metricKey_example" // string | The key of the calculated RUM metric to be validated.
+    rumMetricUpdate := *openapiclient.NewRumMetricUpdate() // RumMetricUpdate | The JSON body of the request. Contains the parameters of the calculated RUM metric to be validated. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CalculatedMetricsWebApplicationsApi.ValidateUpdateRumMetric(context.Background(), metricKey).RumMetricUpdate(rumMetricUpdate).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CalculatedMetricsWebApplicationsApi.ValidateUpdateRumMetric``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**metricKey** | **string**|  | 
-**rumMetricUpdate** | [**RumMetricUpdate**](RumMetricUpdate.md)|  | 
+**metricKey** | **string** | The key of the calculated RUM metric to be validated. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateUpdateRumMetricRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **rumMetricUpdate** | [**RumMetricUpdate**](RumMetricUpdate.md) | The JSON body of the request. Contains the parameters of the calculated RUM metric to be validated. | 
 
 ### Return type
 
@@ -245,7 +459,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 

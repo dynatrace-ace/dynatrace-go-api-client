@@ -1,6 +1,6 @@
 # \ReportsApi
 
-All URIs are relative to *https://nph08633.live.dynatrace.com/api/config/v1*
+All URIs are relative to *http://https:/api/config/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -18,30 +18,57 @@ Method | HTTP request | Description
 
 ## CreateOrUpdateReport
 
-> EntityShortRepresentation CreateOrUpdateReport(ctx, id, optional)
+> EntityShortRepresentation CreateOrUpdateReport(ctx, id).DashboardReport(dashboardReport).Execute()
 
 Updates an existing report | maturity=EARLY_ADOPTER
 
-If a report with the specified ID doesn't exist, a new report is created.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the report to be updated.    The ID in the request body must match this ID.
+    dashboardReport := *openapiclient.NewDashboardReport("Type_example", "DashboardId_example", *openapiclient.NewDashboardReportSubscription()) // DashboardReport | The JSON body of the request. Contains updated parameters of the report. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ReportsApi.CreateOrUpdateReport(context.Background(), id).DashboardReport(dashboardReport).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ReportsApi.CreateOrUpdateReport``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `CreateOrUpdateReport`: EntityShortRepresentation
+    fmt.Fprintf(os.Stdout, "Response from `ReportsApi.CreateOrUpdateReport`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the report to be updated.    The ID in the request body must match this ID. | 
- **optional** | ***CreateOrUpdateReportOpts** | optional parameters | nil if no parameters
+**id** | **string** | The ID of the report to be updated.    The ID in the request body must match this ID. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a CreateOrUpdateReportOpts struct
+Other parameters are passed through a pointer to a apiCreateOrUpdateReportRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **dashboardReport** | [**optional.Interface of DashboardReport**](DashboardReport.md)| The JSON body of the request. Contains updated parameters of the report. | 
+ **dashboardReport** | [**DashboardReport**](DashboardReport.md) | The JSON body of the request. Contains updated parameters of the report. | 
 
 ### Return type
 
@@ -49,7 +76,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -63,28 +90,51 @@ Name | Type | Description  | Notes
 
 ## CreateReport
 
-> EntityShortRepresentation CreateReport(ctx, optional)
+> EntityShortRepresentation CreateReport(ctx).DashboardReport(dashboardReport).Execute()
 
 Creates a report | maturity=EARLY_ADOPTER
 
-The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    dashboardReport := *openapiclient.NewDashboardReport("Type_example", "DashboardId_example", *openapiclient.NewDashboardReportSubscription()) // DashboardReport | The JSON body of the request. Contains parameters of the new report. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ReportsApi.CreateReport(context.Background()).DashboardReport(dashboardReport).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ReportsApi.CreateReport``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `CreateReport`: EntityShortRepresentation
+    fmt.Fprintf(os.Stdout, "Response from `ReportsApi.CreateReport`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateReportRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***CreateReportOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a CreateReportOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **dashboardReport** | [**optional.Interface of DashboardReport**](DashboardReport.md)| The JSON body of the request. Contains parameters of the new report. | 
+ **dashboardReport** | [**DashboardReport**](DashboardReport.md) | The JSON body of the request. Contains parameters of the new report. | 
 
 ### Return type
 
@@ -92,7 +142,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -106,17 +156,51 @@ Name | Type | Description  | Notes
 
 ## DeleteReport
 
-> DeleteReport(ctx, id)
+> DeleteReport(ctx, id).Execute()
 
 Deletes the specified report | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the report to be deleted.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ReportsApi.DeleteReport(context.Background(), id).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ReportsApi.DeleteReport``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the report to be deleted. | 
+**id** | **string** | The ID of the report to be deleted. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteReportRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -124,7 +208,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -138,17 +222,53 @@ Name | Type | Description  | Notes
 
 ## GetReport
 
-> DashboardReport GetReport(ctx, id)
+> DashboardReport GetReport(ctx, id).Execute()
 
 Gets the properties of the specified report | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the required report.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ReportsApi.GetReport(context.Background(), id).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ReportsApi.GetReport``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetReport`: DashboardReport
+    fmt.Fprintf(os.Stdout, "Response from `ReportsApi.GetReport`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the required report. | 
+**id** | **string** | The ID of the required report. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetReportRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -156,7 +276,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -170,27 +290,51 @@ Name | Type | Description  | Notes
 
 ## ListReports
 
-> ReportStubList ListReports(ctx, optional)
+> ReportStubList ListReports(ctx).Type_(type_).SourceId(sourceId).Execute()
 
 Lists all reports available in your environment | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    type_ := "type__example" // string | Type of a report. (optional)
+    sourceId := "sourceId_example" // string | Referencing source entity of a report (e.g. dashboard). (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ReportsApi.ListReports(context.Background()).Type_(type_).SourceId(sourceId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ReportsApi.ListReports``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ListReports`: ReportStubList
+    fmt.Fprintf(os.Stdout, "Response from `ReportsApi.ListReports`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiListReportsRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***ListReportsOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a ListReportsOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **type_** | **optional.String**| Type of a report. | 
- **sourceId** | **optional.String**| Referencing source entity of a report (e.g. dashboard). | 
+ **type_** | **string** | Type of a report. | 
+ **sourceId** | **string** | Referencing source entity of a report (e.g. dashboard). | 
 
 ### Return type
 
@@ -198,7 +342,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -212,28 +356,55 @@ Name | Type | Description  | Notes
 
 ## SubscribeReport
 
-> EntityShortRepresentation SubscribeReport(ctx, id, optional)
+> EntityShortRepresentation SubscribeReport(ctx, id).ReportSubscriptions(reportSubscriptions).Execute()
 
 Subscribes to the specified report | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the report to subscribe to.
+    reportSubscriptions := *openapiclient.NewReportSubscriptions("Schedule_example", []string{"Recipients_example"}) // ReportSubscriptions | The JSON body of the request. Contains a list of new subscribers. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ReportsApi.SubscribeReport(context.Background(), id).ReportSubscriptions(reportSubscriptions).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ReportsApi.SubscribeReport``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `SubscribeReport`: EntityShortRepresentation
+    fmt.Fprintf(os.Stdout, "Response from `ReportsApi.SubscribeReport`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the report to subscribe to. | 
- **optional** | ***SubscribeReportOpts** | optional parameters | nil if no parameters
+**id** | **string** | The ID of the report to subscribe to. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a SubscribeReportOpts struct
+Other parameters are passed through a pointer to a apiSubscribeReportRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **reportSubscriptions** | [**optional.Interface of ReportSubscriptions**](ReportSubscriptions.md)| The JSON body of the request. Contains a list of new subscribers. | 
+ **reportSubscriptions** | [**ReportSubscriptions**](ReportSubscriptions.md) | The JSON body of the request. Contains a list of new subscribers. | 
 
 ### Return type
 
@@ -241,7 +412,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -255,28 +426,55 @@ Name | Type | Description  | Notes
 
 ## UnsubscribeReport
 
-> EntityShortRepresentation UnsubscribeReport(ctx, id, optional)
+> EntityShortRepresentation UnsubscribeReport(ctx, id).ReportSubscriptions(reportSubscriptions).Execute()
 
 Unsubscribes from the specified report | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the report to unsubscribe from.
+    reportSubscriptions := *openapiclient.NewReportSubscriptions("Schedule_example", []string{"Recipients_example"}) // ReportSubscriptions | The JSON body of the request. Contains a list of recipients to be unsubscribed. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ReportsApi.UnsubscribeReport(context.Background(), id).ReportSubscriptions(reportSubscriptions).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ReportsApi.UnsubscribeReport``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `UnsubscribeReport`: EntityShortRepresentation
+    fmt.Fprintf(os.Stdout, "Response from `ReportsApi.UnsubscribeReport`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the report to unsubscribe from. | 
- **optional** | ***UnsubscribeReportOpts** | optional parameters | nil if no parameters
+**id** | **string** | The ID of the report to unsubscribe from. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a UnsubscribeReportOpts struct
+Other parameters are passed through a pointer to a apiUnsubscribeReportRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **reportSubscriptions** | [**optional.Interface of ReportSubscriptions**](ReportSubscriptions.md)| The JSON body of the request. Contains a list of recipients to be unsubscribed. | 
+ **reportSubscriptions** | [**ReportSubscriptions**](ReportSubscriptions.md) | The JSON body of the request. Contains a list of recipients to be unsubscribed. | 
 
 ### Return type
 
@@ -284,7 +482,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -298,28 +496,53 @@ Name | Type | Description  | Notes
 
 ## ValidateCreateOrUpdateReport
 
-> ValidateCreateOrUpdateReport(ctx, id, optional)
+> ValidateCreateOrUpdateReport(ctx, id).DashboardReport(dashboardReport).Execute()
 
 Validates the payload for the `PUT /reports/{id}` request | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the report to be validated.    The ID in the request body must match this ID.
+    dashboardReport := *openapiclient.NewDashboardReport("Type_example", "DashboardId_example", *openapiclient.NewDashboardReportSubscription()) // DashboardReport | The JSON body of the request. Contains the report to be validated. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ReportsApi.ValidateCreateOrUpdateReport(context.Background(), id).DashboardReport(dashboardReport).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ReportsApi.ValidateCreateOrUpdateReport``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the report to be validated.    The ID in the request body must match this ID. | 
- **optional** | ***ValidateCreateOrUpdateReportOpts** | optional parameters | nil if no parameters
+**id** | **string** | The ID of the report to be validated.    The ID in the request body must match this ID. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a ValidateCreateOrUpdateReportOpts struct
+Other parameters are passed through a pointer to a apiValidateCreateOrUpdateReportRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **dashboardReport** | [**optional.Interface of DashboardReport**](DashboardReport.md)| The JSON body of the request. Contains the report to be validated. | 
+ **dashboardReport** | [**DashboardReport**](DashboardReport.md) | The JSON body of the request. Contains the report to be validated. | 
 
 ### Return type
 
@@ -327,7 +550,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -341,28 +564,49 @@ Name | Type | Description  | Notes
 
 ## ValidateCreateReport
 
-> ValidateCreateReport(ctx, optional)
+> ValidateCreateReport(ctx).DashboardReport(dashboardReport).Execute()
 
 Validates the payload for the `POST /reports` request | maturity=EARLY_ADOPTER
 
-The body must not provide an ID.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    dashboardReport := *openapiclient.NewDashboardReport("Type_example", "DashboardId_example", *openapiclient.NewDashboardReportSubscription()) // DashboardReport | The JSON body of the request. Contains the report to be validated. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ReportsApi.ValidateCreateReport(context.Background()).DashboardReport(dashboardReport).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ReportsApi.ValidateCreateReport``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateCreateReportRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***ValidateCreateReportOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a ValidateCreateReportOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **dashboardReport** | [**optional.Interface of DashboardReport**](DashboardReport.md)| The JSON body of the request. Contains the report to be validated. | 
+ **dashboardReport** | [**DashboardReport**](DashboardReport.md) | The JSON body of the request. Contains the report to be validated. | 
 
 ### Return type
 
@@ -370,7 +614,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 

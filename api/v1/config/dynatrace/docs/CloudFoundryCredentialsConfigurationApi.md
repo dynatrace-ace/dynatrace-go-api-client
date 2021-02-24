@@ -1,32 +1,64 @@
 # \CloudFoundryCredentialsConfigurationApi
 
-All URIs are relative to *https://nph08633.live.dynatrace.com/api/config/v1*
+All URIs are relative to *http://https:/api/config/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateConfig1**](CloudFoundryCredentialsConfigurationApi.md#CreateConfig1) | **Post** /cloudFoundry/credentials | Create new credentials for a single foundation. | maturity&#x3D;EARLY_ADOPTER
-[**DeleteConfig1**](CloudFoundryCredentialsConfigurationApi.md#DeleteConfig1) | **Delete** /cloudFoundry/credentials/{id} | Delete the specified Cloud Foundry foundation credentials. | maturity&#x3D;EARLY_ADOPTER
-[**GetConfig2**](CloudFoundryCredentialsConfigurationApi.md#GetConfig2) | **Get** /cloudFoundry/credentials/{id} | Show the properties for the specified Cloud Foundry foundation credentials. | maturity&#x3D;EARLY_ADOPTER
-[**ListConfigs**](CloudFoundryCredentialsConfigurationApi.md#ListConfigs) | **Get** /cloudFoundry/credentials | List all the Cloud Foundry foundations credentials. | maturity&#x3D;EARLY_ADOPTER
-[**UpdateConfig**](CloudFoundryCredentialsConfigurationApi.md#UpdateConfig) | **Put** /cloudFoundry/credentials/{id} | Create or update credentials for a single Cloud Foundry foundation. | maturity&#x3D;EARLY_ADOPTER
-[**ValidatePOSTConfig**](CloudFoundryCredentialsConfigurationApi.md#ValidatePOSTConfig) | **Post** /cloudFoundry/credentials/validator | Validate that creating credentials would be successful. | maturity&#x3D;EARLY_ADOPTER
-[**ValidatePUTConfig**](CloudFoundryCredentialsConfigurationApi.md#ValidatePUTConfig) | **Post** /cloudFoundry/credentials/{id}/validator | Validate that updating or creating credentials would be successful. | maturity&#x3D;EARLY_ADOPTER
+[**CreateCloudFoundryCredentialsConfig**](CloudFoundryCredentialsConfigurationApi.md#CreateCloudFoundryCredentialsConfig) | **Post** /cloudFoundry/credentials | Create new credentials for a single foundation. | maturity&#x3D;EARLY_ADOPTER
+[**DeleteCloudFoundryCredentialsConfig**](CloudFoundryCredentialsConfigurationApi.md#DeleteCloudFoundryCredentialsConfig) | **Delete** /cloudFoundry/credentials/{id} | Delete the specified Cloud Foundry foundation credentials. | maturity&#x3D;EARLY_ADOPTER
+[**GetCloudFoundryCredentialsConfig**](CloudFoundryCredentialsConfigurationApi.md#GetCloudFoundryCredentialsConfig) | **Get** /cloudFoundry/credentials/{id} | Show the properties for the specified Cloud Foundry foundation credentials. | maturity&#x3D;EARLY_ADOPTER
+[**ListCloudFoundryCredentialsConfigs**](CloudFoundryCredentialsConfigurationApi.md#ListCloudFoundryCredentialsConfigs) | **Get** /cloudFoundry/credentials | List all the Cloud Foundry foundations credentials. | maturity&#x3D;EARLY_ADOPTER
+[**UpdateCloudFoundryCredentialsConfig**](CloudFoundryCredentialsConfigurationApi.md#UpdateCloudFoundryCredentialsConfig) | **Put** /cloudFoundry/credentials/{id} | Create or update credentials for a single Cloud Foundry foundation. | maturity&#x3D;EARLY_ADOPTER
+[**ValidateCreateCloudFoundryCredentialsConfig**](CloudFoundryCredentialsConfigurationApi.md#ValidateCreateCloudFoundryCredentialsConfig) | **Post** /cloudFoundry/credentials/validator | Validate that creating credentials would be successful. | maturity&#x3D;EARLY_ADOPTER
+[**ValidateUpdateCloudFoundryCredentialsConfig**](CloudFoundryCredentialsConfigurationApi.md#ValidateUpdateCloudFoundryCredentialsConfig) | **Post** /cloudFoundry/credentials/{id}/validator | Validate that updating or creating credentials would be successful. | maturity&#x3D;EARLY_ADOPTER
 
 
 
-## CreateConfig1
+## CreateCloudFoundryCredentialsConfig
 
-> EntityShortRepresentation CreateConfig1(ctx, cloudFoundryCredentials)
+> EntityShortRepresentation CreateCloudFoundryCredentialsConfig(ctx).CloudFoundryCredentials(cloudFoundryCredentials).Execute()
 
 Create new credentials for a single foundation. | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    cloudFoundryCredentials := *openapiclient.NewCloudFoundryCredentials("Name_example", "ApiUrl_example", "LoginUrl_example", "Username_example") // CloudFoundryCredentials | `name`, `apiUrl` and `loginUrl` must be unique.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CloudFoundryCredentialsConfigurationApi.CreateCloudFoundryCredentialsConfig(context.Background()).CloudFoundryCredentials(cloudFoundryCredentials).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CloudFoundryCredentialsConfigurationApi.CreateCloudFoundryCredentialsConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `CreateCloudFoundryCredentialsConfig`: EntityShortRepresentation
+    fmt.Fprintf(os.Stdout, "Response from `CloudFoundryCredentialsConfigurationApi.CreateCloudFoundryCredentialsConfig`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateCloudFoundryCredentialsConfigRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**cloudFoundryCredentials** | [**CloudFoundryCredentials**](CloudFoundryCredentials.md)| &#x60;name&#x60;, &#x60;apiUrl&#x60; and &#x60;loginUrl&#x60; must be unique. | 
+ **cloudFoundryCredentials** | [**CloudFoundryCredentials**](CloudFoundryCredentials.md) | &#x60;name&#x60;, &#x60;apiUrl&#x60; and &#x60;loginUrl&#x60; must be unique. | 
 
 ### Return type
 
@@ -34,7 +66,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -46,19 +78,53 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## DeleteConfig1
+## DeleteCloudFoundryCredentialsConfig
 
-> DeleteConfig1(ctx, id)
+> DeleteCloudFoundryCredentialsConfig(ctx, id).Execute()
 
 Delete the specified Cloud Foundry foundation credentials. | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the Cloud Foundry foundation credentials to be deleted.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CloudFoundryCredentialsConfigurationApi.DeleteCloudFoundryCredentialsConfig(context.Background(), id).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CloudFoundryCredentialsConfigurationApi.DeleteCloudFoundryCredentialsConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the Cloud Foundry foundation credentials to be deleted. | 
+**id** | **string** | The ID of the Cloud Foundry foundation credentials to be deleted. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteCloudFoundryCredentialsConfigRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -66,7 +132,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -78,19 +144,55 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetConfig2
+## GetCloudFoundryCredentialsConfig
 
-> CloudFoundryCredentials GetConfig2(ctx, id)
+> CloudFoundryCredentials GetCloudFoundryCredentialsConfig(ctx, id).Execute()
 
 Show the properties for the specified Cloud Foundry foundation credentials. | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the required Cloud Foundry foundation credentials.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CloudFoundryCredentialsConfigurationApi.GetCloudFoundryCredentialsConfig(context.Background(), id).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CloudFoundryCredentialsConfigurationApi.GetCloudFoundryCredentialsConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetCloudFoundryCredentialsConfig`: CloudFoundryCredentials
+    fmt.Fprintf(os.Stdout, "Response from `CloudFoundryCredentialsConfigurationApi.GetCloudFoundryCredentialsConfig`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the required Cloud Foundry foundation credentials. | 
+**id** | **string** | The ID of the required Cloud Foundry foundation credentials. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetCloudFoundryCredentialsConfigRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -98,7 +200,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -110,15 +212,46 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ListConfigs
+## ListCloudFoundryCredentialsConfigs
 
-> StubList ListConfigs(ctx, )
+> StubList ListCloudFoundryCredentialsConfigs(ctx).Execute()
 
 List all the Cloud Foundry foundations credentials. | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CloudFoundryCredentialsConfigurationApi.ListCloudFoundryCredentialsConfigs(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CloudFoundryCredentialsConfigurationApi.ListCloudFoundryCredentialsConfigs``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ListCloudFoundryCredentialsConfigs`: StubList
+    fmt.Fprintf(os.Stdout, "Response from `CloudFoundryCredentialsConfigurationApi.ListCloudFoundryCredentialsConfigs`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiListCloudFoundryCredentialsConfigsRequest struct via the builder pattern
+
 
 ### Return type
 
@@ -126,7 +259,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -138,20 +271,57 @@ This endpoint does not need any parameter.
 [[Back to README]](../README.md)
 
 
-## UpdateConfig
+## UpdateCloudFoundryCredentialsConfig
 
-> EntityShortRepresentation UpdateConfig(ctx, id, cloudFoundryCredentials)
+> EntityShortRepresentation UpdateCloudFoundryCredentialsConfig(ctx, id).CloudFoundryCredentials(cloudFoundryCredentials).Execute()
 
 Create or update credentials for a single Cloud Foundry foundation. | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the Cloud Foundry foundation credentials.
+    cloudFoundryCredentials := *openapiclient.NewCloudFoundryCredentials("Name_example", "ApiUrl_example", "LoginUrl_example", "Username_example") // CloudFoundryCredentials | `name` must be unique. `password` can be omitted for updates, the existing one will be used. `apiUrl` and `loginUrl` must be set and may not differ from the existing config if it exists. Use this endpoint for copying credentials between environments while keeping their IDs and for updating existing credentials. You can *not* use this to create new credentials with an arbitrary ID, use POST instead.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CloudFoundryCredentialsConfigurationApi.UpdateCloudFoundryCredentialsConfig(context.Background(), id).CloudFoundryCredentials(cloudFoundryCredentials).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CloudFoundryCredentialsConfigurationApi.UpdateCloudFoundryCredentialsConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `UpdateCloudFoundryCredentialsConfig`: EntityShortRepresentation
+    fmt.Fprintf(os.Stdout, "Response from `CloudFoundryCredentialsConfigurationApi.UpdateCloudFoundryCredentialsConfig`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the Cloud Foundry foundation credentials. | 
-**cloudFoundryCredentials** | [**CloudFoundryCredentials**](CloudFoundryCredentials.md)| &#x60;name&#x60; must be unique. &#x60;password&#x60; can be omitted for updates, the existing one will be used. &#x60;apiUrl&#x60; and &#x60;loginUrl&#x60; must be set and may not differ from the existing config if it exists. Use this endpoint for copying credentials between environments while keeping their IDs and for updating existing credentials. You can *not* use this to create new credentials with an arbitrary ID, use POST instead. | 
+**id** | **string** | The ID of the Cloud Foundry foundation credentials. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateCloudFoundryCredentialsConfigRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **cloudFoundryCredentials** | [**CloudFoundryCredentials**](CloudFoundryCredentials.md) | &#x60;name&#x60; must be unique. &#x60;password&#x60; can be omitted for updates, the existing one will be used. &#x60;apiUrl&#x60; and &#x60;loginUrl&#x60; must be set and may not differ from the existing config if it exists. Use this endpoint for copying credentials between environments while keeping their IDs and for updating existing credentials. You can *not* use this to create new credentials with an arbitrary ID, use POST instead. | 
 
 ### Return type
 
@@ -159,7 +329,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -171,19 +341,49 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ValidatePOSTConfig
+## ValidateCreateCloudFoundryCredentialsConfig
 
-> ValidatePOSTConfig(ctx, cloudFoundryCredentials)
+> ValidateCreateCloudFoundryCredentialsConfig(ctx).CloudFoundryCredentials(cloudFoundryCredentials).Execute()
 
 Validate that creating credentials would be successful. | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    cloudFoundryCredentials := *openapiclient.NewCloudFoundryCredentials("Name_example", "ApiUrl_example", "LoginUrl_example", "Username_example") // CloudFoundryCredentials | `name`, `apiUrl` and `loginUrl` must be unique.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CloudFoundryCredentialsConfigurationApi.ValidateCreateCloudFoundryCredentialsConfig(context.Background()).CloudFoundryCredentials(cloudFoundryCredentials).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CloudFoundryCredentialsConfigurationApi.ValidateCreateCloudFoundryCredentialsConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateCreateCloudFoundryCredentialsConfigRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**cloudFoundryCredentials** | [**CloudFoundryCredentials**](CloudFoundryCredentials.md)| &#x60;name&#x60;, &#x60;apiUrl&#x60; and &#x60;loginUrl&#x60; must be unique. | 
+ **cloudFoundryCredentials** | [**CloudFoundryCredentials**](CloudFoundryCredentials.md) | &#x60;name&#x60;, &#x60;apiUrl&#x60; and &#x60;loginUrl&#x60; must be unique. | 
 
 ### Return type
 
@@ -191,7 +391,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -203,20 +403,55 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ValidatePUTConfig
+## ValidateUpdateCloudFoundryCredentialsConfig
 
-> ValidatePUTConfig(ctx, id, cloudFoundryCredentials)
+> ValidateUpdateCloudFoundryCredentialsConfig(ctx, id).CloudFoundryCredentials(cloudFoundryCredentials).Execute()
 
 Validate that updating or creating credentials would be successful. | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | The ID of the Cloud Foundry foundation credentials.
+    cloudFoundryCredentials := *openapiclient.NewCloudFoundryCredentials("Name_example", "ApiUrl_example", "LoginUrl_example", "Username_example") // CloudFoundryCredentials | `name` must be unique. `password` can be omitted for updates. See the constraints for the PUT /cloudFoundry/credentials/{id} request.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CloudFoundryCredentialsConfigurationApi.ValidateUpdateCloudFoundryCredentialsConfig(context.Background(), id).CloudFoundryCredentials(cloudFoundryCredentials).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CloudFoundryCredentialsConfigurationApi.ValidateUpdateCloudFoundryCredentialsConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string**| The ID of the Cloud Foundry foundation credentials. | 
-**cloudFoundryCredentials** | [**CloudFoundryCredentials**](CloudFoundryCredentials.md)| &#x60;name&#x60; must be unique. &#x60;password&#x60; can be omitted for updates. See the constraints for the PUT /cloudFoundry/credentials/{id} request. | 
+**id** | **string** | The ID of the Cloud Foundry foundation credentials. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateUpdateCloudFoundryCredentialsConfigRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **cloudFoundryCredentials** | [**CloudFoundryCredentials**](CloudFoundryCredentials.md) | &#x60;name&#x60; must be unique. &#x60;password&#x60; can be omitted for updates. See the constraints for the PUT /cloudFoundry/credentials/{id} request. | 
 
 ### Return type
 
@@ -224,7 +459,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 

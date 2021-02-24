@@ -1,36 +1,138 @@
 # \ServiceRequestNamingApi
 
-All URIs are relative to *https://nph08633.live.dynatrace.com/api/config/v1*
+All URIs are relative to *http://https:/api/config/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**Delete6**](ServiceRequestNamingApi.md#Delete6) | **Delete** /service/requestNaming/{id} | Deletes the specified request naming rule
+[**CreateRequestNaming**](ServiceRequestNamingApi.md#CreateRequestNaming) | **Post** /service/requestNaming | Creates a new request naming rule
+[**DeleteRequestNaming**](ServiceRequestNamingApi.md#DeleteRequestNaming) | **Delete** /service/requestNaming/{id} | Deletes the specified request naming rule
 [**Get**](ServiceRequestNamingApi.md#Get) | **Get** /service/resourceNaming | Lists the global service resource requests.
-[**GetItem5**](ServiceRequestNamingApi.md#GetItem5) | **Get** /service/requestNaming/{id} | Gets the parameters of the specified request naming rule
-[**GetList5**](ServiceRequestNamingApi.md#GetList5) | **Get** /service/requestNaming | Lists all request naming rules along with their parameters
-[**Post2**](ServiceRequestNamingApi.md#Post2) | **Post** /service/requestNaming | Creates a new request naming rule
-[**Put1**](ServiceRequestNamingApi.md#Put1) | **Put** /service/requestNaming/{id} | Updates the specified request naming rule
-[**Put2**](ServiceRequestNamingApi.md#Put2) | **Put** /service/resourceNaming | Updates the global service resource requests.
-[**ReorderList2**](ServiceRequestNamingApi.md#ReorderList2) | **Put** /service/requestNaming/order | Reorders the request namings
+[**GetRequestNaming**](ServiceRequestNamingApi.md#GetRequestNaming) | **Get** /service/requestNaming/{id} | Gets the parameters of the specified request naming rule
+[**ListRequestNaming**](ServiceRequestNamingApi.md#ListRequestNaming) | **Get** /service/requestNaming | Lists all request naming rules along with their parameters
+[**OrderRequestNaming**](ServiceRequestNamingApi.md#OrderRequestNaming) | **Put** /service/requestNaming/order | Reorders the request namings
+[**Put**](ServiceRequestNamingApi.md#Put) | **Put** /service/resourceNaming | Updates the global service resource requests.
+[**UpdateRequestNaming**](ServiceRequestNamingApi.md#UpdateRequestNaming) | **Put** /service/requestNaming/{id} | Updates the specified request naming rule
 [**Validate**](ServiceRequestNamingApi.md#Validate) | **Post** /service/resourceNaming/validator | Validates new resource requests settings for the &#x60;PUT /service/resourceRequest&#x60; request.
-[**ValidateItem3**](ServiceRequestNamingApi.md#ValidateItem3) | **Post** /service/requestNaming/validator | Validates the new request naming rule for the &#x60;POST /requestNaming&#x60; request
-[**ValidatePut1**](ServiceRequestNamingApi.md#ValidatePut1) | **Post** /service/requestNaming/{id}/validator | Validates the new request naming for the &#x60;PUT /requestNaming/{id}&#x60; request
+[**ValidateCreateRequestNaming**](ServiceRequestNamingApi.md#ValidateCreateRequestNaming) | **Post** /service/requestNaming/validator | Validates the new request naming rule for the &#x60;POST /requestNaming&#x60; request
+[**ValidateUpdateRequestNaming**](ServiceRequestNamingApi.md#ValidateUpdateRequestNaming) | **Post** /service/requestNaming/{id}/validator | Validates the new request naming for the &#x60;PUT /requestNaming/{id}&#x60; request
 
 
 
-## Delete6
+## CreateRequestNaming
 
-> Delete6(ctx, id)
+> EntityShortRepresentation CreateRequestNaming(ctx).Position(position).RequestNaming(requestNaming).Execute()
+
+Creates a new request naming rule
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    position := "position_example" // string | Order of the new request naming rule. Set to `PREPEND` to prepend it to the list, `APPEND` to append it. Defaults to `APPEND`. (optional) (default to "APPEND")
+    requestNaming := *openapiclient.NewRequestNaming(false, "NamingPattern_example", []openapiclient.Condition{*openapiclient.NewCondition("Attribute_example", *openapiclient.NewComparisonInfo(map[string]interface{}(123), false, "Type_example"))}) // RequestNaming | The JSON body of the request containing parameters of the new request naming rule.    You must not specify the ID of the rule! (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceRequestNamingApi.CreateRequestNaming(context.Background()).Position(position).RequestNaming(requestNaming).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceRequestNamingApi.CreateRequestNaming``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `CreateRequestNaming`: EntityShortRepresentation
+    fmt.Fprintf(os.Stdout, "Response from `ServiceRequestNamingApi.CreateRequestNaming`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateRequestNamingRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **position** | **string** | Order of the new request naming rule. Set to &#x60;PREPEND&#x60; to prepend it to the list, &#x60;APPEND&#x60; to append it. Defaults to &#x60;APPEND&#x60;. | [default to &quot;APPEND&quot;]
+ **requestNaming** | [**RequestNaming**](RequestNaming.md) | The JSON body of the request containing parameters of the new request naming rule.    You must not specify the ID of the rule! | 
+
+### Return type
+
+[**EntityShortRepresentation**](EntityShortRepresentation.md)
+
+### Authorization
+
+[Api-Token](../README.md#Api-Token)
+
+### HTTP request headers
+
+- **Content-Type**: application/json; charset=utf-8
+- **Accept**: application/json; charset=utf-8
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## DeleteRequestNaming
+
+> DeleteRequestNaming(ctx, id).Execute()
 
 Deletes the specified request naming rule
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := TODO // string | The ID of the request naming rule to be deleted.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceRequestNamingApi.DeleteRequestNaming(context.Background(), id).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceRequestNamingApi.DeleteRequestNaming``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md)| The ID of the request naming rule to be deleted. | 
+**id** | [**string**](.md) | The ID of the request naming rule to be deleted. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteRequestNamingRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -38,7 +140,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -52,15 +154,46 @@ Name | Type | Description  | Notes
 
 ## Get
 
-> ResourceNaming Get(ctx, )
+> ResourceNaming Get(ctx).Execute()
 
 Lists the global service resource requests.
 
-Lists all extensions which currently are renamed to e.g., `Image`
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceRequestNamingApi.Get(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceRequestNamingApi.Get``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `Get`: ResourceNaming
+    fmt.Fprintf(os.Stdout, "Response from `ServiceRequestNamingApi.Get`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetRequest struct via the builder pattern
+
 
 ### Return type
 
@@ -68,7 +201,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -80,19 +213,55 @@ This endpoint does not need any parameter.
 [[Back to README]](../README.md)
 
 
-## GetItem5
+## GetRequestNaming
 
-> RequestNaming GetItem5(ctx, id)
+> RequestNaming GetRequestNaming(ctx, id).Execute()
 
 Gets the parameters of the specified request naming rule
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := TODO // string | The ID of the request naming rule you're inquiring.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceRequestNamingApi.GetRequestNaming(context.Background(), id).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceRequestNamingApi.GetRequestNaming``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetRequestNaming`: RequestNaming
+    fmt.Fprintf(os.Stdout, "Response from `ServiceRequestNamingApi.GetRequestNaming`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md)| The ID of the request naming rule you&#39;re inquiring. | 
+**id** | [**string**](.md) | The ID of the request naming rule you&#39;re inquiring. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetRequestNamingRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -100,7 +269,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -112,15 +281,46 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetList5
+## ListRequestNaming
 
-> StubList GetList5(ctx, )
+> StubList ListRequestNaming(ctx).Execute()
 
 Lists all request naming rules along with their parameters
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceRequestNamingApi.ListRequestNaming(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceRequestNamingApi.ListRequestNaming``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ListRequestNaming`: StubList
+    fmt.Fprintf(os.Stdout, "Response from `ServiceRequestNamingApi.ListRequestNaming`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiListRequestNamingRequest struct via the builder pattern
+
 
 ### Return type
 
@@ -128,7 +328,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -140,153 +340,51 @@ This endpoint does not need any parameter.
 [[Back to README]](../README.md)
 
 
-## Post2
+## OrderRequestNaming
 
-> EntityShortRepresentation Post2(ctx, optional)
-
-Creates a new request naming rule
-
-The new rule goes to the end of the rules list and will be the last to evaluate. Existing rules remain unaffected.
-
-### Required Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***Post2Opts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a Post2Opts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **position** | **optional.String**| Order of the new request naming rule. Set to &#x60;PREPEND&#x60; to prepend it to the list, &#x60;APPEND&#x60; to append it. Defaults to &#x60;APPEND&#x60;. | [default to APPEND]
- **requestNaming** | [**optional.Interface of RequestNaming**](RequestNaming.md)| The JSON body of the request containing parameters of the new request naming rule.    You must not specify the ID of the rule! | 
-
-### Return type
-
-[**EntityShortRepresentation**](EntityShortRepresentation.md)
-
-### Authorization
-
-[WriteConfigToken](../README.md#WriteConfigToken)
-
-### HTTP request headers
-
-- **Content-Type**: application/json; charset=utf-8
-- **Accept**: application/json; charset=utf-8
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## Put1
-
-> EntityShortRepresentation Put1(ctx, id, optional)
-
-Updates the specified request naming rule
-
-If the rule with the specified ID doesn't exist, a new rule will be created at the end of the rules list and will be the last to evaluate.
-
-### Required Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md)| The ID of the request naming to be updated.   The ID of the request naming in the body of the request must match this ID. | 
- **optional** | ***Put1Opts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a Put1Opts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **requestNaming** | [**optional.Interface of RequestNaming**](RequestNaming.md)| The JSON body of the request containing updated parameters of the request naming. | 
-
-### Return type
-
-[**EntityShortRepresentation**](EntityShortRepresentation.md)
-
-### Authorization
-
-[WriteConfigToken](../README.md#WriteConfigToken)
-
-### HTTP request headers
-
-- **Content-Type**: application/json; charset=utf-8
-- **Accept**: application/json; charset=utf-8
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## Put2
-
-> Put2(ctx, resourceNaming)
-
-Updates the global service resource requests.
-
-Update all extensions which are renamed to `Image` or `Binary`
-
-### Required Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**resourceNaming** | [**ResourceNaming**](ResourceNaming.md)|  | 
-
-### Return type
-
- (empty response body)
-
-### Authorization
-
-[WriteConfigToken](../README.md#WriteConfigToken)
-
-### HTTP request headers
-
-- **Content-Type**: application/json; charset=utf-8
-- **Accept**: application/json; charset=utf-8
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## ReorderList2
-
-> ReorderList2(ctx, optional)
+> OrderRequestNaming(ctx).StubList(stubList).Execute()
 
 Reorders the request namings
 
-This request reorders the request namings according to the given list of IDs. Request namings not present in the body of the request will retain their relative ordering but will be ordered *after* all those present in the request.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    stubList := *openapiclient.NewStubList([]openapiclient.EntityShortRepresentation{*openapiclient.NewEntityShortRepresentation("Id_example")}) // StubList | JSON body of the request containing the IDs of the request naming rules in the desired order. Any further properties (*name*, *description*) will be ignored. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceRequestNamingApi.OrderRequestNaming(context.Background()).StubList(stubList).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceRequestNamingApi.OrderRequestNaming``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiOrderRequestNamingRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***ReorderList2Opts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a ReorderList2Opts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **stubList** | [**optional.Interface of StubList**](StubList.md)| JSON body of the request containing the IDs of the request naming rules in the desired order. Any further properties (*name*, *description*) will be ignored. | 
+ **stubList** | [**StubList**](StubList.md) | JSON body of the request containing the IDs of the request naming rules in the desired order. Any further properties (*name*, *description*) will be ignored. | 
 
 ### Return type
 
@@ -294,7 +392,143 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
+
+### HTTP request headers
+
+- **Content-Type**: application/json; charset=utf-8
+- **Accept**: application/json; charset=utf-8
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## Put
+
+> Put(ctx).ResourceNaming(resourceNaming).Execute()
+
+Updates the global service resource requests.
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    resourceNaming := *openapiclient.NewResourceNaming([]string{"Image_example"}, []string{"Binary_example"}) // ResourceNaming | 
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceRequestNamingApi.Put(context.Background()).ResourceNaming(resourceNaming).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceRequestNamingApi.Put``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiPutRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **resourceNaming** | [**ResourceNaming**](ResourceNaming.md) |  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[Api-Token](../README.md#Api-Token)
+
+### HTTP request headers
+
+- **Content-Type**: application/json; charset=utf-8
+- **Accept**: application/json; charset=utf-8
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UpdateRequestNaming
+
+> EntityShortRepresentation UpdateRequestNaming(ctx, id).RequestNaming(requestNaming).Execute()
+
+Updates the specified request naming rule
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := TODO // string | The ID of the request naming to be updated.   The ID of the request naming in the body of the request must match this ID.
+    requestNaming := *openapiclient.NewRequestNaming(false, "NamingPattern_example", []openapiclient.Condition{*openapiclient.NewCondition("Attribute_example", *openapiclient.NewComparisonInfo(map[string]interface{}(123), false, "Type_example"))}) // RequestNaming | The JSON body of the request containing updated parameters of the request naming. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceRequestNamingApi.UpdateRequestNaming(context.Background(), id).RequestNaming(requestNaming).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceRequestNamingApi.UpdateRequestNaming``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `UpdateRequestNaming`: EntityShortRepresentation
+    fmt.Fprintf(os.Stdout, "Response from `ServiceRequestNamingApi.UpdateRequestNaming`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**id** | [**string**](.md) | The ID of the request naming to be updated.   The ID of the request naming in the body of the request must match this ID. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateRequestNamingRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **requestNaming** | [**RequestNaming**](RequestNaming.md) | The JSON body of the request containing updated parameters of the request naming. | 
+
+### Return type
+
+[**EntityShortRepresentation**](EntityShortRepresentation.md)
+
+### Authorization
+
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -308,17 +542,47 @@ Name | Type | Description  | Notes
 
 ## Validate
 
-> Validate(ctx, resourceNaming)
+> Validate(ctx).ResourceNaming(resourceNaming).Execute()
 
 Validates new resource requests settings for the `PUT /service/resourceRequest` request.
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    resourceNaming := *openapiclient.NewResourceNaming([]string{"Image_example"}, []string{"Binary_example"}) // ResourceNaming | 
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceRequestNamingApi.Validate(context.Background()).ResourceNaming(resourceNaming).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceRequestNamingApi.Validate``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**resourceNaming** | [**ResourceNaming**](ResourceNaming.md)|  | 
+ **resourceNaming** | [**ResourceNaming**](ResourceNaming.md) |  | 
 
 ### Return type
 
@@ -326,7 +590,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -338,28 +602,49 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ValidateItem3
+## ValidateCreateRequestNaming
 
-> ValidateItem3(ctx, optional)
+> ValidateCreateRequestNaming(ctx).RequestNaming(requestNaming).Execute()
 
 Validates the new request naming rule for the `POST /requestNaming` request
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    requestNaming := *openapiclient.NewRequestNaming(false, "NamingPattern_example", []openapiclient.Condition{*openapiclient.NewCondition("Attribute_example", *openapiclient.NewComparisonInfo(map[string]interface{}(123), false, "Type_example"))}) // RequestNaming | The JSON body of the request containing parameters of the new request naming rule.    You must not specify the ID of the rule! (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceRequestNamingApi.ValidateCreateRequestNaming(context.Background()).RequestNaming(requestNaming).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceRequestNamingApi.ValidateCreateRequestNaming``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateCreateRequestNamingRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***ValidateItem3Opts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a ValidateItem3Opts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **requestNaming** | [**optional.Interface of RequestNaming**](RequestNaming.md)| The JSON body of the request containing parameters of the new request naming rule.    You must not specify the ID of the rule! | 
+ **requestNaming** | [**RequestNaming**](RequestNaming.md) | The JSON body of the request containing parameters of the new request naming rule.    You must not specify the ID of the rule! | 
 
 ### Return type
 
@@ -367,7 +652,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -379,32 +664,57 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ValidatePut1
+## ValidateUpdateRequestNaming
 
-> ValidatePut1(ctx, id, optional)
+> ValidateUpdateRequestNaming(ctx, id).RequestNaming(requestNaming).Execute()
 
 Validates the new request naming for the `PUT /requestNaming/{id}` request
 
-If the rule with the specified ID doesn't exist, a new rule will be created at the end of the rules list and will be the last to evaluate.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := TODO // string | The ID of the request naming to be updated.   The ID of the request naming in the body of the request must match this ID.
+    requestNaming := *openapiclient.NewRequestNaming(false, "NamingPattern_example", []openapiclient.Condition{*openapiclient.NewCondition("Attribute_example", *openapiclient.NewComparisonInfo(map[string]interface{}(123), false, "Type_example"))}) // RequestNaming | The JSON body of the request containing updated parameters of the request naming. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceRequestNamingApi.ValidateUpdateRequestNaming(context.Background(), id).RequestNaming(requestNaming).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceRequestNamingApi.ValidateUpdateRequestNaming``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md)| The ID of the request naming to be updated.   The ID of the request naming in the body of the request must match this ID. | 
- **optional** | ***ValidatePut1Opts** | optional parameters | nil if no parameters
+**id** | [**string**](.md) | The ID of the request naming to be updated.   The ID of the request naming in the body of the request must match this ID. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a ValidatePut1Opts struct
+Other parameters are passed through a pointer to a apiValidateUpdateRequestNamingRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **requestNaming** | [**optional.Interface of RequestNaming**](RequestNaming.md)| The JSON body of the request containing updated parameters of the request naming. | 
+ **requestNaming** | [**RequestNaming**](RequestNaming.md) | The JSON body of the request containing updated parameters of the request naming. | 
 
 ### Return type
 
@@ -412,7 +722,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 

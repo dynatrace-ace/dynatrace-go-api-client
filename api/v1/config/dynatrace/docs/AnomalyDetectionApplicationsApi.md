@@ -1,24 +1,55 @@
 # \AnomalyDetectionApplicationsApi
 
-All URIs are relative to *https://nph08633.live.dynatrace.com/api/config/v1*
+All URIs are relative to *http://https:/api/config/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetConfiguration**](AnomalyDetectionApplicationsApi.md#GetConfiguration) | **Get** /anomalyDetection/applications | Gets the configuration of anomaly detection for applications
-[**UpdateConfiguration**](AnomalyDetectionApplicationsApi.md#UpdateConfiguration) | **Put** /anomalyDetection/applications | Updates the configuration of anomaly detection for applications
-[**ValidateConfiguration**](AnomalyDetectionApplicationsApi.md#ValidateConfiguration) | **Post** /anomalyDetection/applications/validator | Validates the configuration of anomaly detection for applications for the &#x60;PUT /anomalyDetection/applications&#x60; request
+[**GetApplicationAnomalyDetectionConfig**](AnomalyDetectionApplicationsApi.md#GetApplicationAnomalyDetectionConfig) | **Get** /anomalyDetection/applications | Gets the configuration of anomaly detection for applications
+[**UpdateApplicationAnomalyDetectionConfig**](AnomalyDetectionApplicationsApi.md#UpdateApplicationAnomalyDetectionConfig) | **Put** /anomalyDetection/applications | Updates the configuration of anomaly detection for applications
+[**ValidateApplicationAnomalyDetectionConfig**](AnomalyDetectionApplicationsApi.md#ValidateApplicationAnomalyDetectionConfig) | **Post** /anomalyDetection/applications/validator | Validates the configuration of anomaly detection for applications for the &#x60;PUT /anomalyDetection/applications&#x60; request
 
 
 
-## GetConfiguration
+## GetApplicationAnomalyDetectionConfig
 
-> ApplicationAnomalyDetectionConfig GetConfiguration(ctx, )
+> ApplicationAnomalyDetectionConfig GetApplicationAnomalyDetectionConfig(ctx).Execute()
 
 Gets the configuration of anomaly detection for applications
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AnomalyDetectionApplicationsApi.GetApplicationAnomalyDetectionConfig(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AnomalyDetectionApplicationsApi.GetApplicationAnomalyDetectionConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetApplicationAnomalyDetectionConfig`: ApplicationAnomalyDetectionConfig
+    fmt.Fprintf(os.Stdout, "Response from `AnomalyDetectionApplicationsApi.GetApplicationAnomalyDetectionConfig`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetApplicationAnomalyDetectionConfigRequest struct via the builder pattern
+
 
 ### Return type
 
@@ -26,7 +57,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -38,28 +69,49 @@ This endpoint does not need any parameter.
 [[Back to README]](../README.md)
 
 
-## UpdateConfiguration
+## UpdateApplicationAnomalyDetectionConfig
 
-> UpdateConfiguration(ctx, optional)
+> UpdateApplicationAnomalyDetectionConfig(ctx).ApplicationAnomalyDetectionConfig(applicationAnomalyDetectionConfig).Execute()
 
 Updates the configuration of anomaly detection for applications
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    applicationAnomalyDetectionConfig := *openapiclient.NewApplicationAnomalyDetectionConfig(*openapiclient.NewResponseTimeDegradationDetectionConfig("DetectionMode_example"), *openapiclient.NewTrafficDropDetectionConfig(false), *openapiclient.NewTrafficSpikeDetectionConfig(false), *openapiclient.NewFailureRateIncreaseDetectionConfig("DetectionMode_example")) // ApplicationAnomalyDetectionConfig | The JSON body of the request, containing parameters of the application anomaly detection configuration. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AnomalyDetectionApplicationsApi.UpdateApplicationAnomalyDetectionConfig(context.Background()).ApplicationAnomalyDetectionConfig(applicationAnomalyDetectionConfig).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AnomalyDetectionApplicationsApi.UpdateApplicationAnomalyDetectionConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateApplicationAnomalyDetectionConfigRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***UpdateConfigurationOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a UpdateConfigurationOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **applicationAnomalyDetectionConfig** | [**optional.Interface of ApplicationAnomalyDetectionConfig**](ApplicationAnomalyDetectionConfig.md)| The JSON body of the request, containing parameters of the application anomaly detection configuration. | 
+ **applicationAnomalyDetectionConfig** | [**ApplicationAnomalyDetectionConfig**](ApplicationAnomalyDetectionConfig.md) | The JSON body of the request, containing parameters of the application anomaly detection configuration. | 
 
 ### Return type
 
@@ -67,7 +119,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -79,28 +131,49 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ValidateConfiguration
+## ValidateApplicationAnomalyDetectionConfig
 
-> ValidateConfiguration(ctx, optional)
+> ValidateApplicationAnomalyDetectionConfig(ctx).ApplicationAnomalyDetectionConfig(applicationAnomalyDetectionConfig).Execute()
 
 Validates the configuration of anomaly detection for applications for the `PUT /anomalyDetection/applications` request
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    applicationAnomalyDetectionConfig := *openapiclient.NewApplicationAnomalyDetectionConfig(*openapiclient.NewResponseTimeDegradationDetectionConfig("DetectionMode_example"), *openapiclient.NewTrafficDropDetectionConfig(false), *openapiclient.NewTrafficSpikeDetectionConfig(false), *openapiclient.NewFailureRateIncreaseDetectionConfig("DetectionMode_example")) // ApplicationAnomalyDetectionConfig | The JSON body of the request, containing parameters of the application anomaly detection configuration. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AnomalyDetectionApplicationsApi.ValidateApplicationAnomalyDetectionConfig(context.Background()).ApplicationAnomalyDetectionConfig(applicationAnomalyDetectionConfig).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AnomalyDetectionApplicationsApi.ValidateApplicationAnomalyDetectionConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateApplicationAnomalyDetectionConfigRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***ValidateConfigurationOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a ValidateConfigurationOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **applicationAnomalyDetectionConfig** | [**optional.Interface of ApplicationAnomalyDetectionConfig**](ApplicationAnomalyDetectionConfig.md)| The JSON body of the request, containing parameters of the application anomaly detection configuration. | 
+ **applicationAnomalyDetectionConfig** | [**ApplicationAnomalyDetectionConfig**](ApplicationAnomalyDetectionConfig.md) | The JSON body of the request, containing parameters of the application anomaly detection configuration. | 
 
 ### Return type
 
@@ -108,7 +181,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 

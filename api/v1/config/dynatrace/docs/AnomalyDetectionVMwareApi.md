@@ -1,6 +1,6 @@
 # \AnomalyDetectionVMwareApi
 
-All URIs are relative to *https://nph08633.live.dynatrace.com/api/config/v1*
+All URIs are relative to *http://https:/api/config/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -12,13 +12,44 @@ Method | HTTP request | Description
 
 ## GetVMwareAnomalyDetectionConfig
 
-> VMwareAnomalyDetectionConfig GetVMwareAnomalyDetectionConfig(ctx, )
+> VMwareAnomalyDetectionConfig GetVMwareAnomalyDetectionConfig(ctx).Execute()
 
 Gets the configuration of anomaly detection for VMware
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AnomalyDetectionVMwareApi.GetVMwareAnomalyDetectionConfig(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AnomalyDetectionVMwareApi.GetVMwareAnomalyDetectionConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetVMwareAnomalyDetectionConfig`: VMwareAnomalyDetectionConfig
+    fmt.Fprintf(os.Stdout, "Response from `AnomalyDetectionVMwareApi.GetVMwareAnomalyDetectionConfig`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetVMwareAnomalyDetectionConfigRequest struct via the builder pattern
+
 
 ### Return type
 
@@ -26,7 +57,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -40,26 +71,47 @@ This endpoint does not need any parameter.
 
 ## UpdateVMwareAnomalyDetectionConfig
 
-> UpdateVMwareAnomalyDetectionConfig(ctx, optional)
+> UpdateVMwareAnomalyDetectionConfig(ctx).VMwareAnomalyDetectionConfig(vMwareAnomalyDetectionConfig).Execute()
 
 Updates the configuration of anomaly detection for VMware
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    vMwareAnomalyDetectionConfig := *openapiclient.NewVMwareAnomalyDetectionConfig(*openapiclient.NewEsxiHighCpuSaturationConfig(false), *openapiclient.NewEsxiHighMemoryDetectionConfig(false), *openapiclient.NewOverloadedStorageDetectionConfig(false), *openapiclient.NewUndersizedStorageDetectionConfig(false), *openapiclient.NewSlowPhysicalStorageDetectionConfig(false), *openapiclient.NewDroppedPacketsDetectionConfig(false), *openapiclient.NewLowDatastoreSpaceDetectionConfig(false)) // VMwareAnomalyDetectionConfig | JSON body of the request, containing parameters of the VMware anomaly detection configuration. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AnomalyDetectionVMwareApi.UpdateVMwareAnomalyDetectionConfig(context.Background()).VMwareAnomalyDetectionConfig(vMwareAnomalyDetectionConfig).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AnomalyDetectionVMwareApi.UpdateVMwareAnomalyDetectionConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateVMwareAnomalyDetectionConfigRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***UpdateVMwareAnomalyDetectionConfigOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a UpdateVMwareAnomalyDetectionConfigOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **vMwareAnomalyDetectionConfig** | [**optional.Interface of VMwareAnomalyDetectionConfig**](VMwareAnomalyDetectionConfig.md)| JSON body of the request, containing parameters of the VMware anomaly detection configuration. | 
+ **vMwareAnomalyDetectionConfig** | [**VMwareAnomalyDetectionConfig**](VMwareAnomalyDetectionConfig.md) | JSON body of the request, containing parameters of the VMware anomaly detection configuration. | 
 
 ### Return type
 
@@ -67,7 +119,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -81,26 +133,47 @@ Name | Type | Description  | Notes
 
 ## ValidateVMwareAnomalyDetectionConfig
 
-> ValidateVMwareAnomalyDetectionConfig(ctx, optional)
+> ValidateVMwareAnomalyDetectionConfig(ctx).VMwareAnomalyDetectionConfig(vMwareAnomalyDetectionConfig).Execute()
 
 Validates the configuration of anomaly detection for VMware for the `PUT /anomalyDetection/vmware` request
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    vMwareAnomalyDetectionConfig := *openapiclient.NewVMwareAnomalyDetectionConfig(*openapiclient.NewEsxiHighCpuSaturationConfig(false), *openapiclient.NewEsxiHighMemoryDetectionConfig(false), *openapiclient.NewOverloadedStorageDetectionConfig(false), *openapiclient.NewUndersizedStorageDetectionConfig(false), *openapiclient.NewSlowPhysicalStorageDetectionConfig(false), *openapiclient.NewDroppedPacketsDetectionConfig(false), *openapiclient.NewLowDatastoreSpaceDetectionConfig(false)) // VMwareAnomalyDetectionConfig | JSON body of the request, containing parameters of the VMware anomaly detection configuration. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AnomalyDetectionVMwareApi.ValidateVMwareAnomalyDetectionConfig(context.Background()).VMwareAnomalyDetectionConfig(vMwareAnomalyDetectionConfig).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AnomalyDetectionVMwareApi.ValidateVMwareAnomalyDetectionConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateVMwareAnomalyDetectionConfigRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***ValidateVMwareAnomalyDetectionConfigOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a ValidateVMwareAnomalyDetectionConfigOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **vMwareAnomalyDetectionConfig** | [**optional.Interface of VMwareAnomalyDetectionConfig**](VMwareAnomalyDetectionConfig.md)| JSON body of the request, containing parameters of the VMware anomaly detection configuration. | 
+ **vMwareAnomalyDetectionConfig** | [**VMwareAnomalyDetectionConfig**](VMwareAnomalyDetectionConfig.md) | JSON body of the request, containing parameters of the VMware anomaly detection configuration. | 
 
 ### Return type
 
@@ -108,7 +181,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 

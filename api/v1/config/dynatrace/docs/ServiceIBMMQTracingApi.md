@@ -1,6 +1,6 @@
 # \ServiceIBMMQTracingApi
 
-All URIs are relative to *https://nph08633.live.dynatrace.com/api/config/v1*
+All URIs are relative to *http://https:/api/config/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -21,28 +21,51 @@ Method | HTTP request | Description
 
 ## CreateImsEntryQueue
 
-> EntityShortRepresentation CreateImsEntryQueue(ctx, optional)
+> EntityShortRepresentation CreateImsEntryQueue(ctx).IbmMQImsEntryQueue(ibmMQImsEntryQueue).Execute()
 
 Creates an IBM IMS entry queue
 
-The body must not provide an ID as it will be automatically assigned by the Dynatrace server.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    ibmMQImsEntryQueue := *openapiclient.NewIbmMQImsEntryQueue("QueueManagerName_example", "QueueName_example") // IbmMQImsEntryQueue | JSON body of the request, containing parameters of the new IBM IMS entry queue. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceIBMMQTracingApi.CreateImsEntryQueue(context.Background()).IbmMQImsEntryQueue(ibmMQImsEntryQueue).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceIBMMQTracingApi.CreateImsEntryQueue``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `CreateImsEntryQueue`: EntityShortRepresentation
+    fmt.Fprintf(os.Stdout, "Response from `ServiceIBMMQTracingApi.CreateImsEntryQueue`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateImsEntryQueueRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***CreateImsEntryQueueOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a CreateImsEntryQueueOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **ibmMqImsEntryQueue** | [**optional.Interface of IbmMqImsEntryQueue**](IbmMqImsEntryQueue.md)| JSON body of the request, containing parameters of the new IBM IMS entry queue. | 
+ **ibmMQImsEntryQueue** | [**IbmMQImsEntryQueue**](IbmMQImsEntryQueue.md) | JSON body of the request, containing parameters of the new IBM IMS entry queue. | 
 
 ### Return type
 
@@ -50,7 +73,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -64,30 +87,57 @@ Name | Type | Description  | Notes
 
 ## CreateOrUpdateImsEntryQueue
 
-> EntityShortRepresentation CreateOrUpdateImsEntryQueue(ctx, id, optional)
+> EntityShortRepresentation CreateOrUpdateImsEntryQueue(ctx, id).IbmMQImsEntryQueue(ibmMQImsEntryQueue).Execute()
 
 Updates an existing IBM IMS entry queue or creates a new one
 
-If the IBM IMS entry queue with the specified ID does not exist, a new IBM IMS entry queue will be created.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := TODO // string | The ID of the IBM IMS entry queue to update.   If you set the ID in the body as well, it must match this ID.
+    ibmMQImsEntryQueue := *openapiclient.NewIbmMQImsEntryQueue("QueueManagerName_example", "QueueName_example") // IbmMQImsEntryQueue | JSON body of the request, containing updated parameters of the IBM IMS entry queue. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceIBMMQTracingApi.CreateOrUpdateImsEntryQueue(context.Background(), id).IbmMQImsEntryQueue(ibmMQImsEntryQueue).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceIBMMQTracingApi.CreateOrUpdateImsEntryQueue``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `CreateOrUpdateImsEntryQueue`: EntityShortRepresentation
+    fmt.Fprintf(os.Stdout, "Response from `ServiceIBMMQTracingApi.CreateOrUpdateImsEntryQueue`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md)| The ID of the IBM IMS entry queue to update.   If you set the ID in the body as well, it must match this ID. | 
- **optional** | ***CreateOrUpdateImsEntryQueueOpts** | optional parameters | nil if no parameters
+**id** | [**string**](.md) | The ID of the IBM IMS entry queue to update.   If you set the ID in the body as well, it must match this ID. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a CreateOrUpdateImsEntryQueueOpts struct
+Other parameters are passed through a pointer to a apiCreateOrUpdateImsEntryQueueRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **ibmMqImsEntryQueue** | [**optional.Interface of IbmMqImsEntryQueue**](IbmMqImsEntryQueue.md)| JSON body of the request, containing updated parameters of the IBM IMS entry queue. | 
+ **ibmMQImsEntryQueue** | [**IbmMQImsEntryQueue**](IbmMQImsEntryQueue.md) | JSON body of the request, containing updated parameters of the IBM IMS entry queue. | 
 
 ### Return type
 
@@ -95,7 +145,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -109,17 +159,51 @@ Name | Type | Description  | Notes
 
 ## DeleteImsEntryQueue
 
-> DeleteImsEntryQueue(ctx, id)
+> DeleteImsEntryQueue(ctx, id).Execute()
 
 Deletes the specified IBM IMS entry queue
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := TODO // string | The ID of the IBM IMS entry queue to be deleted.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceIBMMQTracingApi.DeleteImsEntryQueue(context.Background(), id).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceIBMMQTracingApi.DeleteImsEntryQueue``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md)| The ID of the IBM IMS entry queue to be deleted. | 
+**id** | [**string**](.md) | The ID of the IBM IMS entry queue to be deleted. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteImsEntryQueueRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -127,7 +211,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -141,17 +225,51 @@ Name | Type | Description  | Notes
 
 ## DeleteQueueManager
 
-> DeleteQueueManager(ctx, name)
+> DeleteQueueManager(ctx, name).Execute()
 
 Deletes the specified queue manager
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    name := "name_example" // string | The name of the queue manager to be deleted.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceIBMMQTracingApi.DeleteQueueManager(context.Background(), name).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceIBMMQTracingApi.DeleteQueueManager``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**name** | **string**| The name of the queue manager to be deleted. | 
+**name** | **string** | The name of the queue manager to be deleted. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteQueueManagerRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -159,7 +277,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -173,15 +291,46 @@ Name | Type | Description  | Notes
 
 ## GetAllImsEntryQueues
 
-> StubList GetAllImsEntryQueues(ctx, )
+> StubList GetAllImsEntryQueues(ctx).Execute()
 
 Lists all IBM IMS entry queues
 
-This endpoint is used to provide Dynatrace with all IBM MQ queues (defined by QueueManagerName and QueueName) which are used to send messages to IBM IMS on the mainframe.    This is required to facilitate end to end tracing for messages sent via IBM MQ to IBM IMS.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceIBMMQTracingApi.GetAllImsEntryQueues(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceIBMMQTracingApi.GetAllImsEntryQueues``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetAllImsEntryQueues`: StubList
+    fmt.Fprintf(os.Stdout, "Response from `ServiceIBMMQTracingApi.GetAllImsEntryQueues`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetAllImsEntryQueuesRequest struct via the builder pattern
+
 
 ### Return type
 
@@ -189,7 +338,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -203,25 +352,61 @@ This endpoint does not need any parameter.
 
 ## GetImsEntryQueue
 
-> IbmMqImsEntryQueue GetImsEntryQueue(ctx, id)
+> IbmMQImsEntryQueue GetImsEntryQueue(ctx, id).Execute()
 
 Gets the properties of the specified IBM IMS entry queue
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := TODO // string | The ID of the required IBM IMS entry queue.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceIBMMQTracingApi.GetImsEntryQueue(context.Background(), id).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceIBMMQTracingApi.GetImsEntryQueue``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetImsEntryQueue`: IbmMQImsEntryQueue
+    fmt.Fprintf(os.Stdout, "Response from `ServiceIBMMQTracingApi.GetImsEntryQueue`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md)| The ID of the required IBM IMS entry queue. | 
+**id** | [**string**](.md) | The ID of the required IBM IMS entry queue. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetImsEntryQueueRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
-[**IbmMqImsEntryQueue**](IbmMQImsEntryQueue.md)
+[**IbmMQImsEntryQueue**](IbmMQImsEntryQueue.md)
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -235,17 +420,53 @@ Name | Type | Description  | Notes
 
 ## GetQueueManager
 
-> QueueManager GetQueueManager(ctx, name)
+> QueueManager GetQueueManager(ctx, name).Execute()
 
 Gets the parameters of the specified queue manager
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    name := "name_example" // string | The name of the queue manager you're inquiring.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceIBMMQTracingApi.GetQueueManager(context.Background(), name).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceIBMMQTracingApi.GetQueueManager``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetQueueManager`: QueueManager
+    fmt.Fprintf(os.Stdout, "Response from `ServiceIBMMQTracingApi.GetQueueManager`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**name** | **string**| The name of the queue manager you&#39;re inquiring. | 
+**name** | **string** | The name of the queue manager you&#39;re inquiring. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetQueueManagerRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -253,7 +474,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -267,15 +488,46 @@ Name | Type | Description  | Notes
 
 ## GetQueueManagers
 
-> StubList GetQueueManagers(ctx, )
+> StubList GetQueueManagers(ctx).Execute()
 
 Lists all available queue managers
 
-This endpoint is used to provide Dynatrace with your IBM MQ setup regarding alias, remote and cluster queues.    This is required to facilitate end to end tracing for messages send via IBM MQ where sender and receiver use different queue names. Without this information Dynatrace would still trace all requests, but would not be able to stitch service calls that use these IBM MQ features.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceIBMMQTracingApi.GetQueueManagers(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceIBMMQTracingApi.GetQueueManagers``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetQueueManagers`: StubList
+    fmt.Fprintf(os.Stdout, "Response from `ServiceIBMMQTracingApi.GetQueueManagers`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetQueueManagersRequest struct via the builder pattern
+
 
 ### Return type
 
@@ -283,7 +535,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -297,30 +549,57 @@ This endpoint does not need any parameter.
 
 ## PutQueueManager
 
-> EntityShortRepresentation PutQueueManager(ctx, name, optional)
+> EntityShortRepresentation PutQueueManager(ctx, name).QueueManager(queueManager).Execute()
 
 Updates the specified queue manager or creates a new one
 
-If the queue manager with the specified ID doesn’t exist, a new queue manager will be created.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    name := "name_example" // string | The name of the queue manager to be updated.    The name of the queue manager in the body of the request must match this name.
+    queueManager := *openapiclient.NewQueueManager("Name_example", []string{"Clusters_example"}, []openapiclient.AliasQueue{*openapiclient.NewAliasQueue("AliasQueue_example", "BaseQueue_example", []string{"ClusterVisibility_example"})}, []openapiclient.RemoteQueue{*openapiclient.NewRemoteQueue("LocalQueue_example", "RemoteQueue_example", "RemoteQueueManager_example", []string{"ClusterVisibility_example"})}, []openapiclient.ClusterQueue{*openapiclient.NewClusterQueue("LocalQueue_example", []string{"ClusterVisibility_example"})}) // QueueManager | The JSON body of the request containing updated parameters of the queue manager. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceIBMMQTracingApi.PutQueueManager(context.Background(), name).QueueManager(queueManager).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceIBMMQTracingApi.PutQueueManager``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `PutQueueManager`: EntityShortRepresentation
+    fmt.Fprintf(os.Stdout, "Response from `ServiceIBMMQTracingApi.PutQueueManager`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**name** | **string**| The name of the queue manager to be updated.    The name of the queue manager in the body of the request must match this name. | 
- **optional** | ***PutQueueManagerOpts** | optional parameters | nil if no parameters
+**name** | **string** | The name of the queue manager to be updated.    The name of the queue manager in the body of the request must match this name. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a PutQueueManagerOpts struct
+Other parameters are passed through a pointer to a apiPutQueueManagerRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **queueManager** | [**optional.Interface of QueueManager**](QueueManager.md)| The JSON body of the request containing updated parameters of the queue manager. | 
+ **queueManager** | [**QueueManager**](QueueManager.md) | The JSON body of the request containing updated parameters of the queue manager. | 
 
 ### Return type
 
@@ -328,7 +607,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -342,26 +621,47 @@ Name | Type | Description  | Notes
 
 ## ValidateImsEntryQueueForPost
 
-> ValidateImsEntryQueueForPost(ctx, optional)
+> ValidateImsEntryQueueForPost(ctx).IbmMQImsEntryQueue(ibmMQImsEntryQueue).Execute()
 
 Validates new IBM IMS entry queues for the `POST /service/ibmMQTracing/imsEntryQueue` request
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    ibmMQImsEntryQueue := *openapiclient.NewIbmMQImsEntryQueue("QueueManagerName_example", "QueueName_example") // IbmMQImsEntryQueue | JSON body of the request, containing IBM IMS entry queue configuration to validate. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceIBMMQTracingApi.ValidateImsEntryQueueForPost(context.Background()).IbmMQImsEntryQueue(ibmMQImsEntryQueue).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceIBMMQTracingApi.ValidateImsEntryQueueForPost``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateImsEntryQueueForPostRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***ValidateImsEntryQueueForPostOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a ValidateImsEntryQueueForPostOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **ibmMqImsEntryQueue** | [**optional.Interface of IbmMqImsEntryQueue**](IbmMqImsEntryQueue.md)| JSON body of the request, containing IBM IMS entry queue configuration to validate. | 
+ **ibmMQImsEntryQueue** | [**IbmMQImsEntryQueue**](IbmMQImsEntryQueue.md) | JSON body of the request, containing IBM IMS entry queue configuration to validate. | 
 
 ### Return type
 
@@ -369,7 +669,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -383,28 +683,53 @@ Name | Type | Description  | Notes
 
 ## ValidateImsEntryQueueForPut
 
-> ValidateImsEntryQueueForPut(ctx, id, optional)
+> ValidateImsEntryQueueForPut(ctx, id).IbmMQImsEntryQueue(ibmMQImsEntryQueue).Execute()
 
 Validates update of existing IBM IMS entry queues for the `PUT /service/ibmMQTracing/imsEntryQueue/{id}` request
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := TODO // string | The ID of the IBM IMS entry queue to validate.
+    ibmMQImsEntryQueue := *openapiclient.NewIbmMQImsEntryQueue("QueueManagerName_example", "QueueName_example") // IbmMQImsEntryQueue | JSON body of the request, containing IBM IMS entry queue configuration to validate. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceIBMMQTracingApi.ValidateImsEntryQueueForPut(context.Background(), id).IbmMQImsEntryQueue(ibmMQImsEntryQueue).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceIBMMQTracingApi.ValidateImsEntryQueueForPut``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md)| The ID of the IBM IMS entry queue to validate. | 
- **optional** | ***ValidateImsEntryQueueForPutOpts** | optional parameters | nil if no parameters
+**id** | [**string**](.md) | The ID of the IBM IMS entry queue to validate. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a ValidateImsEntryQueueForPutOpts struct
+Other parameters are passed through a pointer to a apiValidateImsEntryQueueForPutRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **ibmMqImsEntryQueue** | [**optional.Interface of IbmMqImsEntryQueue**](IbmMqImsEntryQueue.md)| JSON body of the request, containing IBM IMS entry queue configuration to validate. | 
+ **ibmMQImsEntryQueue** | [**IbmMQImsEntryQueue**](IbmMQImsEntryQueue.md) | JSON body of the request, containing IBM IMS entry queue configuration to validate. | 
 
 ### Return type
 
@@ -412,7 +737,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -426,28 +751,53 @@ Name | Type | Description  | Notes
 
 ## ValidateQueueManager
 
-> ValidateQueueManager(ctx, name, optional)
+> ValidateQueueManager(ctx, name).QueueManager(queueManager).Execute()
 
 Validates the queue manager update for the `PUT /service/ibmMQTracing/queueManager/{name}` request
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    name := "name_example" // string | The name of the queue manager to be validated.    The name of the queue manager in the body of the request must match this name.
+    queueManager := *openapiclient.NewQueueManager("Name_example", []string{"Clusters_example"}, []openapiclient.AliasQueue{*openapiclient.NewAliasQueue("AliasQueue_example", "BaseQueue_example", []string{"ClusterVisibility_example"})}, []openapiclient.RemoteQueue{*openapiclient.NewRemoteQueue("LocalQueue_example", "RemoteQueue_example", "RemoteQueueManager_example", []string{"ClusterVisibility_example"})}, []openapiclient.ClusterQueue{*openapiclient.NewClusterQueue("LocalQueue_example", []string{"ClusterVisibility_example"})}) // QueueManager | The JSON body of the request containing updated parameters of the queue manager. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceIBMMQTracingApi.ValidateQueueManager(context.Background(), name).QueueManager(queueManager).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceIBMMQTracingApi.ValidateQueueManager``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**name** | **string**| The name of the queue manager to be validated.    The name of the queue manager in the body of the request must match this name. | 
- **optional** | ***ValidateQueueManagerOpts** | optional parameters | nil if no parameters
+**name** | **string** | The name of the queue manager to be validated.    The name of the queue manager in the body of the request must match this name. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a ValidateQueueManagerOpts struct
+Other parameters are passed through a pointer to a apiValidateQueueManagerRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **queueManager** | [**optional.Interface of QueueManager**](QueueManager.md)| The JSON body of the request containing updated parameters of the queue manager. | 
+ **queueManager** | [**QueueManager**](QueueManager.md) | The JSON body of the request containing updated parameters of the queue manager. | 
 
 ### Return type
 
@@ -455,7 +805,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 

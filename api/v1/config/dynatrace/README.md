@@ -21,29 +21,80 @@ Install the following dependencies:
 go get github.com/stretchr/testify/assert
 go get golang.org/x/oauth2
 go get golang.org/x/net/context
-go get github.com/antihax/optional
 ```
 
 Put the package under your project folder and add the following in import:
 
 ```golang
-import "./dynatrace"
+import sw "./dynatrace"
+```
+
+To use a proxy, set the environment variable `HTTP_PROXY`:
+
+```golang
+os.Setenv("HTTP_PROXY", "http://proxy_name:proxy_port")
+```
+
+## Configuration of Server URL
+
+Default configuration comes with `Servers` field that contains server objects as defined in the OpenAPI specification.
+
+### Select Server Configuration
+
+For using other server than the one defined on index 0 set context value `sw.ContextServerIndex` of type `int`.
+
+```golang
+ctx := context.WithValue(context.Background(), sw.ContextServerIndex, 1)
+```
+
+### Templated Server URL
+
+Templated server URL is formatted using default variables from configuration or from context value `sw.ContextServerVariables` of type `map[string]string`.
+
+```golang
+ctx := context.WithValue(context.Background(), sw.ContextServerVariables, map[string]string{
+	"basePath": "v2",
+})
+```
+
+Note, enum values are always validated and all unused variables are silently ignored.
+
+### URLs Configuration per Operation
+
+Each operation can use different server URL defined using `OperationServers` map in the `Configuration`.
+An operation is uniquely identifield by `"{classname}Service.{nickname}"` string.
+Similar rules for overriding default operation server index and variables applies by using `sw.ContextOperationServerIndices` and `sw.ContextOperationServerVariables` context maps.
+
+```
+ctx := context.WithValue(context.Background(), sw.ContextOperationServerIndices, map[string]int{
+	"{classname}Service.{nickname}": 2,
+})
+ctx = context.WithValue(context.Background(), sw.ContextOperationServerVariables, map[string]map[string]string{
+	"{classname}Service.{nickname}": {
+		"port": "8443",
+	},
+})
 ```
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://nph08633.live.dynatrace.com/api/config/v1*
+All URIs are relative to *http://https:/api/config/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AWSCredentialsConfigurationApi* | [**CreateAwsCredentialsConfig**](docs/AWSCredentialsConfigurationApi.md#createawscredentialsconfig) | **Post** /aws/credentials | Creates a new AWS credentials configuration
-*AWSCredentialsConfigurationApi* | [**CreateOrUpdateAwsCredentialsConfig**](docs/AWSCredentialsConfigurationApi.md#createorupdateawscredentialsconfig) | **Put** /aws/credentials/{id} | Updates an existing AWS credentials configuration
 *AWSCredentialsConfigurationApi* | [**DeleteAwsCredentialsConfig**](docs/AWSCredentialsConfigurationApi.md#deleteawscredentialsconfig) | **Delete** /aws/credentials/{id} | Deletes the specified AWS credentials configuration
-*AWSCredentialsConfigurationApi* | [**ListAwsCredentials**](docs/AWSCredentialsConfigurationApi.md#listawscredentials) | **Get** /aws/credentials | Lists all available AWS credentials configurations
-*AWSCredentialsConfigurationApi* | [**ReadAwsCredentialsConfig**](docs/AWSCredentialsConfigurationApi.md#readawscredentialsconfig) | **Get** /aws/credentials/{id} | Gets the configuration of the specified AWS credentials
+*AWSCredentialsConfigurationApi* | [**GetAwsCredentialsConfig**](docs/AWSCredentialsConfigurationApi.md#getawscredentialsconfig) | **Get** /aws/credentials/{id} | Gets the configuration of the specified AWS credentials
+*AWSCredentialsConfigurationApi* | [**ListAwsCredentialConfigs**](docs/AWSCredentialsConfigurationApi.md#listawscredentialconfigs) | **Get** /aws/credentials | Lists all available AWS credentials configurations
 *AWSCredentialsConfigurationApi* | [**ReadIamExternalIdToken**](docs/AWSCredentialsConfigurationApi.md#readiamexternalidtoken) | **Get** /aws/iamExternalId | Gets the external ID token for setting an IAM role
-*AWSCredentialsConfigurationApi* | [**ValidateAwsCredentialsConfig**](docs/AWSCredentialsConfigurationApi.md#validateawscredentialsconfig) | **Post** /aws/credentials/validator | Validates the payload for the &#x60;POST /aws/credentials&#x60; request
-*AWSCredentialsConfigurationApi* | [**ValidateAwsCredentialsConfig1**](docs/AWSCredentialsConfigurationApi.md#validateawscredentialsconfig1) | **Post** /aws/credentials/{id}/validator | Validates the payload for the &#x60;PUT /aws/credentials/{id}&#x60; request
+*AWSCredentialsConfigurationApi* | [**UpdateAwsCredentialsConfig**](docs/AWSCredentialsConfigurationApi.md#updateawscredentialsconfig) | **Put** /aws/credentials/{id} | Updates an existing AWS credentials configuration
+*AWSCredentialsConfigurationApi* | [**ValidateCreateAwsCredentialsConfig**](docs/AWSCredentialsConfigurationApi.md#validatecreateawscredentialsconfig) | **Post** /aws/credentials/validator | Validates the payload for the &#x60;POST /aws/credentials&#x60; request
+*AWSCredentialsConfigurationApi* | [**ValidateUpdateAwsCredentialsConfig**](docs/AWSCredentialsConfigurationApi.md#validateupdateawscredentialsconfig) | **Post** /aws/credentials/{id}/validator | Validates the payload for the &#x60;PUT /aws/credentials/{id}&#x60; request
+*AWSPrivateLinkApi* | [**GetAllAccounts**](docs/AWSPrivateLinkApi.md#getallaccounts) | **Get** /aws/privateLink/whitelistedAccounts | Gets the information about all whitelisted accounts in AWS PrivateLink | maturity&#x3D;EARLY_ADOPTER
+*AWSPrivateLinkApi* | [**GetPrivateLinkConfig**](docs/AWSPrivateLinkApi.md#getprivatelinkconfig) | **Get** /aws/privateLink | Gets the configuration information about AWS PrivateLink | maturity&#x3D;EARLY_ADOPTER
+*AWSPrivateLinkApi* | [**PutAccount**](docs/AWSPrivateLinkApi.md#putaccount) | **Put** /aws/privateLink/whitelistedAccounts/{id} | Updates the given AWS account id in the whitelist in AWS PrivateLink | maturity&#x3D;EARLY_ADOPTER
+*AWSPrivateLinkApi* | [**PutPrivateLinkConfig**](docs/AWSPrivateLinkApi.md#putprivatelinkconfig) | **Put** /aws/privateLink | Updates the configuration information about AWS PrivateLink | maturity&#x3D;EARLY_ADOPTER
+*AWSPrivateLinkApi* | [**RemoveAccount**](docs/AWSPrivateLinkApi.md#removeaccount) | **Delete** /aws/privateLink/whitelistedAccounts/{id} | Removes one AWS account from the whitelist in AWS PrivateLink | maturity&#x3D;EARLY_ADOPTER
 *AlertingProfilesApi* | [**CreateAlertingProfile**](docs/AlertingProfilesApi.md#createalertingprofile) | **Post** /alertingProfiles | Creates a new alerting profile | maturity&#x3D;EARLY_ADOPTER
 *AlertingProfilesApi* | [**CreateOrUpdateAlertingProfile**](docs/AlertingProfilesApi.md#createorupdatealertingprofile) | **Put** /alertingProfiles/{id} | Updates an existing alerting profile | maturity&#x3D;EARLY_ADOPTER
 *AlertingProfilesApi* | [**DeleteAlertingProfile**](docs/AlertingProfilesApi.md#deletealertingprofile) | **Delete** /alertingProfiles/{id} | Deletes the specified alerting profile | maturity&#x3D;EARLY_ADOPTER
@@ -54,119 +105,115 @@ Class | Method | HTTP request | Description
 *AnomalyDetectionAWSApi* | [**GetAwsAnomalyDetectionConfig**](docs/AnomalyDetectionAWSApi.md#getawsanomalydetectionconfig) | **Get** /anomalyDetection/aws | Gets the configuration of anomaly detection for AWS
 *AnomalyDetectionAWSApi* | [**UpdateAwsAnomalyDetectionConfig**](docs/AnomalyDetectionAWSApi.md#updateawsanomalydetectionconfig) | **Put** /anomalyDetection/aws | Updates the configuration of anomaly detection for AWS
 *AnomalyDetectionAWSApi* | [**ValidateAwsAnomalyDetectionConfig**](docs/AnomalyDetectionAWSApi.md#validateawsanomalydetectionconfig) | **Post** /anomalyDetection/aws/validator | Validates the configuration of anomaly detection for AWS for the &#x60;PUT /anomalyDetection/aws&#x60; request
-*AnomalyDetectionApplicationsApi* | [**GetConfiguration**](docs/AnomalyDetectionApplicationsApi.md#getconfiguration) | **Get** /anomalyDetection/applications | Gets the configuration of anomaly detection for applications
-*AnomalyDetectionApplicationsApi* | [**UpdateConfiguration**](docs/AnomalyDetectionApplicationsApi.md#updateconfiguration) | **Put** /anomalyDetection/applications | Updates the configuration of anomaly detection for applications
-*AnomalyDetectionApplicationsApi* | [**ValidateConfiguration**](docs/AnomalyDetectionApplicationsApi.md#validateconfiguration) | **Post** /anomalyDetection/applications/validator | Validates the configuration of anomaly detection for applications for the &#x60;PUT /anomalyDetection/applications&#x60; request
-*AnomalyDetectionDatabaseServicesApi* | [**GetConfiguration1**](docs/AnomalyDetectionDatabaseServicesApi.md#getconfiguration1) | **Get** /anomalyDetection/databaseServices | Gets the configuration of anomaly detection for database services
-*AnomalyDetectionDatabaseServicesApi* | [**UpdateConfiguration1**](docs/AnomalyDetectionDatabaseServicesApi.md#updateconfiguration1) | **Put** /anomalyDetection/databaseServices | Updates the configuration of anomaly detection for database services
-*AnomalyDetectionDatabaseServicesApi* | [**ValidateConfiguration1**](docs/AnomalyDetectionDatabaseServicesApi.md#validateconfiguration1) | **Post** /anomalyDetection/databaseServices/validator | Validates the payload for the &#x60;PUT /anomalyDetection/databaseServices&#x60; request
+*AnomalyDetectionApplicationsApi* | [**GetApplicationAnomalyDetectionConfig**](docs/AnomalyDetectionApplicationsApi.md#getapplicationanomalydetectionconfig) | **Get** /anomalyDetection/applications | Gets the configuration of anomaly detection for applications
+*AnomalyDetectionApplicationsApi* | [**UpdateApplicationAnomalyDetectionConfig**](docs/AnomalyDetectionApplicationsApi.md#updateapplicationanomalydetectionconfig) | **Put** /anomalyDetection/applications | Updates the configuration of anomaly detection for applications
+*AnomalyDetectionApplicationsApi* | [**ValidateApplicationAnomalyDetectionConfig**](docs/AnomalyDetectionApplicationsApi.md#validateapplicationanomalydetectionconfig) | **Post** /anomalyDetection/applications/validator | Validates the configuration of anomaly detection for applications for the &#x60;PUT /anomalyDetection/applications&#x60; request
+*AnomalyDetectionDatabaseServicesApi* | [**GetDatabaseServiceAnomalyDetectionConfig**](docs/AnomalyDetectionDatabaseServicesApi.md#getdatabaseserviceanomalydetectionconfig) | **Get** /anomalyDetection/databaseServices | Gets the configuration of anomaly detection for database services
+*AnomalyDetectionDatabaseServicesApi* | [**UpdateDatabaseServiceAnomalyDetectionConfig**](docs/AnomalyDetectionDatabaseServicesApi.md#updatedatabaseserviceanomalydetectionconfig) | **Put** /anomalyDetection/databaseServices | Updates the configuration of anomaly detection for database services
+*AnomalyDetectionDatabaseServicesApi* | [**ValidateDatabaseServiceAnomalyDetectionConfig**](docs/AnomalyDetectionDatabaseServicesApi.md#validatedatabaseserviceanomalydetectionconfig) | **Post** /anomalyDetection/databaseServices/validator | Validates the payload for the &#x60;PUT /anomalyDetection/databaseServices&#x60; request
 *AnomalyDetectionDiskEventsApi* | [**CreateDiskEventConfig**](docs/AnomalyDetectionDiskEventsApi.md#creatediskeventconfig) | **Post** /anomalyDetection/diskEvents | Creates a new disk event rule | maturity&#x3D;EARLY_ADOPTER
 *AnomalyDetectionDiskEventsApi* | [**DeleteDiskEventConfig**](docs/AnomalyDetectionDiskEventsApi.md#deletediskeventconfig) | **Delete** /anomalyDetection/diskEvents/{id} | Deletes the specified disk event rule | maturity&#x3D;EARLY_ADOPTER
 *AnomalyDetectionDiskEventsApi* | [**GetDiskEventConfig**](docs/AnomalyDetectionDiskEventsApi.md#getdiskeventconfig) | **Get** /anomalyDetection/diskEvents/{id} | Gets the properties of the specified disk event rule | maturity&#x3D;EARLY_ADOPTER
 *AnomalyDetectionDiskEventsApi* | [**ListDiskEventConfigs**](docs/AnomalyDetectionDiskEventsApi.md#listdiskeventconfigs) | **Get** /anomalyDetection/diskEvents | Lists all existing disk event rules | maturity&#x3D;EARLY_ADOPTER
-*AnomalyDetectionDiskEventsApi* | [**UpdateOrCreateDiskEventConfig**](docs/AnomalyDetectionDiskEventsApi.md#updateorcreatediskeventconfig) | **Put** /anomalyDetection/diskEvents/{id} | Updates or creates a disk event rule | maturity&#x3D;EARLY_ADOPTER
-*AnomalyDetectionDiskEventsApi* | [**ValidateDiskEventConfig**](docs/AnomalyDetectionDiskEventsApi.md#validatediskeventconfig) | **Post** /anomalyDetection/diskEvents/validator | Validates the payload for the &#x60;POST /anomalyDetection/diskEvents&#x60; request | maturity&#x3D;EARLY_ADOPTER
-*AnomalyDetectionDiskEventsApi* | [**ValidateDiskEventConfig1**](docs/AnomalyDetectionDiskEventsApi.md#validatediskeventconfig1) | **Post** /anomalyDetection/diskEvents/{id}/validator | Validates the payload for the &#x60;PUT /anomalyDetection/diskEvents/{id}&#x60; request | maturity&#x3D;EARLY_ADOPTER
+*AnomalyDetectionDiskEventsApi* | [**UpdateDiskEventConfig**](docs/AnomalyDetectionDiskEventsApi.md#updatediskeventconfig) | **Put** /anomalyDetection/diskEvents/{id} | Updates or creates a disk event rule | maturity&#x3D;EARLY_ADOPTER
+*AnomalyDetectionDiskEventsApi* | [**ValidateCreateDiskEventConfig**](docs/AnomalyDetectionDiskEventsApi.md#validatecreatediskeventconfig) | **Post** /anomalyDetection/diskEvents/validator | Validates the payload for the &#x60;POST /anomalyDetection/diskEvents&#x60; request | maturity&#x3D;EARLY_ADOPTER
+*AnomalyDetectionDiskEventsApi* | [**ValidateUpdateDiskEventConfig**](docs/AnomalyDetectionDiskEventsApi.md#validateupdatediskeventconfig) | **Post** /anomalyDetection/diskEvents/{id}/validator | Validates the payload for the &#x60;PUT /anomalyDetection/diskEvents/{id}&#x60; request | maturity&#x3D;EARLY_ADOPTER
 *AnomalyDetectionHostsApi* | [**GetHostEventsConfig**](docs/AnomalyDetectionHostsApi.md#gethosteventsconfig) | **Get** /anomalyDetection/hosts | Gets the configuration of anomaly detection for hosts
 *AnomalyDetectionHostsApi* | [**UpdateHostEventsConfig**](docs/AnomalyDetectionHostsApi.md#updatehosteventsconfig) | **Put** /anomalyDetection/hosts | Updates the configuration of anomaly detection for hosts
 *AnomalyDetectionHostsApi* | [**ValidateHostEventsConfig**](docs/AnomalyDetectionHostsApi.md#validatehosteventsconfig) | **Post** /anomalyDetection/hosts/validator | Validates the configuration of anomaly detection for hosts for the &#x60;PUT /anomalyDetection/hosts&#x60; request
 *AnomalyDetectionMetricEventsApi* | [**CreateMetricEvent**](docs/AnomalyDetectionMetricEventsApi.md#createmetricevent) | **Post** /anomalyDetection/metricEvents | Creates a new metric event | maturity&#x3D;EARLY_ADOPTER
-*AnomalyDetectionMetricEventsApi* | [**CreateOrUpdateMetricEvent**](docs/AnomalyDetectionMetricEventsApi.md#createorupdatemetricevent) | **Put** /anomalyDetection/metricEvents/{id} | Updates an existing metric event or creates a new one | maturity&#x3D;EARLY_ADOPTER
 *AnomalyDetectionMetricEventsApi* | [**DeleteMetricEvent**](docs/AnomalyDetectionMetricEventsApi.md#deletemetricevent) | **Delete** /anomalyDetection/metricEvents/{id} | Deletes the specified metric event | maturity&#x3D;EARLY_ADOPTER
-*AnomalyDetectionMetricEventsApi* | [**GetAllMetricEventConfigs**](docs/AnomalyDetectionMetricEventsApi.md#getallmetriceventconfigs) | **Get** /anomalyDetection/metricEvents | Lists all configured metric events | maturity&#x3D;EARLY_ADOPTER
-*AnomalyDetectionMetricEventsApi* | [**GetSingleMetricEventConfig**](docs/AnomalyDetectionMetricEventsApi.md#getsinglemetriceventconfig) | **Get** /anomalyDetection/metricEvents/{id} | Gets the properties of the specified metric event | maturity&#x3D;EARLY_ADOPTER
-*AnomalyDetectionMetricEventsApi* | [**ValidateMetricEvent**](docs/AnomalyDetectionMetricEventsApi.md#validatemetricevent) | **Post** /anomalyDetection/metricEvents/{id}/validator | Validates the payload for the &#x60;PUT /anomalyDetection/metricEvents/{id}&#x60; request | maturity&#x3D;EARLY_ADOPTER
-*AnomalyDetectionMetricEventsApi* | [**ValidateMetricEvent1**](docs/AnomalyDetectionMetricEventsApi.md#validatemetricevent1) | **Post** /anomalyDetection/metricEvents/validator | Validates the payload for the &#x60;POST /anomalyDetection/metricEvents&#x60; request | maturity&#x3D;EARLY_ADOPTER
-*AnomalyDetectionServicesApi* | [**GetConfiguration2**](docs/AnomalyDetectionServicesApi.md#getconfiguration2) | **Get** /anomalyDetection/services | Gets the service anomaly detection configuration
-*AnomalyDetectionServicesApi* | [**UpdateConfiguration2**](docs/AnomalyDetectionServicesApi.md#updateconfiguration2) | **Put** /anomalyDetection/services | Updates the service anomaly detection configuration
-*AnomalyDetectionServicesApi* | [**ValidateConfiguration2**](docs/AnomalyDetectionServicesApi.md#validateconfiguration2) | **Post** /anomalyDetection/services/validator | Validates the payload for the &#x60;PUT /anomalyDetection/services&#x60; request
+*AnomalyDetectionMetricEventsApi* | [**GetMetricEventConfig**](docs/AnomalyDetectionMetricEventsApi.md#getmetriceventconfig) | **Get** /anomalyDetection/metricEvents/{id} | Gets the properties of the specified metric event | maturity&#x3D;EARLY_ADOPTER
+*AnomalyDetectionMetricEventsApi* | [**ListMetricEventConfigs**](docs/AnomalyDetectionMetricEventsApi.md#listmetriceventconfigs) | **Get** /anomalyDetection/metricEvents | Lists all configured metric events | maturity&#x3D;EARLY_ADOPTER
+*AnomalyDetectionMetricEventsApi* | [**UpdateMetricEvent**](docs/AnomalyDetectionMetricEventsApi.md#updatemetricevent) | **Put** /anomalyDetection/metricEvents/{id} | Updates an existing metric event or creates a new one | maturity&#x3D;EARLY_ADOPTER
+*AnomalyDetectionMetricEventsApi* | [**ValidateCreateMetricEvent**](docs/AnomalyDetectionMetricEventsApi.md#validatecreatemetricevent) | **Post** /anomalyDetection/metricEvents/validator | Validates the payload for the &#x60;POST /anomalyDetection/metricEvents&#x60; request | maturity&#x3D;EARLY_ADOPTER
+*AnomalyDetectionMetricEventsApi* | [**ValidateUpdateMetricEvent**](docs/AnomalyDetectionMetricEventsApi.md#validateupdatemetricevent) | **Post** /anomalyDetection/metricEvents/{id}/validator | Validates the payload for the &#x60;PUT /anomalyDetection/metricEvents/{id}&#x60; request | maturity&#x3D;EARLY_ADOPTER
+*AnomalyDetectionProcessGroupsApi* | [**DeleteLocalAvailabilityConfig**](docs/AnomalyDetectionProcessGroupsApi.md#deletelocalavailabilityconfig) | **Delete** /anomalyDetection/processGroups/{id} | Switches off anomaly detection for the specified process group | maturity&#x3D;EARLY_ADOPTER
+*AnomalyDetectionProcessGroupsApi* | [**GetLocalAvailabilityConfig**](docs/AnomalyDetectionProcessGroupsApi.md#getlocalavailabilityconfig) | **Get** /anomalyDetection/processGroups/{id} | Gets the configuration of anomaly detection for the specified process group | maturity&#x3D;EARLY_ADOPTER
+*AnomalyDetectionProcessGroupsApi* | [**SetLocalAvailabilityConfig**](docs/AnomalyDetectionProcessGroupsApi.md#setlocalavailabilityconfig) | **Put** /anomalyDetection/processGroups/{id} | Updates the configuration of anomaly detection for the specified process group | maturity&#x3D;EARLY_ADOPTER
+*AnomalyDetectionProcessGroupsApi* | [**ValidateLocalPgAvailabilityAlertingEvent**](docs/AnomalyDetectionProcessGroupsApi.md#validatelocalpgavailabilityalertingevent) | **Post** /anomalyDetection/processGroups/{id}/validator | Validates the payload for the &#x60;PUT /anomalyDetection/processGroups/{id}&#x60; request | maturity&#x3D;EARLY_ADOPTER
+*AnomalyDetectionServicesApi* | [**GetServiceAnomalyDetectionConfig**](docs/AnomalyDetectionServicesApi.md#getserviceanomalydetectionconfig) | **Get** /anomalyDetection/services | Gets the service anomaly detection configuration
+*AnomalyDetectionServicesApi* | [**UpdateServiceAnomalyDetectionConfig**](docs/AnomalyDetectionServicesApi.md#updateserviceanomalydetectionconfig) | **Put** /anomalyDetection/services | Updates the service anomaly detection configuration
+*AnomalyDetectionServicesApi* | [**ValidateServiceAnomalyDetectionConfig**](docs/AnomalyDetectionServicesApi.md#validateserviceanomalydetectionconfig) | **Post** /anomalyDetection/services/validator | Validates the payload for the &#x60;PUT /anomalyDetection/services&#x60; request
 *AnomalyDetectionVMwareApi* | [**GetVMwareAnomalyDetectionConfig**](docs/AnomalyDetectionVMwareApi.md#getvmwareanomalydetectionconfig) | **Get** /anomalyDetection/vmware | Gets the configuration of anomaly detection for VMware
 *AnomalyDetectionVMwareApi* | [**UpdateVMwareAnomalyDetectionConfig**](docs/AnomalyDetectionVMwareApi.md#updatevmwareanomalydetectionconfig) | **Put** /anomalyDetection/vmware | Updates the configuration of anomaly detection for VMware
 *AnomalyDetectionVMwareApi* | [**ValidateVMwareAnomalyDetectionConfig**](docs/AnomalyDetectionVMwareApi.md#validatevmwareanomalydetectionconfig) | **Post** /anomalyDetection/vmware/validator | Validates the configuration of anomaly detection for VMware for the &#x60;PUT /anomalyDetection/vmware&#x60; request
-*ApplicationDetectionRulesApi* | [**Delete**](docs/ApplicationDetectionRulesApi.md#delete) | **Delete** /applicationDetectionRules/{id} | Deletes the specified application detection rule
-*ApplicationDetectionRulesApi* | [**GetConfig**](docs/ApplicationDetectionRulesApi.md#getconfig) | **Get** /applicationDetectionRules/{id} | Gets the parameters of the specified application detection rule
-*ApplicationDetectionRulesApi* | [**ListConfigurations1**](docs/ApplicationDetectionRulesApi.md#listconfigurations1) | **Get** /applicationDetectionRules | Lists all available application detection rules
-*ApplicationDetectionRulesApi* | [**PostConfig**](docs/ApplicationDetectionRulesApi.md#postconfig) | **Post** /applicationDetectionRules | Creates a new application detection rule
-*ApplicationDetectionRulesApi* | [**PutConfig**](docs/ApplicationDetectionRulesApi.md#putconfig) | **Put** /applicationDetectionRules/{id} | Updates the specified application detection rule
-*ApplicationDetectionRulesApi* | [**ReorderList**](docs/ApplicationDetectionRulesApi.md#reorderlist) | **Put** /applicationDetectionRules/order | Reorders the application detection rules
-*ApplicationDetectionRulesApi* | [**ValidateConfig**](docs/ApplicationDetectionRulesApi.md#validateconfig) | **Post** /applicationDetectionRules/{id}/validator | Validate the payload for the &#x60;PUT /applicationDetection/{id}&#x60; request
-*ApplicationDetectionRulesApi* | [**ValidateConfig1**](docs/ApplicationDetectionRulesApi.md#validateconfig1) | **Post** /applicationDetectionRules/validator | Validates the payload for the &#x60;POST /applicationDetection&#x60; request
 *AutomaticallyAppliedTagsApi* | [**CreateAutoTag**](docs/AutomaticallyAppliedTagsApi.md#createautotag) | **Post** /autoTags | Creates a new auto-tag
-*AutomaticallyAppliedTagsApi* | [**CreateOrUpdateAutoTag**](docs/AutomaticallyAppliedTagsApi.md#createorupdateautotag) | **Put** /autoTags/{id} | Updates an existing auto-tag
 *AutomaticallyAppliedTagsApi* | [**DeleteAutoTag**](docs/AutomaticallyAppliedTagsApi.md#deleteautotag) | **Delete** /autoTags/{id} | Deletes the specified auto-tag
-*AutomaticallyAppliedTagsApi* | [**GetAllAutoTagConfigs**](docs/AutomaticallyAppliedTagsApi.md#getallautotagconfigs) | **Get** /autoTags | Lists all configured auto-tags
-*AutomaticallyAppliedTagsApi* | [**GetSingleAutoTagConfig**](docs/AutomaticallyAppliedTagsApi.md#getsingleautotagconfig) | **Get** /autoTags/{id} | Gets the properties of the specified auto-tag
-*AutomaticallyAppliedTagsApi* | [**ValidateAutoTag**](docs/AutomaticallyAppliedTagsApi.md#validateautotag) | **Post** /autoTags/validator | Validates the payload for the &#x60;POST /autoTags&#x60; request
-*AutomaticallyAppliedTagsApi* | [**ValidateAutoTag1**](docs/AutomaticallyAppliedTagsApi.md#validateautotag1) | **Post** /autoTags/{id}/validator | Validates the payload for the &#x60;PUT /autoTags/{id}&#x60; request
-*AzureCredentialsConfigurationApi* | [**CreateConfiguration2**](docs/AzureCredentialsConfigurationApi.md#createconfiguration2) | **Post** /azure/credentials | Creates a new Azure credentials configuration
-*AzureCredentialsConfigurationApi* | [**DeleteConfiguration3**](docs/AzureCredentialsConfigurationApi.md#deleteconfiguration3) | **Delete** /azure/credentials/{id} | Deletes the specified Azure credentials configuration
-*AzureCredentialsConfigurationApi* | [**GetConfiguration7**](docs/AzureCredentialsConfigurationApi.md#getconfiguration7) | **Get** /azure/credentials/{id} | Gets the configuration of the specified Azure credentials
-*AzureCredentialsConfigurationApi* | [**GetConfigurations1**](docs/AzureCredentialsConfigurationApi.md#getconfigurations1) | **Get** /azure/credentials | Lists all available Azure credentials configurations
-*AzureCredentialsConfigurationApi* | [**UpdateConfiguration4**](docs/AzureCredentialsConfigurationApi.md#updateconfiguration4) | **Put** /azure/credentials/{id} | Updates an existing Azure credentials configuration
-*AzureCredentialsConfigurationApi* | [**ValidateConfiguration11**](docs/AzureCredentialsConfigurationApi.md#validateconfiguration11) | **Post** /azure/credentials/validator | Validates the payload for the &#x60;POST /azure/credentials&#x60; request
+*AutomaticallyAppliedTagsApi* | [**GetAutoTag**](docs/AutomaticallyAppliedTagsApi.md#getautotag) | **Get** /autoTags/{id} | Gets the properties of the specified auto-tag
+*AutomaticallyAppliedTagsApi* | [**ListAutoTags**](docs/AutomaticallyAppliedTagsApi.md#listautotags) | **Get** /autoTags | Lists all configured auto-tags
+*AutomaticallyAppliedTagsApi* | [**UpdateAutoTag**](docs/AutomaticallyAppliedTagsApi.md#updateautotag) | **Put** /autoTags/{id} | Updates an existing auto-tag
+*AutomaticallyAppliedTagsApi* | [**ValidateCreateAutoTag**](docs/AutomaticallyAppliedTagsApi.md#validatecreateautotag) | **Post** /autoTags/validator | Validates the payload for the &#x60;POST /autoTags&#x60; request
+*AutomaticallyAppliedTagsApi* | [**ValidateUpdateAutoTag**](docs/AutomaticallyAppliedTagsApi.md#validateupdateautotag) | **Post** /autoTags/{id}/validator | Validates the payload for the &#x60;PUT /autoTags/{id}&#x60; request
+*AzureCredentialsConfigurationApi* | [**CreateAzureCredentialsConfig**](docs/AzureCredentialsConfigurationApi.md#createazurecredentialsconfig) | **Post** /azure/credentials | Creates a new Azure credentials configuration
+*AzureCredentialsConfigurationApi* | [**DeleteAzureCredentialsConfig**](docs/AzureCredentialsConfigurationApi.md#deleteazurecredentialsconfig) | **Delete** /azure/credentials/{id} | Deletes the specified Azure credentials configuration
+*AzureCredentialsConfigurationApi* | [**GetAzureCredentialsConfig**](docs/AzureCredentialsConfigurationApi.md#getazurecredentialsconfig) | **Get** /azure/credentials/{id} | Gets the configuration of the specified Azure credentials
+*AzureCredentialsConfigurationApi* | [**ListAzureCredentialsConfigs**](docs/AzureCredentialsConfigurationApi.md#listazurecredentialsconfigs) | **Get** /azure/credentials | Lists all available Azure credentials configurations
+*AzureCredentialsConfigurationApi* | [**UpdateAzureCredentialsConfig**](docs/AzureCredentialsConfigurationApi.md#updateazurecredentialsconfig) | **Put** /azure/credentials/{id} | Updates an existing Azure credentials configuration
+*AzureCredentialsConfigurationApi* | [**ValidateAzureCredentialsConfig**](docs/AzureCredentialsConfigurationApi.md#validateazurecredentialsconfig) | **Post** /azure/credentials/validator | Validates the payload for the &#x60;POST /azure/credentials&#x60; request
 *AzureCredentialsConfigurationApi* | [**ValidateConfigurationUpdate**](docs/AzureCredentialsConfigurationApi.md#validateconfigurationupdate) | **Post** /azure/credentials/{id}/validator | Validates the payload for the &#x60;PUT /azure/credentials/{id}&#x60; request
 *CalculatedMetricsLogMonitoringApi* | [**DeleteLogMetricConfig**](docs/CalculatedMetricsLogMonitoringApi.md#deletelogmetricconfig) | **Delete** /calculatedMetrics/log/{metricKey} | Deletes the specified custom log metric definition | maturity&#x3D;EARLY_ADOPTER
 *CalculatedMetricsLogMonitoringApi* | [**GetLogMetricConfig**](docs/CalculatedMetricsLogMonitoringApi.md#getlogmetricconfig) | **Get** /calculatedMetrics/log/{metricKey} | Gets the definition of the specified custom log metric | maturity&#x3D;EARLY_ADOPTER
 *CalculatedMetricsLogMonitoringApi* | [**ListLogMetricConfigs**](docs/CalculatedMetricsLogMonitoringApi.md#listlogmetricconfigs) | **Get** /calculatedMetrics/log | Lists all custom log metrics configured in your environment | maturity&#x3D;EARLY_ADOPTER
 *CalculatedMetricsLogMonitoringApi* | [**UpdateOrCreateLogMetricConfig**](docs/CalculatedMetricsLogMonitoringApi.md#updateorcreatelogmetricconfig) | **Put** /calculatedMetrics/log/{metricKey} | Creates a new custom log metric | maturity&#x3D;EARLY_ADOPTER
 *CalculatedMetricsLogMonitoringApi* | [**ValidateMetric**](docs/CalculatedMetricsLogMonitoringApi.md#validatemetric) | **Post** /calculatedMetrics/log/{metricKey}/validator | Validates the payload for the &#x60;PUT /calculatedMetrics/log/{metricKey}&#x60; request. | maturity&#x3D;EARLY_ADOPTER
-*CalculatedMetricsMobileCustomApplicationsApi* | [**Create**](docs/CalculatedMetricsMobileCustomApplicationsApi.md#create) | **Post** /calculatedMetrics/mobile | Stores the provided calculated mobile metric configuration. | maturity&#x3D;EARLY_ADOPTER
-*CalculatedMetricsMobileCustomApplicationsApi* | [**Delete2**](docs/CalculatedMetricsMobileCustomApplicationsApi.md#delete2) | **Delete** /calculatedMetrics/mobile/{metricKey} | Deletes the calculated mobile metric configuration with the given id. | maturity&#x3D;EARLY_ADOPTER
-*CalculatedMetricsMobileCustomApplicationsApi* | [**GetItem1**](docs/CalculatedMetricsMobileCustomApplicationsApi.md#getitem1) | **Get** /calculatedMetrics/mobile/{metricKey} | Gets the definition of the specified calculated mobile metric. | maturity&#x3D;EARLY_ADOPTER
-*CalculatedMetricsMobileCustomApplicationsApi* | [**GetList1**](docs/CalculatedMetricsMobileCustomApplicationsApi.md#getlist1) | **Get** /calculatedMetrics/mobile | Lists all calculated mobile metric configurations. | maturity&#x3D;EARLY_ADOPTER
-*CalculatedMetricsMobileCustomApplicationsApi* | [**Update**](docs/CalculatedMetricsMobileCustomApplicationsApi.md#update) | **Put** /calculatedMetrics/mobile/{metricKey} | Updates the specified calculated mobile metric. | maturity&#x3D;EARLY_ADOPTER
-*CalculatedMetricsMobileCustomApplicationsApi* | [**ValidateCreateMobileMetric**](docs/CalculatedMetricsMobileCustomApplicationsApi.md#validatecreatemobilemetric) | **Post** /calculatedMetrics/mobile/validator | Validates the payload for the &#x60;POST /calculatedMetrics/mobile&#x60; request | maturity&#x3D;EARLY_ADOPTER
-*CalculatedMetricsMobileCustomApplicationsApi* | [**ValidateUpdateMobileMetric**](docs/CalculatedMetricsMobileCustomApplicationsApi.md#validateupdatemobilemetric) | **Post** /calculatedMetrics/mobile/{metricKey}/validator | Validates the payload for the &#x60;PUT /calculatedMetrics/mobile/{metricKey}&#x60; request | maturity&#x3D;EARLY_ADOPTER
-*CalculatedMetricsServicesApi* | [**Delete4**](docs/CalculatedMetricsServicesApi.md#delete4) | **Delete** /calculatedMetrics/service/{metricKey} | Deletes the specified calculated service metric | maturity&#x3D;EARLY_ADOPTER
-*CalculatedMetricsServicesApi* | [**GetItem3**](docs/CalculatedMetricsServicesApi.md#getitem3) | **Get** /calculatedMetrics/service/{metricKey} | Gets the descriptor of the specified calculated service metric | maturity&#x3D;EARLY_ADOPTER
-*CalculatedMetricsServicesApi* | [**GetList3**](docs/CalculatedMetricsServicesApi.md#getlist3) | **Get** /calculatedMetrics/service | Lists all calculated service metrics configured in your environment | maturity&#x3D;EARLY_ADOPTER
-*CalculatedMetricsServicesApi* | [**Post1**](docs/CalculatedMetricsServicesApi.md#post1) | **Post** /calculatedMetrics/service | Creates a new calculated service metric | maturity&#x3D;EARLY_ADOPTER
-*CalculatedMetricsServicesApi* | [**Put**](docs/CalculatedMetricsServicesApi.md#put) | **Put** /calculatedMetrics/service/{metricKey} | Updates the specified calculated service metric | maturity&#x3D;EARLY_ADOPTER
-*CalculatedMetricsServicesApi* | [**ValidateItem2**](docs/CalculatedMetricsServicesApi.md#validateitem2) | **Post** /calculatedMetrics/service/validator | Validates the payload for the &#x60;POST /calculatedMetric/service&#x60; request | maturity&#x3D;EARLY_ADOPTER
-*CalculatedMetricsServicesApi* | [**ValidatePut**](docs/CalculatedMetricsServicesApi.md#validateput) | **Post** /calculatedMetrics/service/{metricKey}/validator | Validates the payload for the &#x60;PUT /calculatedMetric/service/{id}&#x60; request | maturity&#x3D;EARLY_ADOPTER
-*CalculatedMetricsSyntheticApi* | [**Create2**](docs/CalculatedMetricsSyntheticApi.md#create2) | **Post** /calculatedMetrics/synthetic | Stores the provided calculated synthetic metric configuration. | maturity&#x3D;EARLY_ADOPTER
-*CalculatedMetricsSyntheticApi* | [**Delete5**](docs/CalculatedMetricsSyntheticApi.md#delete5) | **Delete** /calculatedMetrics/synthetic/{metricKey} | Deletes the calculated synthetic metric configuration with the given id. | maturity&#x3D;EARLY_ADOPTER
-*CalculatedMetricsSyntheticApi* | [**GetItem4**](docs/CalculatedMetricsSyntheticApi.md#getitem4) | **Get** /calculatedMetrics/synthetic/{metricKey} | Gets the definition of the specified calculated synthetic metric. | maturity&#x3D;EARLY_ADOPTER
-*CalculatedMetricsSyntheticApi* | [**GetList4**](docs/CalculatedMetricsSyntheticApi.md#getlist4) | **Get** /calculatedMetrics/synthetic | Lists all calculated synthetic metric configurations. | maturity&#x3D;EARLY_ADOPTER
-*CalculatedMetricsSyntheticApi* | [**Update2**](docs/CalculatedMetricsSyntheticApi.md#update2) | **Put** /calculatedMetrics/synthetic/{metricKey} | Updates the specified calculated synthetic metric. | maturity&#x3D;EARLY_ADOPTER
+*CalculatedMetricsMobileCustomApplicationsApi* | [**CreateMobileMetric**](docs/CalculatedMetricsMobileCustomApplicationsApi.md#createmobilemetric) | **Post** /calculatedMetrics/mobile | Creates a new calculated metric for a mobile or custom app
+*CalculatedMetricsMobileCustomApplicationsApi* | [**DeleteMobileMetric**](docs/CalculatedMetricsMobileCustomApplicationsApi.md#deletemobilemetric) | **Delete** /calculatedMetrics/mobile/{metricKey} | Deletes the specified calculated metric for mobile or custom app
+*CalculatedMetricsMobileCustomApplicationsApi* | [**GetMobileMetric**](docs/CalculatedMetricsMobileCustomApplicationsApi.md#getmobilemetric) | **Get** /calculatedMetrics/mobile/{metricKey} | Gets the descriptor of the specified calculated metric for mobile or custom app
+*CalculatedMetricsMobileCustomApplicationsApi* | [**ListMobileMetrics**](docs/CalculatedMetricsMobileCustomApplicationsApi.md#listmobilemetrics) | **Get** /calculatedMetrics/mobile | Lists all calculated metrics for mobile and custom apps configured in your environment
+*CalculatedMetricsMobileCustomApplicationsApi* | [**UpdateMobileMetric**](docs/CalculatedMetricsMobileCustomApplicationsApi.md#updatemobilemetric) | **Put** /calculatedMetrics/mobile/{metricKey} | Updates the specified calculated metric for a mobile or custom app
+*CalculatedMetricsMobileCustomApplicationsApi* | [**ValidateCreateMobileMetric**](docs/CalculatedMetricsMobileCustomApplicationsApi.md#validatecreatemobilemetric) | **Post** /calculatedMetrics/mobile/validator | Validates the payload for the &#x60;POST /calculatedMetrics/mobile&#x60; request
+*CalculatedMetricsMobileCustomApplicationsApi* | [**ValidateUpdateMobileMetric**](docs/CalculatedMetricsMobileCustomApplicationsApi.md#validateupdatemobilemetric) | **Post** /calculatedMetrics/mobile/{metricKey}/validator | Validates the payload for the &#x60;PUT /calculatedMetrics/mobile/{metricKey}&#x60; request
+*CalculatedMetricsServicesApi* | [**CreateServiceMetric**](docs/CalculatedMetricsServicesApi.md#createservicemetric) | **Post** /calculatedMetrics/service | Creates a new calculated service metric
+*CalculatedMetricsServicesApi* | [**DeleteServiceMetric**](docs/CalculatedMetricsServicesApi.md#deleteservicemetric) | **Delete** /calculatedMetrics/service/{metricKey} | Deletes the specified calculated service metric
+*CalculatedMetricsServicesApi* | [**GetServiceMetric**](docs/CalculatedMetricsServicesApi.md#getservicemetric) | **Get** /calculatedMetrics/service/{metricKey} | Gets the descriptor of the specified calculated service metric
+*CalculatedMetricsServicesApi* | [**ListServiceMetrics**](docs/CalculatedMetricsServicesApi.md#listservicemetrics) | **Get** /calculatedMetrics/service | Lists all calculated service metrics configured in your environment
+*CalculatedMetricsServicesApi* | [**UpdateServiceMetric**](docs/CalculatedMetricsServicesApi.md#updateservicemetric) | **Put** /calculatedMetrics/service/{metricKey} | Updates the specified calculated service metric
+*CalculatedMetricsServicesApi* | [**ValidateCreateServiceMetric**](docs/CalculatedMetricsServicesApi.md#validatecreateservicemetric) | **Post** /calculatedMetrics/service/validator | Validates the payload for the &#x60;POST /calculatedMetric/service&#x60; request
+*CalculatedMetricsServicesApi* | [**ValidateUpdateServiceMetric**](docs/CalculatedMetricsServicesApi.md#validateupdateservicemetric) | **Post** /calculatedMetrics/service/{metricKey}/validator | Validates the payload for the &#x60;PUT /calculatedMetric/service/{id}&#x60; request
+*CalculatedMetricsSyntheticApi* | [**CreateSyntheticMetric**](docs/CalculatedMetricsSyntheticApi.md#createsyntheticmetric) | **Post** /calculatedMetrics/synthetic | Creates a new calculated synthetic metric | maturity&#x3D;EARLY_ADOPTER
+*CalculatedMetricsSyntheticApi* | [**DeleteSyntheticMetric**](docs/CalculatedMetricsSyntheticApi.md#deletesyntheticmetric) | **Delete** /calculatedMetrics/synthetic/{metricKey} | Deletes the specified calculated synthetic metric | maturity&#x3D;EARLY_ADOPTER
+*CalculatedMetricsSyntheticApi* | [**GetSyntheticMetric**](docs/CalculatedMetricsSyntheticApi.md#getsyntheticmetric) | **Get** /calculatedMetrics/synthetic/{metricKey} | Gets the descriptor of the specified calculated synthetic metric | maturity&#x3D;EARLY_ADOPTER
+*CalculatedMetricsSyntheticApi* | [**ListSyntheticMetrics**](docs/CalculatedMetricsSyntheticApi.md#listsyntheticmetrics) | **Get** /calculatedMetrics/synthetic | Lists all calculated synthetic metrics available in your environment | maturity&#x3D;EARLY_ADOPTER
+*CalculatedMetricsSyntheticApi* | [**UpdateSyntheticMetric**](docs/CalculatedMetricsSyntheticApi.md#updatesyntheticmetric) | **Put** /calculatedMetrics/synthetic/{metricKey} | Updates the specified calculated synthetic metric | maturity&#x3D;EARLY_ADOPTER
 *CalculatedMetricsSyntheticApi* | [**ValidateCreateSyntheticMetric**](docs/CalculatedMetricsSyntheticApi.md#validatecreatesyntheticmetric) | **Post** /calculatedMetrics/synthetic/validator | Validates the payload for the &#x60;POST /calculatedMetrics/synthetic&#x60; request | maturity&#x3D;EARLY_ADOPTER
 *CalculatedMetricsSyntheticApi* | [**ValidateUpdateSyntheticMetric**](docs/CalculatedMetricsSyntheticApi.md#validateupdatesyntheticmetric) | **Post** /calculatedMetrics/synthetic/{metricKey}/validator | Validates the payload for the &#x60;PUT /calculatedMetrics/synthetic/{metricKey}&#x60; request | maturity&#x3D;EARLY_ADOPTER
-*CalculatedMetricsWebApplicationsApi* | [**Create1**](docs/CalculatedMetricsWebApplicationsApi.md#create1) | **Post** /calculatedMetrics/rum | Stores the provided calculated RUM metric configuration. | maturity&#x3D;EARLY_ADOPTER
-*CalculatedMetricsWebApplicationsApi* | [**Delete3**](docs/CalculatedMetricsWebApplicationsApi.md#delete3) | **Delete** /calculatedMetrics/rum/{metricKey} | Deletes the calculated RUM metric configuration with the given id. | maturity&#x3D;EARLY_ADOPTER
-*CalculatedMetricsWebApplicationsApi* | [**GetItem2**](docs/CalculatedMetricsWebApplicationsApi.md#getitem2) | **Get** /calculatedMetrics/rum/{metricKey} | Gets the definition of the specified calculated RUM metric. | maturity&#x3D;EARLY_ADOPTER
-*CalculatedMetricsWebApplicationsApi* | [**GetList2**](docs/CalculatedMetricsWebApplicationsApi.md#getlist2) | **Get** /calculatedMetrics/rum | Lists all calculated RUM metric configurations. | maturity&#x3D;EARLY_ADOPTER
-*CalculatedMetricsWebApplicationsApi* | [**Update1**](docs/CalculatedMetricsWebApplicationsApi.md#update1) | **Put** /calculatedMetrics/rum/{metricKey} | Updates the specified calculated RUM metric. | maturity&#x3D;EARLY_ADOPTER
-*CalculatedMetricsWebApplicationsApi* | [**ValidateCreateRumMetric**](docs/CalculatedMetricsWebApplicationsApi.md#validatecreaterummetric) | **Post** /calculatedMetrics/rum/validator | Validates the payload for the &#x60;POST /calculatedMetrics/rum&#x60; request | maturity&#x3D;EARLY_ADOPTER
-*CalculatedMetricsWebApplicationsApi* | [**ValidateUpdateRumMetric**](docs/CalculatedMetricsWebApplicationsApi.md#validateupdaterummetric) | **Post** /calculatedMetrics/rum/{metricKey}/validator | Validates the payload for the &#x60;PUT /calculatedMetrics/rum/{metricKey}&#x60; request | maturity&#x3D;EARLY_ADOPTER
-*CloudFoundryCredentialsConfigurationApi* | [**CreateConfig1**](docs/CloudFoundryCredentialsConfigurationApi.md#createconfig1) | **Post** /cloudFoundry/credentials | Create new credentials for a single foundation. | maturity&#x3D;EARLY_ADOPTER
-*CloudFoundryCredentialsConfigurationApi* | [**DeleteConfig1**](docs/CloudFoundryCredentialsConfigurationApi.md#deleteconfig1) | **Delete** /cloudFoundry/credentials/{id} | Delete the specified Cloud Foundry foundation credentials. | maturity&#x3D;EARLY_ADOPTER
-*CloudFoundryCredentialsConfigurationApi* | [**GetConfig2**](docs/CloudFoundryCredentialsConfigurationApi.md#getconfig2) | **Get** /cloudFoundry/credentials/{id} | Show the properties for the specified Cloud Foundry foundation credentials. | maturity&#x3D;EARLY_ADOPTER
-*CloudFoundryCredentialsConfigurationApi* | [**ListConfigs**](docs/CloudFoundryCredentialsConfigurationApi.md#listconfigs) | **Get** /cloudFoundry/credentials | List all the Cloud Foundry foundations credentials. | maturity&#x3D;EARLY_ADOPTER
-*CloudFoundryCredentialsConfigurationApi* | [**UpdateConfig**](docs/CloudFoundryCredentialsConfigurationApi.md#updateconfig) | **Put** /cloudFoundry/credentials/{id} | Create or update credentials for a single Cloud Foundry foundation. | maturity&#x3D;EARLY_ADOPTER
-*CloudFoundryCredentialsConfigurationApi* | [**ValidatePOSTConfig**](docs/CloudFoundryCredentialsConfigurationApi.md#validatepostconfig) | **Post** /cloudFoundry/credentials/validator | Validate that creating credentials would be successful. | maturity&#x3D;EARLY_ADOPTER
-*CloudFoundryCredentialsConfigurationApi* | [**ValidatePUTConfig**](docs/CloudFoundryCredentialsConfigurationApi.md#validateputconfig) | **Post** /cloudFoundry/credentials/{id}/validator | Validate that updating or creating credentials would be successful. | maturity&#x3D;EARLY_ADOPTER
-*ConditionalNamingApi* | [**CreateNamingRule**](docs/ConditionalNamingApi.md#createnamingrule) | **Post** /conditionalNaming/{type} | Creates a new naming rule | maturity&#x3D;EARLY_ADOPTER
-*ConditionalNamingApi* | [**CreateOrUpdateNamingRule**](docs/ConditionalNamingApi.md#createorupdatenamingrule) | **Put** /conditionalNaming/{type}/{id} | Updates the specified naming rule or creates it | maturity&#x3D;EARLY_ADOPTER
-*ConditionalNamingApi* | [**DeleteNamingRule**](docs/ConditionalNamingApi.md#deletenamingrule) | **Delete** /conditionalNaming/{type}/{id} | Deletes the specified naming rule | maturity&#x3D;EARLY_ADOPTER
-*ConditionalNamingApi* | [**GetAllNamingRules**](docs/ConditionalNamingApi.md#getallnamingrules) | **Get** /conditionalNaming/{type} | Lists all configured naming rules of one type | maturity&#x3D;EARLY_ADOPTER
-*ConditionalNamingApi* | [**GetSingleNamingRule**](docs/ConditionalNamingApi.md#getsinglenamingrule) | **Get** /conditionalNaming/{type}/{id} | Lists the parameters of the specified naming rule | maturity&#x3D;EARLY_ADOPTER
-*ConditionalNamingApi* | [**ValidateNamingRule**](docs/ConditionalNamingApi.md#validatenamingrule) | **Post** /conditionalNaming/{type}/validator | Validates a new naming rule for the &#x60;POST /conditionalNaming/{type}&#x60; request | maturity&#x3D;EARLY_ADOPTER
-*ConditionalNamingApi* | [**ValidateNamingRule1**](docs/ConditionalNamingApi.md#validatenamingrule1) | **Post** /conditionalNaming/{type}/{id}/validator | Validate updates of existing naming rules for the &#x60;PUT /conditionalNaming/{type}/{id}&#x60; request | maturity&#x3D;EARLY_ADOPTER
-*CredentialVaultApi* | [**AddCredentials**](docs/CredentialVaultApi.md#addcredentials) | **Post** /credentials | Creates a new credentials set | maturity&#x3D;EARLY_ADOPTER
-*CredentialVaultApi* | [**GetCredentials**](docs/CredentialVaultApi.md#getcredentials) | **Get** /credentials | Lists all sets of credentials for synthetic monitors stored in your environment | maturity&#x3D;EARLY_ADOPTER
-*CredentialVaultApi* | [**GetCredentials1**](docs/CredentialVaultApi.md#getcredentials1) | **Get** /credentials/{id} | Gets the metadata of the specified credentials set | maturity&#x3D;EARLY_ADOPTER
+*CalculatedMetricsWebApplicationsApi* | [**CreateRumMetric**](docs/CalculatedMetricsWebApplicationsApi.md#createrummetric) | **Post** /calculatedMetrics/rum | Creates a new calculated RUM metric
+*CalculatedMetricsWebApplicationsApi* | [**DeleteRumMetric**](docs/CalculatedMetricsWebApplicationsApi.md#deleterummetric) | **Delete** /calculatedMetrics/rum/{metricKey} | Deletes the specified calculated RUM metric
+*CalculatedMetricsWebApplicationsApi* | [**GetRumMetric**](docs/CalculatedMetricsWebApplicationsApi.md#getrummetric) | **Get** /calculatedMetrics/rum/{metricKey} | Gets the descriptor of the specified calculated RUM metric
+*CalculatedMetricsWebApplicationsApi* | [**ListRumMetrics**](docs/CalculatedMetricsWebApplicationsApi.md#listrummetrics) | **Get** /calculatedMetrics/rum | Lists all calculated RUM metrics
+*CalculatedMetricsWebApplicationsApi* | [**UpdateRumMetric**](docs/CalculatedMetricsWebApplicationsApi.md#updaterummetric) | **Put** /calculatedMetrics/rum/{metricKey} | Updates the specified calculated RUM metric
+*CalculatedMetricsWebApplicationsApi* | [**ValidateCreateRumMetric**](docs/CalculatedMetricsWebApplicationsApi.md#validatecreaterummetric) | **Post** /calculatedMetrics/rum/validator | Validates the payload for the &#x60;POST /calculatedMetrics/rum&#x60; request
+*CalculatedMetricsWebApplicationsApi* | [**ValidateUpdateRumMetric**](docs/CalculatedMetricsWebApplicationsApi.md#validateupdaterummetric) | **Post** /calculatedMetrics/rum/{metricKey}/validator | Validates the payload for the &#x60;PUT /calculatedMetrics/rum/{metricKey}&#x60; request
+*CloudFoundryCredentialsConfigurationApi* | [**CreateCloudFoundryCredentialsConfig**](docs/CloudFoundryCredentialsConfigurationApi.md#createcloudfoundrycredentialsconfig) | **Post** /cloudFoundry/credentials | Create new credentials for a single foundation. | maturity&#x3D;EARLY_ADOPTER
+*CloudFoundryCredentialsConfigurationApi* | [**DeleteCloudFoundryCredentialsConfig**](docs/CloudFoundryCredentialsConfigurationApi.md#deletecloudfoundrycredentialsconfig) | **Delete** /cloudFoundry/credentials/{id} | Delete the specified Cloud Foundry foundation credentials. | maturity&#x3D;EARLY_ADOPTER
+*CloudFoundryCredentialsConfigurationApi* | [**GetCloudFoundryCredentialsConfig**](docs/CloudFoundryCredentialsConfigurationApi.md#getcloudfoundrycredentialsconfig) | **Get** /cloudFoundry/credentials/{id} | Show the properties for the specified Cloud Foundry foundation credentials. | maturity&#x3D;EARLY_ADOPTER
+*CloudFoundryCredentialsConfigurationApi* | [**ListCloudFoundryCredentialsConfigs**](docs/CloudFoundryCredentialsConfigurationApi.md#listcloudfoundrycredentialsconfigs) | **Get** /cloudFoundry/credentials | List all the Cloud Foundry foundations credentials. | maturity&#x3D;EARLY_ADOPTER
+*CloudFoundryCredentialsConfigurationApi* | [**UpdateCloudFoundryCredentialsConfig**](docs/CloudFoundryCredentialsConfigurationApi.md#updatecloudfoundrycredentialsconfig) | **Put** /cloudFoundry/credentials/{id} | Create or update credentials for a single Cloud Foundry foundation. | maturity&#x3D;EARLY_ADOPTER
+*CloudFoundryCredentialsConfigurationApi* | [**ValidateCreateCloudFoundryCredentialsConfig**](docs/CloudFoundryCredentialsConfigurationApi.md#validatecreatecloudfoundrycredentialsconfig) | **Post** /cloudFoundry/credentials/validator | Validate that creating credentials would be successful. | maturity&#x3D;EARLY_ADOPTER
+*CloudFoundryCredentialsConfigurationApi* | [**ValidateUpdateCloudFoundryCredentialsConfig**](docs/CloudFoundryCredentialsConfigurationApi.md#validateupdatecloudfoundrycredentialsconfig) | **Post** /cloudFoundry/credentials/{id}/validator | Validate that updating or creating credentials would be successful. | maturity&#x3D;EARLY_ADOPTER
+*ConditionalNamingApi* | [**CreateNamingRule**](docs/ConditionalNamingApi.md#createnamingrule) | **Post** /conditionalNaming/{type} | Creates a new naming rule
+*ConditionalNamingApi* | [**DeleteNamingRule**](docs/ConditionalNamingApi.md#deletenamingrule) | **Delete** /conditionalNaming/{type}/{id} | Deletes the specified naming rule
+*ConditionalNamingApi* | [**GetNamingRule**](docs/ConditionalNamingApi.md#getnamingrule) | **Get** /conditionalNaming/{type}/{id} | Lists the parameters of the specified naming rule
+*ConditionalNamingApi* | [**ListNamingRules**](docs/ConditionalNamingApi.md#listnamingrules) | **Get** /conditionalNaming/{type} | Lists all configured naming rules of the specified type
+*ConditionalNamingApi* | [**UpdateNamingRule**](docs/ConditionalNamingApi.md#updatenamingrule) | **Put** /conditionalNaming/{type}/{id} | Updates the specified naming rule
+*ConditionalNamingApi* | [**ValidateCreateNamingRule**](docs/ConditionalNamingApi.md#validatecreatenamingrule) | **Post** /conditionalNaming/{type}/validator | Validates the payload for the &#x60;POST /conditionalNaming/{type}&#x60; request
+*ConditionalNamingApi* | [**ValidateUpdateNamingRule**](docs/ConditionalNamingApi.md#validateupdatenamingrule) | **Post** /conditionalNaming/{type}/{id}/validator | Validates the payload for the &#x60;PUT /conditionalNaming/{type}/{id}&#x60; request
+*CredentialVaultApi* | [**CreateCredentials**](docs/CredentialVaultApi.md#createcredentials) | **Post** /credentials | Creates a new credentials set | maturity&#x3D;EARLY_ADOPTER
+*CredentialVaultApi* | [**GetCredentials**](docs/CredentialVaultApi.md#getcredentials) | **Get** /credentials/{id} | Gets the metadata of the specified credentials set | maturity&#x3D;EARLY_ADOPTER
+*CredentialVaultApi* | [**ListCredentials**](docs/CredentialVaultApi.md#listcredentials) | **Get** /credentials | Lists all sets of credentials for synthetic monitors stored in your environment | maturity&#x3D;EARLY_ADOPTER
 *CredentialVaultApi* | [**RemoveCredentials**](docs/CredentialVaultApi.md#removecredentials) | **Delete** /credentials/{id} | Deletes the specified credentials set | maturity&#x3D;EARLY_ADOPTER
 *CredentialVaultApi* | [**UpdateCredentials**](docs/CredentialVaultApi.md#updatecredentials) | **Put** /credentials/{id} | Updates the specified credentials set | maturity&#x3D;EARLY_ADOPTER
 *DashboardsApi* | [**CreateDashboard**](docs/DashboardsApi.md#createdashboard) | **Post** /dashboards | Creates a dashboard | maturity&#x3D;EARLY_ADOPTER
 *DashboardsApi* | [**DeleteDashboard**](docs/DashboardsApi.md#deletedashboard) | **Delete** /dashboards/{id} | Deletes the specified dashboard | maturity&#x3D;EARLY_ADOPTER
 *DashboardsApi* | [**GetDashboard**](docs/DashboardsApi.md#getdashboard) | **Get** /dashboards/{id} | Gets the properties of the specified dashboard | maturity&#x3D;EARLY_ADOPTER
-*DashboardsApi* | [**GetDashboardMetadata**](docs/DashboardsApi.md#getdashboardmetadata) | **Get** /dashboards | Lists all dashboards of the environment | maturity&#x3D;EARLY_ADOPTER
-*DashboardsApi* | [**UpdateDashboard**](docs/DashboardsApi.md#updatedashboard) | **Put** /dashboards/{id} | Updates or creates a dashboard | maturity&#x3D;EARLY_ADOPTER
+*DashboardsApi* | [**GetDashboardStubsList**](docs/DashboardsApi.md#getdashboardstubslist) | **Get** /dashboards | Lists all dashboards of the environment | maturity&#x3D;EARLY_ADOPTER
+*DashboardsApi* | [**UpdateDashboard**](docs/DashboardsApi.md#updatedashboard) | **Put** /dashboards/{id} | Updates the specified dashboard | maturity&#x3D;EARLY_ADOPTER
 *DashboardsApi* | [**ValidateDashboardCreation**](docs/DashboardsApi.md#validatedashboardcreation) | **Post** /dashboards/validator | Validates the payload for the &#39;POST /dashboards&#39; request | maturity&#x3D;EARLY_ADOPTER
 *DashboardsApi* | [**ValidateDashboardUpdate**](docs/DashboardsApi.md#validatedashboardupdate) | **Post** /dashboards/{id}/validator | Validates the payload for the &#39;PUT /dashboards/{id}&#39; request | maturity&#x3D;EARLY_ADOPTER
 *DataPrivacyAndSecurityApi* | [**GetDataPrivacySettings1**](docs/DataPrivacyAndSecurityApi.md#getdataprivacysettings1) | **Get** /dataPrivacy | Lists the global data privacy and security settings.
 *DataPrivacyAndSecurityApi* | [**UpdateDataPrivacySettings1**](docs/DataPrivacyAndSecurityApi.md#updatedataprivacysettings1) | **Put** /dataPrivacy | Updates the global data privacy and security settings.
-*DataPrivacyAndSecurityApi* | [**ValidateConfiguration5**](docs/DataPrivacyAndSecurityApi.md#validateconfiguration5) | **Post** /dataPrivacy/validator | Validates new data privacy and security settings for the &#x60;PUT /dataPrivacy&#x60; request.
+*DataPrivacyAndSecurityApi* | [**ValidateDataPrivacySettings1**](docs/DataPrivacyAndSecurityApi.md#validatedataprivacysettings1) | **Post** /dataPrivacy/validator | Validates new data privacy and security settings for the &#x60;PUT /dataPrivacy&#x60; request.
 *ExtensionsApi* | [**CreateLocalExtensionConfiguration**](docs/ExtensionsApi.md#createlocalextensionconfiguration) | **Post** /extensions/{id}/instances | Creates instance of local configuration for given extension | maturity&#x3D;EARLY_ADOPTER
 *ExtensionsApi* | [**DeleteExtension**](docs/ExtensionsApi.md#deleteextension) | **Delete** /extensions/{id} | Deletes the ZIP file of the specified extension | maturity&#x3D;EARLY_ADOPTER
 *ExtensionsApi* | [**DeleteLocalExtensionConfiguration**](docs/ExtensionsApi.md#deletelocalextensionconfiguration) | **Delete** /extensions/{id}/instances/{configurationId} | Deletes an existing configuration of the extension | maturity&#x3D;EARLY_ADOPTER
@@ -184,47 +231,64 @@ Class | Method | HTTP request | Description
 *ExtensionsApi* | [**UploadExtension**](docs/ExtensionsApi.md#uploadextension) | **Post** /extensions | Uploads a ZIP extension file | maturity&#x3D;EARLY_ADOPTER
 *ExtensionsApi* | [**ValidateExtension**](docs/ExtensionsApi.md#validateextension) | **Post** /extensions/validator | Validates a ZIP extension file for &#x60;POST/extensions&#x60; request | maturity&#x3D;EARLY_ADOPTER
 *ExtensionsApi* | [**ValidateLocalExtensionConfiguration**](docs/ExtensionsApi.md#validatelocalextensionconfiguration) | **Post** /extensions/{id}/instances/validator | Validates the payload for the &#x60;POST /extensions/{id}/instances&#x60; request | maturity&#x3D;EARLY_ADOPTER
-*FrequentIssueDetectionApi* | [**GetConfiguration5**](docs/FrequentIssueDetectionApi.md#getconfiguration5) | **Get** /frequentIssueDetection | Gets the configuration of frequent issue detection
-*FrequentIssueDetectionApi* | [**UpdateConfiguration3**](docs/FrequentIssueDetectionApi.md#updateconfiguration3) | **Put** /frequentIssueDetection | Updates the configuration of frequent issue detection
-*FrequentIssueDetectionApi* | [**ValidateConfiguration6**](docs/FrequentIssueDetectionApi.md#validateconfiguration6) | **Post** /frequentIssueDetection/validator | Validates the frequent issue detection configuration for the &#x60;PUT /frequentIssueDetection&#x60; request
-*KubernetesCredentialsConfigurationApi* | [**CreateConfiguration3**](docs/KubernetesCredentialsConfigurationApi.md#createconfiguration3) | **Post** /kubernetes/credentials | Creates a new Kubernetes credentials configuration | maturity&#x3D;EARLY_ADOPTER
-*KubernetesCredentialsConfigurationApi* | [**DeleteConfiguration4**](docs/KubernetesCredentialsConfigurationApi.md#deleteconfiguration4) | **Delete** /kubernetes/credentials/{id} | Deletes the specified Kubernetes credentials configuration | maturity&#x3D;EARLY_ADOPTER
-*KubernetesCredentialsConfigurationApi* | [**GetConfiguration8**](docs/KubernetesCredentialsConfigurationApi.md#getconfiguration8) | **Get** /kubernetes/credentials/{id} | Gets the configuration of the specified Kubernetes credentials | maturity&#x3D;EARLY_ADOPTER
-*KubernetesCredentialsConfigurationApi* | [**GetConfigurations2**](docs/KubernetesCredentialsConfigurationApi.md#getconfigurations2) | **Get** /kubernetes/credentials | Lists all available Kubernetes credentials configurations | maturity&#x3D;EARLY_ADOPTER
-*KubernetesCredentialsConfigurationApi* | [**UpdateConfiguration5**](docs/KubernetesCredentialsConfigurationApi.md#updateconfiguration5) | **Put** /kubernetes/credentials/{id} | Updates an existing Kubernetes credentials configuration | maturity&#x3D;EARLY_ADOPTER
-*KubernetesCredentialsConfigurationApi* | [**ValidateConfiguration12**](docs/KubernetesCredentialsConfigurationApi.md#validateconfiguration12) | **Post** /kubernetes/credentials/validator | Validates the payload for the &#x60;POST /kubernetes/credentials&#x60; request | maturity&#x3D;EARLY_ADOPTER
-*KubernetesCredentialsConfigurationApi* | [**ValidateConfigurationUpdate1**](docs/KubernetesCredentialsConfigurationApi.md#validateconfigurationupdate1) | **Post** /kubernetes/credentials/{id}/validator | Validates the payload for the &#x60;PUT /kubernetes/credentials/{id}&#x60; request | maturity&#x3D;EARLY_ADOPTER
+*FrequentIssueDetectionApi* | [**GetFrequentIssueDetectionConfig**](docs/FrequentIssueDetectionApi.md#getfrequentissuedetectionconfig) | **Get** /frequentIssueDetection | Gets the configuration of frequent issue detection
+*FrequentIssueDetectionApi* | [**UpdateFrequentIssueDetectionConfig**](docs/FrequentIssueDetectionApi.md#updatefrequentissuedetectionconfig) | **Put** /frequentIssueDetection | Updates the configuration of frequent issue detection
+*FrequentIssueDetectionApi* | [**ValidateFrequentIssueDetectionConfig**](docs/FrequentIssueDetectionApi.md#validatefrequentissuedetectionconfig) | **Post** /frequentIssueDetection/validator | Validates the payload for the &#x60;PUT /frequentIssueDetection&#x60; request
+*KubernetesCredentialsConfigurationApi* | [**CreateKubernetesCredentialsConfig**](docs/KubernetesCredentialsConfigurationApi.md#createkubernetescredentialsconfig) | **Post** /kubernetes/credentials | Creates a new Kubernetes credentials configuration | maturity&#x3D;EARLY_ADOPTER
+*KubernetesCredentialsConfigurationApi* | [**DeleteKubernetesCredentialsConfig**](docs/KubernetesCredentialsConfigurationApi.md#deletekubernetescredentialsconfig) | **Delete** /kubernetes/credentials/{id} | Deletes the specified Kubernetes credentials configuration | maturity&#x3D;EARLY_ADOPTER
+*KubernetesCredentialsConfigurationApi* | [**GetKubernetesCredentialsConfig**](docs/KubernetesCredentialsConfigurationApi.md#getkubernetescredentialsconfig) | **Get** /kubernetes/credentials/{id} | Gets the configuration of the specified Kubernetes credentials | maturity&#x3D;EARLY_ADOPTER
+*KubernetesCredentialsConfigurationApi* | [**ListKubernetesCredentialsConfigs**](docs/KubernetesCredentialsConfigurationApi.md#listkubernetescredentialsconfigs) | **Get** /kubernetes/credentials | Lists all available Kubernetes credentials configurations | maturity&#x3D;EARLY_ADOPTER
+*KubernetesCredentialsConfigurationApi* | [**UpdateKubernetesCredentialsConfig**](docs/KubernetesCredentialsConfigurationApi.md#updatekubernetescredentialsconfig) | **Put** /kubernetes/credentials/{id} | Updates an existing Kubernetes credentials configuration | maturity&#x3D;EARLY_ADOPTER
+*KubernetesCredentialsConfigurationApi* | [**ValidateCreateKubernetesCredentialsConfig**](docs/KubernetesCredentialsConfigurationApi.md#validatecreatekubernetescredentialsconfig) | **Post** /kubernetes/credentials/validator | Validates the payload for the &#x60;POST /kubernetes/credentials&#x60; request | maturity&#x3D;EARLY_ADOPTER
+*KubernetesCredentialsConfigurationApi* | [**ValidateUpdateKubernetesCredentialsConfig**](docs/KubernetesCredentialsConfigurationApi.md#validateupdatekubernetescredentialsconfig) | **Post** /kubernetes/credentials/{id}/validator | Validates the payload for the &#x60;PUT /kubernetes/credentials/{id}&#x60; request | maturity&#x3D;EARLY_ADOPTER
+*MaintenanceWindowsApi* | [**CreateMaintenanceWindow**](docs/MaintenanceWindowsApi.md#createmaintenancewindow) | **Post** /maintenanceWindows | Creates a new maintenance window
 *MaintenanceWindowsApi* | [**DeleteMaintenanceWindow**](docs/MaintenanceWindowsApi.md#deletemaintenancewindow) | **Delete** /maintenanceWindows/{id} | Deletes the specified maintenance window
 *MaintenanceWindowsApi* | [**GetMaintenanceWindow**](docs/MaintenanceWindowsApi.md#getmaintenancewindow) | **Get** /maintenanceWindows/{id} | Gets the properties of the specified maintenance window
-*MaintenanceWindowsApi* | [**ReturnAllMaintenanceWindows**](docs/MaintenanceWindowsApi.md#returnallmaintenancewindows) | **Get** /maintenanceWindows | Lists all available maintenance windows
-*MaintenanceWindowsApi* | [**StoreMaintenanceWindow**](docs/MaintenanceWindowsApi.md#storemaintenancewindow) | **Put** /maintenanceWindows/{id} | Updates an existing maintenance window
-*MaintenanceWindowsApi* | [**StoreMaintenanceWindow1**](docs/MaintenanceWindowsApi.md#storemaintenancewindow1) | **Post** /maintenanceWindows | Creates a new maintenance window
-*MaintenanceWindowsApi* | [**ValidateConfiguration7**](docs/MaintenanceWindowsApi.md#validateconfiguration7) | **Post** /maintenanceWindows/{id}/validator | Validates the payload for the &#x60;PUT /maintenancewindow/{id}&#x60; request
-*MaintenanceWindowsApi* | [**ValidateConfiguration8**](docs/MaintenanceWindowsApi.md#validateconfiguration8) | **Post** /maintenanceWindows/validator | Validates the payload for the &#x60;POST /maintenancewindow&#x60; request
+*MaintenanceWindowsApi* | [**ListMaintenanceWindows**](docs/MaintenanceWindowsApi.md#listmaintenancewindows) | **Get** /maintenanceWindows | Lists all available maintenance windows
+*MaintenanceWindowsApi* | [**UpdateMaintenanceWindow**](docs/MaintenanceWindowsApi.md#updatemaintenancewindow) | **Put** /maintenanceWindows/{id} | Updates an existing maintenance window
+*MaintenanceWindowsApi* | [**ValidateCreateMaintenanceWindow**](docs/MaintenanceWindowsApi.md#validatecreatemaintenancewindow) | **Post** /maintenanceWindows/validator | Validates the payload for the &#x60;POST /maintenancewindow&#x60; request
+*MaintenanceWindowsApi* | [**ValidateUpdateMaintenanceWindow**](docs/MaintenanceWindowsApi.md#validateupdatemaintenancewindow) | **Post** /maintenanceWindows/{id}/validator | Validates the payload for the &#x60;PUT /maintenancewindow/{id}&#x60; request
 *ManagementZonesApi* | [**CreateManagementZone**](docs/ManagementZonesApi.md#createmanagementzone) | **Post** /managementZones | Creates a new management zone
-*ManagementZonesApi* | [**CreateOrUpdateManagementZone**](docs/ManagementZonesApi.md#createorupdatemanagementzone) | **Put** /managementZones/{id} | Updates the specified management zone or creates it
 *ManagementZonesApi* | [**DeleteManagementZone**](docs/ManagementZonesApi.md#deletemanagementzone) | **Delete** /managementZones/{id} | Deletes the specified management zone
-*ManagementZonesApi* | [**GetAllManagementZoneConfigs**](docs/ManagementZonesApi.md#getallmanagementzoneconfigs) | **Get** /managementZones | Lists all configured management zones
-*ManagementZonesApi* | [**GetSingleManagementZoneConfig**](docs/ManagementZonesApi.md#getsinglemanagementzoneconfig) | **Get** /managementZones/{id} | Lists the parameters of the specified management zone
-*ManagementZonesApi* | [**ValidateManagementZone**](docs/ManagementZonesApi.md#validatemanagementzone) | **Post** /managementZones/validator | Validates a new management zone for the &#x60;POST /managementZones&#x60; request
-*ManagementZonesApi* | [**ValidateManagementZone1**](docs/ManagementZonesApi.md#validatemanagementzone1) | **Post** /managementZones/{id}/validator | Validate updates of existing management zone for the &#x60;PUT /managementZones/{id}&#x60; request
+*ManagementZonesApi* | [**GetManagementZone**](docs/ManagementZonesApi.md#getmanagementzone) | **Get** /managementZones/{id} | Lists the parameters of the specified management zone
+*ManagementZonesApi* | [**ListManagementZones**](docs/ManagementZonesApi.md#listmanagementzones) | **Get** /managementZones | Lists all configured management zones
+*ManagementZonesApi* | [**UpdateManagementZone**](docs/ManagementZonesApi.md#updatemanagementzone) | **Put** /managementZones/{id} | Updates the specified management zone
+*ManagementZonesApi* | [**ValidateCreateManagementZone**](docs/ManagementZonesApi.md#validatecreatemanagementzone) | **Post** /managementZones/validator | Validates a new management zone for the &#x60;POST /managementZones&#x60; request
+*ManagementZonesApi* | [**ValidateUpdateManagementZone**](docs/ManagementZonesApi.md#validateupdatemanagementzone) | **Post** /managementZones/{id}/validator | Validate updates of existing management zone for the &#x60;PUT /managementZones/{id}&#x60; request
 *MobileDeobfuscationAndSymbolicationApi* | [**CreateOrUpdate**](docs/MobileDeobfuscationAndSymbolicationApi.md#createorupdate) | **Put** /symfiles/{applicationId}/{packageName}/{os}/{versionCode}/{versionName} | Upload a symbolication file. Either a ProGuard file for Android or a zip file containing all the iOS dSYM files. 
 *MobileDeobfuscationAndSymbolicationApi* | [**CreateOrUpdatePinning**](docs/MobileDeobfuscationAndSymbolicationApi.md#createorupdatepinning) | **Put** /symfiles/{applicationId}/{packageName}/{os}/{versionCode}/{versionName}/pinning | Pin or unpin all symbolication files of a app version. A pinned file will not be deleted automtically, when running out of space.
 *MobileDeobfuscationAndSymbolicationApi* | [**DeleteApp**](docs/MobileDeobfuscationAndSymbolicationApi.md#deleteapp) | **Delete** /symfiles/{applicationId} | Deletes all symbolication file belonging to the Dynatrace App specified
 *MobileDeobfuscationAndSymbolicationApi* | [**DeleteSingleFile**](docs/MobileDeobfuscationAndSymbolicationApi.md#deletesinglefile) | **Delete** /symfiles/{applicationId}/{packageName}/{os}/{versionCode}/{versionName} | Delete the symbolication file belonging to the given application, os and version
 *MobileDeobfuscationAndSymbolicationApi* | [**GetAll**](docs/MobileDeobfuscationAndSymbolicationApi.md#getall) | **Get** /symfiles | Lists the metadata of all symbolication files (ProGuard files for Android or dSYM files for iOS Apps) from the Symbol File Store.
 *MobileDeobfuscationAndSymbolicationApi* | [**GetAllPerApplication**](docs/MobileDeobfuscationAndSymbolicationApi.md#getallperapplication) | **Get** /symfiles/{applicationId} | Lists the metadata of all symbolication files (ProGuard files for Android or dSYM files for iOS Apps) for one single mobile application from the Symbol File Store of this tenant.
+*MobileDeobfuscationAndSymbolicationApi* | [**GetDssClientUrl**](docs/MobileDeobfuscationAndSymbolicationApi.md#getdssclienturl) | **Get** /symfiles/dtxdss-download | Gets a download link for the latest version of the DTXDSSClient.
 *MobileDeobfuscationAndSymbolicationApi* | [**GetInfo**](docs/MobileDeobfuscationAndSymbolicationApi.md#getinfo) | **Get** /symfiles/info | Retrieves information about used/empty diskspace, number of stored files,....
 *MobileDeobfuscationAndSymbolicationApi* | [**GetSingle**](docs/MobileDeobfuscationAndSymbolicationApi.md#getsingle) | **Get** /symfiles/{applicationId}/{packageName}/{os}/{versionCode}/{versionName} | Gets the metadata of the symbolication file belonging to the specified app version. There always can exist only one file per os and version
 *MobileDeobfuscationAndSymbolicationApi* | [**GetSupportedVersion**](docs/MobileDeobfuscationAndSymbolicationApi.md#getsupportedversion) | **Get** /symfiles/ios/supportedversion | Returns the supported file format version for iOS symbol files.
 *MobileDeobfuscationAndSymbolicationApi* | [**ValidatePinning**](docs/MobileDeobfuscationAndSymbolicationApi.md#validatepinning) | **Put** /symfiles/{applicationId}/{packageName}/{os}/{versionCode}/{versionName}/pinning/validator | Validate updates of existing request attribute for the &#x60;PUT /{applicationId}/{packageName}/{os}/{versionName}/pinning&#x60; request.
 *NotificationsApi* | [**CreateNotificationConfig**](docs/NotificationsApi.md#createnotificationconfig) | **Post** /notifications | Creates a new notification configuration
-*NotificationsApi* | [**CreateOrUpdateNotificationConfig**](docs/NotificationsApi.md#createorupdatenotificationconfig) | **Put** /notifications/{id} | Updates an existing notification configuration or creates a new one
-*NotificationsApi* | [**DeleteNotificatonConfig**](docs/NotificationsApi.md#deletenotificatonconfig) | **Delete** /notifications/{id} | Deletes the specified notification configuration
+*NotificationsApi* | [**DeleteNotificationConfig**](docs/NotificationsApi.md#deletenotificationconfig) | **Delete** /notifications/{id} | Deletes the specified notification configuration
 *NotificationsApi* | [**GetNotificationConfig**](docs/NotificationsApi.md#getnotificationconfig) | **Get** /notifications/{id} | Gets the properties of the specified notification configuration
-*NotificationsApi* | [**ReturnAllNotificationCofigs**](docs/NotificationsApi.md#returnallnotificationcofigs) | **Get** /notifications | Lists all notification configurations available in your environment
-*NotificationsApi* | [**ValidateCreateConfiguration**](docs/NotificationsApi.md#validatecreateconfiguration) | **Post** /notifications/validator | Validates the payload for the &#x60;POST /notifications&#x60; request
-*NotificationsApi* | [**ValidateCreateOrUpdateConfiguration**](docs/NotificationsApi.md#validatecreateorupdateconfiguration) | **Post** /notifications/{id}/validator | Validates the payload the &#x60;PUT /notifications/{id}&#x60; request
+*NotificationsApi* | [**ListNotificationConfigs**](docs/NotificationsApi.md#listnotificationconfigs) | **Get** /notifications | Lists all notification configurations available in your environment
+*NotificationsApi* | [**UpdateNotificationConfig**](docs/NotificationsApi.md#updatenotificationconfig) | **Put** /notifications/{id} | Updates an existing notification configuration or creates a new one
+*NotificationsApi* | [**ValidateCreateNotificationConfig**](docs/NotificationsApi.md#validatecreatenotificationconfig) | **Post** /notifications/validator | Validates the payload for the &#x60;POST /notifications&#x60; request
+*NotificationsApi* | [**ValidateUpdateNotificationConfig**](docs/NotificationsApi.md#validateupdatenotificationconfig) | **Post** /notifications/{id}/validator | Validates the payload the &#x60;PUT /notifications/{id}&#x60; request
+*OneAgentEnvironmentWideConfigurationApi* | [**GetAutoUpdateConfig**](docs/OneAgentEnvironmentWideConfigurationApi.md#getautoupdateconfig) | **Get** /hosts/autoupdate | Gets the environment-wide configuration of OneAgents auto-update
+*OneAgentEnvironmentWideConfigurationApi* | [**GetTechGlobalConfigs**](docs/OneAgentEnvironmentWideConfigurationApi.md#gettechglobalconfigs) | **Get** /technologies | Gets the global monitoring configuration of technologies.
+*OneAgentEnvironmentWideConfigurationApi* | [**SetAutoUpdateConfig**](docs/OneAgentEnvironmentWideConfigurationApi.md#setautoupdateconfig) | **Put** /hosts/autoupdate | Updates the environment-wide configuration of OneAgents auto-update
+*OneAgentEnvironmentWideConfigurationApi* | [**ValidateAutoUpdateConfig**](docs/OneAgentEnvironmentWideConfigurationApi.md#validateautoupdateconfig) | **Post** /hosts/autoupdate/validator | Validates the payload for the &#x60;PUT hosts/autoupdate&#x60; request
+*OneAgentInAHostGroupApi* | [**GetAutoUpdateConfig2**](docs/OneAgentInAHostGroupApi.md#getautoupdateconfig2) | **Get** /hostgroups/{id}/autoupdate | Gets the configuration of OneAgent auto-update in the specified host group
+*OneAgentInAHostGroupApi* | [**GetHostGroupConfig**](docs/OneAgentInAHostGroupApi.md#gethostgroupconfig) | **Get** /hostgroups/{id} | Gets the OneAgent configuration in the specified host group
+*OneAgentInAHostGroupApi* | [**UpdateAutoUpdateConfig1**](docs/OneAgentInAHostGroupApi.md#updateautoupdateconfig1) | **Put** /hostgroups/{id}/autoupdate | Updates the configuration of OneAgent auto-update in the specified host group
+*OneAgentInAHostGroupApi* | [**ValidateAutoUpdateConfig2**](docs/OneAgentInAHostGroupApi.md#validateautoupdateconfig2) | **Post** /hostgroups/{id}/autoupdate/validator | Validates the payload for the &#x60;PUT /hostgroups/{id}/autoupdate&#x60; request
+*OneAgentOnAHostApi* | [**GetAutoUpdateConfig1**](docs/OneAgentOnAHostApi.md#getautoupdateconfig1) | **Get** /hosts/{id}/autoupdate | Gets the configuration of OneAgent auto-update on the specified host
+*OneAgentOnAHostApi* | [**GetHostConfig**](docs/OneAgentOnAHostApi.md#gethostconfig) | **Get** /hosts/{id} | Gets the OneAgent configuration on the specified host
+*OneAgentOnAHostApi* | [**GetMonitoringConfig**](docs/OneAgentOnAHostApi.md#getmonitoringconfig) | **Get** /hosts/{id}/monitoring | Gets the monitoring configuration of OneAgent on the specified host
+*OneAgentOnAHostApi* | [**GetTechHostConfigs**](docs/OneAgentOnAHostApi.md#gettechhostconfigs) | **Get** /hosts/{id}/technologies | Gets the configuration of monitored technologies on the specified host
+*OneAgentOnAHostApi* | [**UpdateAutoUpdateConfig**](docs/OneAgentOnAHostApi.md#updateautoupdateconfig) | **Put** /hosts/{id}/autoupdate | Updates the configuration of OneAgent auto-update on the specified host
+*OneAgentOnAHostApi* | [**UpdateMonitoringConfig**](docs/OneAgentOnAHostApi.md#updatemonitoringconfig) | **Put** /hosts/{id}/monitoring | Updates the monitoring configuration of OneAgent on the specified host
+*OneAgentOnAHostApi* | [**ValidateAutoUpdateConfig1**](docs/OneAgentOnAHostApi.md#validateautoupdateconfig1) | **Post** /hosts/{id}/autoupdate/validator | Validates the payload for the &#x60;PUT /hosts/{id}/autoupdate&#x60; request
+*OneAgentOnAHostApi* | [**ValidateMonitoringConfig**](docs/OneAgentOnAHostApi.md#validatemonitoringconfig) | **Post** /hosts/{id}/monitoring/validator | Validates the payload for the &#x60;PUT /hosts/{id}/monitoring&#x60; request
 *PluginsApi* | [**CreateRemotePluginEndpoint**](docs/PluginsApi.md#createremotepluginendpoint) | **Post** /plugins/{id}/endpoints | Creates a new endpoint for the specified ActiveGate plugin
 *PluginsApi* | [**DeletePlugin**](docs/PluginsApi.md#deleteplugin) | **Delete** /plugins/{id}/binary | Deletes the ZIP file of the specified plugin
 *PluginsApi* | [**DeleteRemotePluginEndpoint**](docs/PluginsApi.md#deleteremotepluginendpoint) | **Delete** /plugins/{id}/endpoints/{endpointId} | Deletes an existing endpoint of the ActiveGate plugin
@@ -239,13 +303,75 @@ Class | Method | HTTP request | Description
 *PluginsApi* | [**UploadPlugin**](docs/PluginsApi.md#uploadplugin) | **Post** /plugins | Uploads a ZIP plugin file
 *PluginsApi* | [**ValidatePlugin**](docs/PluginsApi.md#validateplugin) | **Post** /plugins/validator | Validates a ZIP plugin file for &#x60;POST/plugins&#x60; request
 *PluginsApi* | [**ValidateRemotePluginEndpoint**](docs/PluginsApi.md#validateremotepluginendpoint) | **Post** /plugins/{id}/endpoints/validator | Validates the payload for the &#x60;POST /plugins/{id}/endpoints&#x60; request
-*RemoteEnvironmentsApi* | [**CreateConfig**](docs/RemoteEnvironmentsApi.md#createconfig) | **Post** /remoteEnvironments | Creates a new remote environment configuration | maturity&#x3D;EARLY_ADOPTER
-*RemoteEnvironmentsApi* | [**CreateOrUpdateConfig**](docs/RemoteEnvironmentsApi.md#createorupdateconfig) | **Put** /remoteEnvironments/{id} | Updates an existing remote environment configuration or creates a new one | maturity&#x3D;EARLY_ADOPTER
-*RemoteEnvironmentsApi* | [**DeleteConfig**](docs/RemoteEnvironmentsApi.md#deleteconfig) | **Delete** /remoteEnvironments/{id} | Deletes the specified remote environment configuration | maturity&#x3D;EARLY_ADOPTER
-*RemoteEnvironmentsApi* | [**GetConfig1**](docs/RemoteEnvironmentsApi.md#getconfig1) | **Get** /remoteEnvironments/{id} | Gets the properties of the specified remote environment configuration | maturity&#x3D;EARLY_ADOPTER
-*RemoteEnvironmentsApi* | [**ReturnAllConfigs**](docs/RemoteEnvironmentsApi.md#returnallconfigs) | **Get** /remoteEnvironments | Lists all remote environment configurations | maturity&#x3D;EARLY_ADOPTER
-*RemoteEnvironmentsApi* | [**ValidateCreateConfiguration1**](docs/RemoteEnvironmentsApi.md#validatecreateconfiguration1) | **Post** /remoteEnvironments/validator | Validates the payload for the &#x60;POST /remoteEnvironments&#x60; request | maturity&#x3D;EARLY_ADOPTER
-*RemoteEnvironmentsApi* | [**ValidateCreateOrUpdateConfiguration1**](docs/RemoteEnvironmentsApi.md#validatecreateorupdateconfiguration1) | **Post** /remoteEnvironments/{id}/validator | Validates the payload for the &#x60;PUT /remoteEnvironments/{id}&#x60; request | maturity&#x3D;EARLY_ADOPTER
+*RUMAllowedBeaconOriginsForCORSApi* | [**GetAllowedBeaconOriginsConfig**](docs/RUMAllowedBeaconOriginsForCORSApi.md#getallowedbeaconoriginsconfig) | **Get** /allowedBeaconOriginsForCors | Gets the configuration of the allowed beacon origins for CORS requests
+*RUMAllowedBeaconOriginsForCORSApi* | [**PutAllowedBeaconOriginsConfig**](docs/RUMAllowedBeaconOriginsForCORSApi.md#putallowedbeaconoriginsconfig) | **Put** /allowedBeaconOriginsForCors | Updates the configuration of the allowed beacon origins for CORS requests
+*RUMAllowedBeaconOriginsForCORSApi* | [**ValidateAllowedBeaconOriginsConfig**](docs/RUMAllowedBeaconOriginsForCORSApi.md#validateallowedbeaconoriginsconfig) | **Post** /allowedBeaconOriginsForCors/validator | Validates the payload for the &#x60;PUT /allowedBeaconOriginsForCors&#x60; request
+*RUMApplicationDetectionRulesApi* | [**CreateApplicationDetectionConfig**](docs/RUMApplicationDetectionRulesApi.md#createapplicationdetectionconfig) | **Post** /applicationDetectionRules | Creates a new application detection rule
+*RUMApplicationDetectionRulesApi* | [**DeleteApplicationDetectionConfig**](docs/RUMApplicationDetectionRulesApi.md#deleteapplicationdetectionconfig) | **Delete** /applicationDetectionRules/{id} | Deletes the specified application detection rule
+*RUMApplicationDetectionRulesApi* | [**GetApplicationDetectionConfig**](docs/RUMApplicationDetectionRulesApi.md#getapplicationdetectionconfig) | **Get** /applicationDetectionRules/{id} | Gets the parameters of the specified application detection rule
+*RUMApplicationDetectionRulesApi* | [**ListApplicationDetectionConfigs**](docs/RUMApplicationDetectionRulesApi.md#listapplicationdetectionconfigs) | **Get** /applicationDetectionRules | Lists all available application detection rules
+*RUMApplicationDetectionRulesApi* | [**OrderApplicationDetectionConfigs**](docs/RUMApplicationDetectionRulesApi.md#orderapplicationdetectionconfigs) | **Put** /applicationDetectionRules/order | Reorders the application detection rules
+*RUMApplicationDetectionRulesApi* | [**UpdateApplicationDetectionConfig**](docs/RUMApplicationDetectionRulesApi.md#updateapplicationdetectionconfig) | **Put** /applicationDetectionRules/{id} | Updates the specified application detection rule
+*RUMApplicationDetectionRulesApi* | [**ValidateCreateApplicationDetectionConfig**](docs/RUMApplicationDetectionRulesApi.md#validatecreateapplicationdetectionconfig) | **Post** /applicationDetectionRules/validator | Validates the payload for the &#x60;POST /applicationDetection&#x60; request
+*RUMApplicationDetectionRulesApi* | [**ValidateUpdateApplicationDetectionConfig**](docs/RUMApplicationDetectionRulesApi.md#validateupdateapplicationdetectionconfig) | **Post** /applicationDetectionRules/{id}/validator | Validate the payload for the &#x60;PUT /applicationDetection/{id}&#x60; request
+*RUMApplicationDetectionRulesHostDetectionApi* | [**GetHostDetectionConfig**](docs/RUMApplicationDetectionRulesHostDetectionApi.md#gethostdetectionconfig) | **Get** /applicationDetectionRules/hostDetection | Gets the configuration of host detection headers
+*RUMApplicationDetectionRulesHostDetectionApi* | [**UpdateHostDetectionConfig**](docs/RUMApplicationDetectionRulesHostDetectionApi.md#updatehostdetectionconfig) | **Put** /applicationDetectionRules/hostDetection | Updates the configuration of host detection headers
+*RUMApplicationDetectionRulesHostDetectionApi* | [**ValidateHostDetectionConfig**](docs/RUMApplicationDetectionRulesHostDetectionApi.md#validatehostdetectionconfig) | **Post** /applicationDetectionRules/hostDetection/validator | Validate the payload for &#x60;PUT /applicationDetection/hostDetection&#x60; request.
+*RUMContentResourcesApi* | [**GetContentConfig**](docs/RUMContentResourcesApi.md#getcontentconfig) | **Get** /contentResources | Gets the configuration of content resources
+*RUMContentResourcesApi* | [**PutContentResourceConfig**](docs/RUMContentResourcesApi.md#putcontentresourceconfig) | **Put** /contentResources | Updates the configuration of content resources
+*RUMContentResourcesApi* | [**ValidateContentResourceConfig**](docs/RUMContentResourcesApi.md#validatecontentresourceconfig) | **Post** /contentResources/validator | Validates the payload for the &#x60;PUT /contentResources&#x60; request
+*RUMGeographicRegionsCustomClientIPHeadersApi* | [**GetGeolocationRegionsIpHeaders**](docs/RUMGeographicRegionsCustomClientIPHeadersApi.md#getgeolocationregionsipheaders) | **Get** /geographicRegions/ipDetectionHeaders | Gets the configuration of custom client IP headers
+*RUMGeographicRegionsCustomClientIPHeadersApi* | [**PutGeolocationRegionsIpHeaders**](docs/RUMGeographicRegionsCustomClientIPHeadersApi.md#putgeolocationregionsipheaders) | **Put** /geographicRegions/ipDetectionHeaders | Updates the configuration of custom client IP headers
+*RUMGeographicRegionsCustomClientIPHeadersApi* | [**ValidateGeolocationRegionsIpHeaders**](docs/RUMGeographicRegionsCustomClientIPHeadersApi.md#validategeolocationregionsipheaders) | **Post** /geographicRegions/ipDetectionHeaders/validator | Validates the payload for the &#x60;PUT /geographicRegions/ipDetectionHeaders&#x60; request
+*RUMGeographicRegionsIPAddressMappingApi* | [**GetGeolocationRegionsIpAddress**](docs/RUMGeographicRegionsIPAddressMappingApi.md#getgeolocationregionsipaddress) | **Get** /geographicRegions/ipAddressMappings | Gets the configuration of mapping between IP address and geographic regions
+*RUMGeographicRegionsIPAddressMappingApi* | [**PutGeolocationRegionsIpAddress**](docs/RUMGeographicRegionsIPAddressMappingApi.md#putgeolocationregionsipaddress) | **Put** /geographicRegions/ipAddressMappings | Updates the configuration of mapping between IP address and geographic regions
+*RUMGeographicRegionsIPAddressMappingApi* | [**ValidateGeolocationRegionsIpAddress**](docs/RUMGeographicRegionsIPAddressMappingApi.md#validategeolocationregionsipaddress) | **Post** /geographicRegions/ipAddressMappings/validator | Validates the payload for the &#x60;PUT /geographicRegions/ipAddressMappings&#x60; request
+*RUMMobileAndCustomApplicationConfigurationApi* | [**CreateMobileApplicationConfig**](docs/RUMMobileAndCustomApplicationConfigurationApi.md#createmobileapplicationconfig) | **Post** /applications/mobile | Creates a new mobile or custom application
+*RUMMobileAndCustomApplicationConfigurationApi* | [**CreateMobileKeyUserAction**](docs/RUMMobileAndCustomApplicationConfigurationApi.md#createmobilekeyuseraction) | **Post** /applications/mobile/{applicationId}/keyUserActions/{actionName} | Marks the user action as a key user action in the specified application
+*RUMMobileAndCustomApplicationConfigurationApi* | [**CreateSessionProperty**](docs/RUMMobileAndCustomApplicationConfigurationApi.md#createsessionproperty) | **Post** /applications/mobile/{applicationId}/userActionAndSessionProperties | Creates a new session property for the specified application
+*RUMMobileAndCustomApplicationConfigurationApi* | [**DeleteMobileApplicationConfig**](docs/RUMMobileAndCustomApplicationConfigurationApi.md#deletemobileapplicationconfig) | **Delete** /applications/mobile/{id} | Deletes the specified mobile or custom application
+*RUMMobileAndCustomApplicationConfigurationApi* | [**DeleteMobileKeyUserAction**](docs/RUMMobileAndCustomApplicationConfigurationApi.md#deletemobilekeyuseraction) | **Delete** /applications/mobile/{applicationId}/keyUserActions/{actionName} | Removes the specified user action from the list of key user actions in the specified application
+*RUMMobileAndCustomApplicationConfigurationApi* | [**DeleteSessionProperty**](docs/RUMMobileAndCustomApplicationConfigurationApi.md#deletesessionproperty) | **Delete** /applications/mobile/{applicationId}/userActionAndSessionProperties/{key} | Deletes the specified session property for an application
+*RUMMobileAndCustomApplicationConfigurationApi* | [**GetMobileApplicationConfig**](docs/RUMMobileAndCustomApplicationConfigurationApi.md#getmobileapplicationconfig) | **Get** /applications/mobile/{id} | Gets the configuration of the specified mobile or custom application
+*RUMMobileAndCustomApplicationConfigurationApi* | [**GetSessionProperty**](docs/RUMMobileAndCustomApplicationConfigurationApi.md#getsessionproperty) | **Get** /applications/mobile/{applicationId}/userActionAndSessionProperties/{key} | Gets the specified  session property of an application
+*RUMMobileAndCustomApplicationConfigurationApi* | [**ListMobileApplicationConfigs**](docs/RUMMobileAndCustomApplicationConfigurationApi.md#listmobileapplicationconfigs) | **Get** /applications/mobile | Lists all existing mobile and custom applications
+*RUMMobileAndCustomApplicationConfigurationApi* | [**ListMobileKeyUserActions**](docs/RUMMobileAndCustomApplicationConfigurationApi.md#listmobilekeyuseractions) | **Get** /applications/mobile/{applicationId}/keyUserActions | Gets the list of key user actions in the specified application
+*RUMMobileAndCustomApplicationConfigurationApi* | [**ListSessionProperties**](docs/RUMMobileAndCustomApplicationConfigurationApi.md#listsessionproperties) | **Get** /applications/mobile/{applicationId}/userActionAndSessionProperties | Lists all session properties for the specified application
+*RUMMobileAndCustomApplicationConfigurationApi* | [**UpdateMobileApplicationConfig**](docs/RUMMobileAndCustomApplicationConfigurationApi.md#updatemobileapplicationconfig) | **Put** /applications/mobile/{id} | Updates the configuration of the specified mobile or custom application
+*RUMMobileAndCustomApplicationConfigurationApi* | [**UpdateSessionProperty**](docs/RUMMobileAndCustomApplicationConfigurationApi.md#updatesessionproperty) | **Put** /applications/mobile/{applicationId}/userActionAndSessionProperties/{key} | Updates the specified session property for an application
+*RUMMobileAndCustomApplicationConfigurationApi* | [**ValidateCreateMobileApplicationConfig**](docs/RUMMobileAndCustomApplicationConfigurationApi.md#validatecreatemobileapplicationconfig) | **Post** /applications/mobile/validator | Validates the payload for the &#x60;POST /applications/mobile&#x60; request
+*RUMMobileAndCustomApplicationConfigurationApi* | [**ValidateCreateSessionProperty**](docs/RUMMobileAndCustomApplicationConfigurationApi.md#validatecreatesessionproperty) | **Post** /applications/mobile/{applicationId}/userActionAndSessionProperties/validator | Validates the payload for the &#x60;POST /applications/mobile/{applicationId}/sessionProperties&#x60; request
+*RUMMobileAndCustomApplicationConfigurationApi* | [**ValidateUpdateMobileApplicationConfig**](docs/RUMMobileAndCustomApplicationConfigurationApi.md#validateupdatemobileapplicationconfig) | **Post** /applications/mobile/{id}/validator | Validates the payload for the &#x60;PUT /applications/mobile/{id}&#x60; request.
+*RUMMobileAndCustomApplicationConfigurationApi* | [**ValidateUpdateSessionProperty**](docs/RUMMobileAndCustomApplicationConfigurationApi.md#validateupdatesessionproperty) | **Post** /applications/mobile/{applicationId}/userActionAndSessionProperties/{key}/validator | Validates the payload for the &#x60;PUT /applications/mobile/{applicationId}/sessionProperties/{key}&#x60; request
+*RUMWebApplicationConfigurationApi* | [**CreateKeyUserAction**](docs/RUMWebApplicationConfigurationApi.md#createkeyuseraction) | **Post** /applications/web/{id}/keyUserActions | Marks the user action as a key user action in the specified web application
+*RUMWebApplicationConfigurationApi* | [**CreateOrUpdateDefaultConfiguration**](docs/RUMWebApplicationConfigurationApi.md#createorupdatedefaultconfiguration) | **Put** /applications/web/default | Updates the configuration of the default web application
+*RUMWebApplicationConfigurationApi* | [**CreateWebApplicationConfig**](docs/RUMWebApplicationConfigurationApi.md#createwebapplicationconfig) | **Post** /applications/web | Creates a new web application
+*RUMWebApplicationConfigurationApi* | [**DeleteKeyUserAction**](docs/RUMWebApplicationConfigurationApi.md#deletekeyuseraction) | **Delete** /applications/web/{id}/keyUserActions/{keyUserActionId} | Removes the specified user action from the list of key user actions in the specified web application
+*RUMWebApplicationConfigurationApi* | [**DeleteWebApplicationConfig**](docs/RUMWebApplicationConfigurationApi.md#deletewebapplicationconfig) | **Delete** /applications/web/{id} | Deletes the specified web application
+*RUMWebApplicationConfigurationApi* | [**GetApplicationErrorConfig**](docs/RUMWebApplicationConfigurationApi.md#getapplicationerrorconfig) | **Get** /applications/web/{id}/errorRules | Gets the configuration of error rules in the specified application
+*RUMWebApplicationConfigurationApi* | [**GetDataPrivacySettings**](docs/RUMWebApplicationConfigurationApi.md#getdataprivacysettings) | **Get** /applications/web/{id}/dataPrivacy | Gets the data privacy settings of the specified web application
+*RUMWebApplicationConfigurationApi* | [**GetDefaultApplication**](docs/RUMWebApplicationConfigurationApi.md#getdefaultapplication) | **Get** /applications/web/default | Gets the configuration of the default web application
+*RUMWebApplicationConfigurationApi* | [**GetDefaultApplicationDataPrivacySettings**](docs/RUMWebApplicationConfigurationApi.md#getdefaultapplicationdataprivacysettings) | **Get** /applications/web/default/dataPrivacy | Gets the data privacy settings of the default web application
+*RUMWebApplicationConfigurationApi* | [**GetWebApplicationConfig**](docs/RUMWebApplicationConfigurationApi.md#getwebapplicationconfig) | **Get** /applications/web/{id} | Gets the configuration of the specified web application
+*RUMWebApplicationConfigurationApi* | [**ListDataPrivacySettings**](docs/RUMWebApplicationConfigurationApi.md#listdataprivacysettings) | **Get** /applications/web/dataPrivacy | Lists data privacy settings of all web applications
+*RUMWebApplicationConfigurationApi* | [**ListKeyUserActions**](docs/RUMWebApplicationConfigurationApi.md#listkeyuseractions) | **Get** /applications/web/{id}/keyUserActions | Gets the list of key user actions in the specified web application
+*RUMWebApplicationConfigurationApi* | [**ListWebApplicationConfigs**](docs/RUMWebApplicationConfigurationApi.md#listwebapplicationconfigs) | **Get** /applications/web | Lists all existing web applications
+*RUMWebApplicationConfigurationApi* | [**UpdateApplicationErrorConfig**](docs/RUMWebApplicationConfigurationApi.md#updateapplicationerrorconfig) | **Put** /applications/web/{id}/errorRules | Updates the configuration of error rules in the specified application
+*RUMWebApplicationConfigurationApi* | [**UpdateDataPrivacySettings**](docs/RUMWebApplicationConfigurationApi.md#updatedataprivacysettings) | **Put** /applications/web/{id}/dataPrivacy | Updates the data privacy settings of the specified web application
+*RUMWebApplicationConfigurationApi* | [**UpdateDefaultApplicationDataPrivacySettings**](docs/RUMWebApplicationConfigurationApi.md#updatedefaultapplicationdataprivacysettings) | **Put** /applications/web/default/dataPrivacy | Updates the data privacy settings of the default web application
+*RUMWebApplicationConfigurationApi* | [**UpdateWebApplicationConfig**](docs/RUMWebApplicationConfigurationApi.md#updatewebapplicationconfig) | **Put** /applications/web/{id} | Updates the configuration of the specified web application or creates a new one
+*RUMWebApplicationConfigurationApi* | [**ValidateCreateWebApplicationConfig**](docs/RUMWebApplicationConfigurationApi.md#validatecreatewebapplicationconfig) | **Post** /applications/web/validator | Validates the configuration of the web application for the &#x60;POST /applications/web&#x60; request
+*RUMWebApplicationConfigurationApi* | [**ValidateDataPrivacySettings**](docs/RUMWebApplicationConfigurationApi.md#validatedataprivacysettings) | **Post** /applications/web/{id}/dataPrivacy/validator | Validates data privacy settings for the &#x60;PUT /applications/web/{id}/dataPrivacy&#x60; request
+*RUMWebApplicationConfigurationApi* | [**ValidateDefaultApplicationDataPrivacySettings**](docs/RUMWebApplicationConfigurationApi.md#validatedefaultapplicationdataprivacysettings) | **Post** /applications/web/default/dataPrivacy/validator | Validates data privacy settings of the default web application for the &#x60;PUT /applications/web/default/dataPrivacy&#x60; request
+*RUMWebApplicationConfigurationApi* | [**ValidateDefaultConfiguration**](docs/RUMWebApplicationConfigurationApi.md#validatedefaultconfiguration) | **Post** /applications/web/default/validator | Validates the configuration of the default web application for the &#x60;PUT /applications/web/default&#x60; request
+*RUMWebApplicationConfigurationApi* | [**ValidateUpdateWebApplicationConfig**](docs/RUMWebApplicationConfigurationApi.md#validateupdatewebapplicationconfig) | **Post** /applications/web/{id}/validator | Validates the configuration of the web application for the &#x60;PUT /applications/web/{id}&#x60; request.
+*RemoteEnvironmentsApi* | [**CreateRemoteEnvironmentConfig**](docs/RemoteEnvironmentsApi.md#createremoteenvironmentconfig) | **Post** /remoteEnvironments | Creates a new remote environment configuration | maturity&#x3D;EARLY_ADOPTER
+*RemoteEnvironmentsApi* | [**DeleteRemoteEnvironmentConfig**](docs/RemoteEnvironmentsApi.md#deleteremoteenvironmentconfig) | **Delete** /remoteEnvironments/{id} | Deletes the specified remote environment configuration | maturity&#x3D;EARLY_ADOPTER
+*RemoteEnvironmentsApi* | [**GetRemoteEnvironmentConfig**](docs/RemoteEnvironmentsApi.md#getremoteenvironmentconfig) | **Get** /remoteEnvironments/{id} | Gets the properties of the specified remote environment configuration | maturity&#x3D;EARLY_ADOPTER
+*RemoteEnvironmentsApi* | [**ListRemoteEnvironmentConfigs**](docs/RemoteEnvironmentsApi.md#listremoteenvironmentconfigs) | **Get** /remoteEnvironments | Lists all remote environment configurations | maturity&#x3D;EARLY_ADOPTER
+*RemoteEnvironmentsApi* | [**UpdateRemoteEnvironmentConfig**](docs/RemoteEnvironmentsApi.md#updateremoteenvironmentconfig) | **Put** /remoteEnvironments/{id} | Updates an existing remote environment configuration or creates a new one | maturity&#x3D;EARLY_ADOPTER
+*RemoteEnvironmentsApi* | [**ValidateCreateRemoteEnvironmentConfig**](docs/RemoteEnvironmentsApi.md#validatecreateremoteenvironmentconfig) | **Post** /remoteEnvironments/validator | Validates the payload for the &#x60;POST /remoteEnvironments&#x60; request | maturity&#x3D;EARLY_ADOPTER
+*RemoteEnvironmentsApi* | [**ValidateUpdateRemoteEnvironmentConfig**](docs/RemoteEnvironmentsApi.md#validateupdateremoteenvironmentconfig) | **Post** /remoteEnvironments/{id}/validator | Validates the payload for the &#x60;PUT /remoteEnvironments/{id}&#x60; request | maturity&#x3D;EARLY_ADOPTER
 *ReportsApi* | [**CreateOrUpdateReport**](docs/ReportsApi.md#createorupdatereport) | **Put** /reports/{id} | Updates an existing report | maturity&#x3D;EARLY_ADOPTER
 *ReportsApi* | [**CreateReport**](docs/ReportsApi.md#createreport) | **Post** /reports | Creates a report | maturity&#x3D;EARLY_ADOPTER
 *ReportsApi* | [**DeleteReport**](docs/ReportsApi.md#deletereport) | **Delete** /reports/{id} | Deletes the specified report | maturity&#x3D;EARLY_ADOPTER
@@ -255,38 +381,46 @@ Class | Method | HTTP request | Description
 *ReportsApi* | [**UnsubscribeReport**](docs/ReportsApi.md#unsubscribereport) | **Post** /reports/{id}/unsubscribe | Unsubscribes from the specified report | maturity&#x3D;EARLY_ADOPTER
 *ReportsApi* | [**ValidateCreateOrUpdateReport**](docs/ReportsApi.md#validatecreateorupdatereport) | **Post** /reports/{id}/validator | Validates the payload for the &#x60;PUT /reports/{id}&#x60; request | maturity&#x3D;EARLY_ADOPTER
 *ReportsApi* | [**ValidateCreateReport**](docs/ReportsApi.md#validatecreatereport) | **Post** /reports/validator | Validates the payload for the &#x60;POST /reports&#x60; request | maturity&#x3D;EARLY_ADOPTER
-*ServiceCustomServicesApi* | [**Delete1**](docs/ServiceCustomServicesApi.md#delete1) | **Delete** /service/customServices/{technology}/{id} | Deletes the specified custom service
-*ServiceCustomServicesApi* | [**GetItem**](docs/ServiceCustomServicesApi.md#getitem) | **Get** /service/customServices/{technology}/{id} | Gets the definition of the specified custom service
-*ServiceCustomServicesApi* | [**GetList**](docs/ServiceCustomServicesApi.md#getlist) | **Get** /service/customServices/{technology} | Lists all custom services of the specified technology
-*ServiceCustomServicesApi* | [**Post**](docs/ServiceCustomServicesApi.md#post) | **Post** /service/customServices/{technology} | Creates a custom service
-*ServiceCustomServicesApi* | [**PutItem**](docs/ServiceCustomServicesApi.md#putitem) | **Put** /service/customServices/{technology}/{id} | Updates the specified custom service or create a new one.
-*ServiceCustomServicesApi* | [**ReorderList1**](docs/ServiceCustomServicesApi.md#reorderlist1) | **Put** /service/customServices/{technology}/order | Reorders the custom services of the specified technology
-*ServiceCustomServicesApi* | [**ValidateItem**](docs/ServiceCustomServicesApi.md#validateitem) | **Post** /service/customServices/{technology}/validator | Validate the new custom service for the &#x60;POST /customServices/{technology}&#x60; request
-*ServiceCustomServicesApi* | [**ValidateItem1**](docs/ServiceCustomServicesApi.md#validateitem1) | **Post** /service/customServices/{technology}/{id}/validator | Validate the new custom service for the &#x60;PUT /customServices/{technology}/{id}&#x60; request
-*ServiceDetectionFullWebRequestApi* | [**CreateOrUpdateRule**](docs/ServiceDetectionFullWebRequestApi.md#createorupdaterule) | **Put** /service/detectionRules/FULL_WEB_REQUEST/{id} | Updates an existing service detection rule | maturity&#x3D;EARLY_ADOPTER
-*ServiceDetectionFullWebRequestApi* | [**CreateRule**](docs/ServiceDetectionFullWebRequestApi.md#createrule) | **Post** /service/detectionRules/FULL_WEB_REQUEST | Creates a new service detection rule | maturity&#x3D;EARLY_ADOPTER
-*ServiceDetectionFullWebRequestApi* | [**DeleteRule**](docs/ServiceDetectionFullWebRequestApi.md#deleterule) | **Delete** /service/detectionRules/FULL_WEB_REQUEST/{id} | Deletes the specified service detection rule | maturity&#x3D;EARLY_ADOPTER
-*ServiceDetectionFullWebRequestApi* | [**GetRule**](docs/ServiceDetectionFullWebRequestApi.md#getrule) | **Get** /service/detectionRules/FULL_WEB_REQUEST/{id} | Gets the properties of the specified service detection rule | maturity&#x3D;EARLY_ADOPTER
-*ServiceDetectionFullWebRequestApi* | [**ListRulesSorted**](docs/ServiceDetectionFullWebRequestApi.md#listrulessorted) | **Get** /service/detectionRules/FULL_WEB_REQUEST | Lists all full web service detection rules | maturity&#x3D;EARLY_ADOPTER
-*ServiceDetectionFullWebRequestApi* | [**ReorderList3**](docs/ServiceDetectionFullWebRequestApi.md#reorderlist3) | **Put** /service/detectionRules/FULL_WEB_REQUEST/order | Reorders the service detection rules of the specified type | maturity&#x3D;EARLY_ADOPTER
-*ServiceDetectionFullWebRequestApi* | [**ValidatePostConfiguration**](docs/ServiceDetectionFullWebRequestApi.md#validatepostconfiguration) | **Post** /service/detectionRules/FULL_WEB_REQUEST/validator | Validates the payload for the &#x60;POST /ruleBasedServiceDetection/FULL_WEB_REQUEST&#x60; request | maturity&#x3D;EARLY_ADOPTER
-*ServiceDetectionFullWebRequestApi* | [**ValidatePutConfiguration**](docs/ServiceDetectionFullWebRequestApi.md#validateputconfiguration) | **Post** /service/detectionRules/FULL_WEB_REQUEST/{id}/validator | Validates the payload for the &#x60;PUT /service/detectionRules/FULL_WEB_REQUEST/{id}&#x60; request | maturity&#x3D;EARLY_ADOPTER
-*ServiceDetectionFullWebServiceApi* | [**CreateOrUpdateRule1**](docs/ServiceDetectionFullWebServiceApi.md#createorupdaterule1) | **Put** /service/detectionRules/FULL_WEB_SERVICE/{id} | Updates an existing service detection rule | maturity&#x3D;EARLY_ADOPTER
-*ServiceDetectionFullWebServiceApi* | [**CreateRule1**](docs/ServiceDetectionFullWebServiceApi.md#createrule1) | **Post** /service/detectionRules/FULL_WEB_SERVICE | Creates a new service detection rule | maturity&#x3D;EARLY_ADOPTER
-*ServiceDetectionFullWebServiceApi* | [**DeleteRule1**](docs/ServiceDetectionFullWebServiceApi.md#deleterule1) | **Delete** /service/detectionRules/FULL_WEB_SERVICE/{id} | Deletes the specified service detection rule | maturity&#x3D;EARLY_ADOPTER
-*ServiceDetectionFullWebServiceApi* | [**GetRule1**](docs/ServiceDetectionFullWebServiceApi.md#getrule1) | **Get** /service/detectionRules/FULL_WEB_SERVICE/{id} | Shows the properties of the specified service detection rule | maturity&#x3D;EARLY_ADOPTER
-*ServiceDetectionFullWebServiceApi* | [**ListRulesSorted1**](docs/ServiceDetectionFullWebServiceApi.md#listrulessorted1) | **Get** /service/detectionRules/FULL_WEB_SERVICE | Lists all full web service detection rules | maturity&#x3D;EARLY_ADOPTER
-*ServiceDetectionFullWebServiceApi* | [**ReorderList4**](docs/ServiceDetectionFullWebServiceApi.md#reorderlist4) | **Put** /service/detectionRules/FULL_WEB_SERVICE/order | Reorders the service detection rules of the specified type | maturity&#x3D;EARLY_ADOPTER
-*ServiceDetectionFullWebServiceApi* | [**ValidatePostConfiguration1**](docs/ServiceDetectionFullWebServiceApi.md#validatepostconfiguration1) | **Post** /service/detectionRules/FULL_WEB_SERVICE/validator | Validates the payload for the &#x60;POST /ruleBasedServiceDetection/FULL_WEB_SERVICE&#x60; request | maturity&#x3D;EARLY_ADOPTER
-*ServiceDetectionFullWebServiceApi* | [**ValidatePutConfiguration1**](docs/ServiceDetectionFullWebServiceApi.md#validateputconfiguration1) | **Post** /service/detectionRules/FULL_WEB_SERVICE/{id}/validator | Validate the payload for the &#x60;PUT /ruleBasedServiceDetection/FULL_WEB_SERVICE/{id}&#x60; request | maturity&#x3D;EARLY_ADOPTER
-*ServiceDetectionOpaqueAndExternalWebRequestApi* | [**CreateOrUpdateRule2**](docs/ServiceDetectionOpaqueAndExternalWebRequestApi.md#createorupdaterule2) | **Put** /service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/{id} | Updates an existing service detection rule | maturity&#x3D;EARLY_ADOPTER
-*ServiceDetectionOpaqueAndExternalWebRequestApi* | [**CreateRule2**](docs/ServiceDetectionOpaqueAndExternalWebRequestApi.md#createrule2) | **Post** /service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST | Creates a new service detection rule | maturity&#x3D;EARLY_ADOPTER
-*ServiceDetectionOpaqueAndExternalWebRequestApi* | [**DeleteRule2**](docs/ServiceDetectionOpaqueAndExternalWebRequestApi.md#deleterule2) | **Delete** /service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/{id} | Deletes the specified service detection rule | maturity&#x3D;EARLY_ADOPTER
-*ServiceDetectionOpaqueAndExternalWebRequestApi* | [**GetRule2**](docs/ServiceDetectionOpaqueAndExternalWebRequestApi.md#getrule2) | **Get** /service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/{id} | Shows the properties of the specified service detection rule | maturity&#x3D;EARLY_ADOPTER
-*ServiceDetectionOpaqueAndExternalWebRequestApi* | [**ListRulesSorted2**](docs/ServiceDetectionOpaqueAndExternalWebRequestApi.md#listrulessorted2) | **Get** /service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST | Lists all full web service detection rules | maturity&#x3D;EARLY_ADOPTER
-*ServiceDetectionOpaqueAndExternalWebRequestApi* | [**ReorderList5**](docs/ServiceDetectionOpaqueAndExternalWebRequestApi.md#reorderlist5) | **Put** /service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/order | Reorders the service detection rules of the specified type | maturity&#x3D;EARLY_ADOPTER
-*ServiceDetectionOpaqueAndExternalWebRequestApi* | [**ValidatePostConfiguration2**](docs/ServiceDetectionOpaqueAndExternalWebRequestApi.md#validatepostconfiguration2) | **Post** /service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/validator | Validates the payload for the &#x60;POST /ruleBasedServiceDetection/OPAQUE_AND_EXTERNAL_WEB_REQUEST&#x60; request | maturity&#x3D;EARLY_ADOPTER
-*ServiceDetectionOpaqueAndExternalWebRequestApi* | [**ValidatePutConfiguration2**](docs/ServiceDetectionOpaqueAndExternalWebRequestApi.md#validateputconfiguration2) | **Post** /service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/{id}/validator | Validate the payload for the &#x60;PUT /ruleBasedServiceDetection/OPAQUE_AND_EXTERNAL_WEB_REQUEST/{id}&#x60; request | maturity&#x3D;EARLY_ADOPTER
+*ServiceCustomServicesApi* | [**CreateCustomService**](docs/ServiceCustomServicesApi.md#createcustomservice) | **Post** /service/customServices/{technology} | Creates a custom service
+*ServiceCustomServicesApi* | [**DeleteCustomService**](docs/ServiceCustomServicesApi.md#deletecustomservice) | **Delete** /service/customServices/{technology}/{id} | Deletes the specified custom service
+*ServiceCustomServicesApi* | [**GetCustomService**](docs/ServiceCustomServicesApi.md#getcustomservice) | **Get** /service/customServices/{technology}/{id} | Gets the definition of the specified custom service
+*ServiceCustomServicesApi* | [**ListCustomServices**](docs/ServiceCustomServicesApi.md#listcustomservices) | **Get** /service/customServices/{technology} | Lists all custom services of the specified technology
+*ServiceCustomServicesApi* | [**OrderCustomServices**](docs/ServiceCustomServicesApi.md#ordercustomservices) | **Put** /service/customServices/{technology}/order | Reorders the custom services of the specified technology
+*ServiceCustomServicesApi* | [**UpdateCustomService**](docs/ServiceCustomServicesApi.md#updatecustomservice) | **Put** /service/customServices/{technology}/{id} | Updates the specified custom service or create a new one.
+*ServiceCustomServicesApi* | [**ValidateCreateCustomService**](docs/ServiceCustomServicesApi.md#validatecreatecustomservice) | **Post** /service/customServices/{technology}/validator | Validate the new custom service for the &#x60;POST /customServices/{technology}&#x60; request
+*ServiceCustomServicesApi* | [**ValidateUpdateCustomService**](docs/ServiceCustomServicesApi.md#validateupdatecustomservice) | **Post** /service/customServices/{technology}/{id}/validator | Validate the new custom service for the &#x60;PUT /customServices/{technology}/{id}&#x60; request
+*ServiceDetectionFullWebRequestApi* | [**CreateRequestDetectionRule**](docs/ServiceDetectionFullWebRequestApi.md#createrequestdetectionrule) | **Post** /service/detectionRules/FULL_WEB_REQUEST | Creates a new service detection rule | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionFullWebRequestApi* | [**DeleteRequestDetectionRule**](docs/ServiceDetectionFullWebRequestApi.md#deleterequestdetectionrule) | **Delete** /service/detectionRules/FULL_WEB_REQUEST/{id} | Deletes the specified service detection rule | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionFullWebRequestApi* | [**GetRequestDetectionRule**](docs/ServiceDetectionFullWebRequestApi.md#getrequestdetectionrule) | **Get** /service/detectionRules/FULL_WEB_REQUEST/{id} | Gets the properties of the specified service detection rule | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionFullWebRequestApi* | [**ListRequestDetectionRules**](docs/ServiceDetectionFullWebRequestApi.md#listrequestdetectionrules) | **Get** /service/detectionRules/FULL_WEB_REQUEST | Lists all full web service detection rules | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionFullWebRequestApi* | [**OrderRequestDetectionRules**](docs/ServiceDetectionFullWebRequestApi.md#orderrequestdetectionrules) | **Put** /service/detectionRules/FULL_WEB_REQUEST/order | Reorders the service detection rules of the specified type | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionFullWebRequestApi* | [**UpdateRequestDetectionRule**](docs/ServiceDetectionFullWebRequestApi.md#updaterequestdetectionrule) | **Put** /service/detectionRules/FULL_WEB_REQUEST/{id} | Updates an existing service detection rule | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionFullWebRequestApi* | [**ValidateCreateRequestDetectionRule**](docs/ServiceDetectionFullWebRequestApi.md#validatecreaterequestdetectionrule) | **Post** /service/detectionRules/FULL_WEB_REQUEST/validator | Validates the payload for the &#x60;POST /ruleBasedServiceDetection/FULL_WEB_REQUEST&#x60; request | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionFullWebRequestApi* | [**ValidateUpdateRequestDetectionRule**](docs/ServiceDetectionFullWebRequestApi.md#validateupdaterequestdetectionrule) | **Post** /service/detectionRules/FULL_WEB_REQUEST/{id}/validator | Validates the payload for the &#x60;PUT /service/detectionRules/FULL_WEB_REQUEST/{id}&#x60; request | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionFullWebServiceApi* | [**CreateServiceDetectionRule**](docs/ServiceDetectionFullWebServiceApi.md#createservicedetectionrule) | **Post** /service/detectionRules/FULL_WEB_SERVICE | Creates a new service detection rule | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionFullWebServiceApi* | [**DeleteServiceDetectionRule**](docs/ServiceDetectionFullWebServiceApi.md#deleteservicedetectionrule) | **Delete** /service/detectionRules/FULL_WEB_SERVICE/{id} | Deletes the specified service detection rule | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionFullWebServiceApi* | [**GetServiceDetectionRule**](docs/ServiceDetectionFullWebServiceApi.md#getservicedetectionrule) | **Get** /service/detectionRules/FULL_WEB_SERVICE/{id} | Shows the properties of the specified service detection rule | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionFullWebServiceApi* | [**ListServiceDetectionRules**](docs/ServiceDetectionFullWebServiceApi.md#listservicedetectionrules) | **Get** /service/detectionRules/FULL_WEB_SERVICE | Lists all full web service detection rules | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionFullWebServiceApi* | [**OrderServiceDetectionRules**](docs/ServiceDetectionFullWebServiceApi.md#orderservicedetectionrules) | **Put** /service/detectionRules/FULL_WEB_SERVICE/order | Reorders the service detection rules of the specified type | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionFullWebServiceApi* | [**UpdateServiceDetectionRule**](docs/ServiceDetectionFullWebServiceApi.md#updateservicedetectionrule) | **Put** /service/detectionRules/FULL_WEB_SERVICE/{id} | Updates an existing service detection rule | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionFullWebServiceApi* | [**ValidateCreateServiceDetectionRule**](docs/ServiceDetectionFullWebServiceApi.md#validatecreateservicedetectionrule) | **Post** /service/detectionRules/FULL_WEB_SERVICE/validator | Validates the payload for the &#x60;POST /ruleBasedServiceDetection/FULL_WEB_SERVICE&#x60; request | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionFullWebServiceApi* | [**ValidateUpdateServiceDetectionRule**](docs/ServiceDetectionFullWebServiceApi.md#validateupdateservicedetectionrule) | **Post** /service/detectionRules/FULL_WEB_SERVICE/{id}/validator | Validate the payload for the &#x60;PUT /ruleBasedServiceDetection/FULL_WEB_SERVICE/{id}&#x60; request | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionOpaqueAndExternalWebRequestApi* | [**CreateOpaqueAndExternalWebRequestDetectionRule**](docs/ServiceDetectionOpaqueAndExternalWebRequestApi.md#createopaqueandexternalwebrequestdetectionrule) | **Post** /service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST | Creates a new service detection rule | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionOpaqueAndExternalWebRequestApi* | [**DeleteOpaqueAndExternalWebRequestDetectionRule**](docs/ServiceDetectionOpaqueAndExternalWebRequestApi.md#deleteopaqueandexternalwebrequestdetectionrule) | **Delete** /service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/{id} | Deletes the specified service detection rule | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionOpaqueAndExternalWebRequestApi* | [**GetOpaqueAndExternalWebRequestDetectionRule**](docs/ServiceDetectionOpaqueAndExternalWebRequestApi.md#getopaqueandexternalwebrequestdetectionrule) | **Get** /service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/{id} | Shows the properties of the specified service detection rule | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionOpaqueAndExternalWebRequestApi* | [**ListOpaqueAndExternalWebRequestDetectionRules**](docs/ServiceDetectionOpaqueAndExternalWebRequestApi.md#listopaqueandexternalwebrequestdetectionrules) | **Get** /service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST | Lists all full web service detection rules | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionOpaqueAndExternalWebRequestApi* | [**OrderOpaqueAndExternalWebRequestDetectionRules**](docs/ServiceDetectionOpaqueAndExternalWebRequestApi.md#orderopaqueandexternalwebrequestdetectionrules) | **Put** /service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/order | Reorders the service detection rules of the specified type | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionOpaqueAndExternalWebRequestApi* | [**UpdateOpaqueAndExternalWebRequestDetectionRule**](docs/ServiceDetectionOpaqueAndExternalWebRequestApi.md#updateopaqueandexternalwebrequestdetectionrule) | **Put** /service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/{id} | Updates an existing service detection rule | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionOpaqueAndExternalWebRequestApi* | [**ValidateCreateOpaqueAndExternalWebRequestDetectionRule**](docs/ServiceDetectionOpaqueAndExternalWebRequestApi.md#validatecreateopaqueandexternalwebrequestdetectionrule) | **Post** /service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/validator | Validates the payload for the &#x60;POST /ruleBasedServiceDetection/OPAQUE_AND_EXTERNAL_WEB_REQUEST&#x60; request | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionOpaqueAndExternalWebRequestApi* | [**ValidateUpdateOpaqueAndExternalWebRequestDetectionRule**](docs/ServiceDetectionOpaqueAndExternalWebRequestApi.md#validateupdateopaqueandexternalwebrequestdetectionrule) | **Post** /service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/{id}/validator | Validate the payload for the &#x60;PUT /ruleBasedServiceDetection/OPAQUE_AND_EXTERNAL_WEB_REQUEST/{id}&#x60; request | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionOpaqueAndExternalWebServiceApi* | [**CreateOpaqueAndExternalWebServiceRule**](docs/ServiceDetectionOpaqueAndExternalWebServiceApi.md#createopaqueandexternalwebservicerule) | **Post** /service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE | Creates a new service detection rule | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionOpaqueAndExternalWebServiceApi* | [**DeleteOpaqueAndExternalWebServiceRule**](docs/ServiceDetectionOpaqueAndExternalWebServiceApi.md#deleteopaqueandexternalwebservicerule) | **Delete** /service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/{id} | Deletes the specified service detection rule | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionOpaqueAndExternalWebServiceApi* | [**GetOpaqueAndExternalWebServiceRule**](docs/ServiceDetectionOpaqueAndExternalWebServiceApi.md#getopaqueandexternalwebservicerule) | **Get** /service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/{id} | Shows the properties of the specified service detection rule | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionOpaqueAndExternalWebServiceApi* | [**ListOpaqueAndExternalWebServiceRules**](docs/ServiceDetectionOpaqueAndExternalWebServiceApi.md#listopaqueandexternalwebservicerules) | **Get** /service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE | Lists all opaque and external web service detection rules | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionOpaqueAndExternalWebServiceApi* | [**OrderOpaqueAndExternalWebServiceRules**](docs/ServiceDetectionOpaqueAndExternalWebServiceApi.md#orderopaqueandexternalwebservicerules) | **Put** /service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/order | Reorders the service detection rules of the specified type | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionOpaqueAndExternalWebServiceApi* | [**UpdateOpaqueAndExternalWebServiceRule**](docs/ServiceDetectionOpaqueAndExternalWebServiceApi.md#updateopaqueandexternalwebservicerule) | **Put** /service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/{id} | Updates an existing service detection rule | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionOpaqueAndExternalWebServiceApi* | [**ValidateCreateOpaqueAndExternalWebServiceRule**](docs/ServiceDetectionOpaqueAndExternalWebServiceApi.md#validatecreateopaqueandexternalwebservicerule) | **Post** /service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/validator | Validates the payload for the &#x60;POST /ruleBasedServiceDetection/OPAQUE_AND_EXTERNAL_WEB_SERVICE&#x60; request | maturity&#x3D;EARLY_ADOPTER
+*ServiceDetectionOpaqueAndExternalWebServiceApi* | [**ValidateUpdateOpaqueAndExternalWebServiceRule**](docs/ServiceDetectionOpaqueAndExternalWebServiceApi.md#validateupdateopaqueandexternalwebservicerule) | **Post** /service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/{id}/validator | Validate the payload for the &#x60;PUT /ruleBasedServiceDetection/OPAQUE_AND_EXTERNAL_WEB_SERVICE/{id}&#x60; request | maturity&#x3D;EARLY_ADOPTER
 *ServiceIBMMQTracingApi* | [**CreateImsEntryQueue**](docs/ServiceIBMMQTracingApi.md#createimsentryqueue) | **Post** /service/ibmMQTracing/imsEntryQueue | Creates an IBM IMS entry queue
 *ServiceIBMMQTracingApi* | [**CreateOrUpdateImsEntryQueue**](docs/ServiceIBMMQTracingApi.md#createorupdateimsentryqueue) | **Put** /service/ibmMQTracing/imsEntryQueue/{id} | Updates an existing IBM IMS entry queue or creates a new one
 *ServiceIBMMQTracingApi* | [**DeleteImsEntryQueue**](docs/ServiceIBMMQTracingApi.md#deleteimsentryqueue) | **Delete** /service/ibmMQTracing/imsEntryQueue/{id} | Deletes the specified IBM IMS entry queue
@@ -299,41 +433,24 @@ Class | Method | HTTP request | Description
 *ServiceIBMMQTracingApi* | [**ValidateImsEntryQueueForPost**](docs/ServiceIBMMQTracingApi.md#validateimsentryqueueforpost) | **Post** /service/ibmMQTracing/imsEntryQueue/validator | Validates new IBM IMS entry queues for the &#x60;POST /service/ibmMQTracing/imsEntryQueue&#x60; request
 *ServiceIBMMQTracingApi* | [**ValidateImsEntryQueueForPut**](docs/ServiceIBMMQTracingApi.md#validateimsentryqueueforput) | **Post** /service/ibmMQTracing/imsEntryQueue/{id}/validator | Validates update of existing IBM IMS entry queues for the &#x60;PUT /service/ibmMQTracing/imsEntryQueue/{id}&#x60; request
 *ServiceIBMMQTracingApi* | [**ValidateQueueManager**](docs/ServiceIBMMQTracingApi.md#validatequeuemanager) | **Post** /service/ibmMQTracing/queueManager/{name}/validator | Validates the queue manager update for the &#x60;PUT /service/ibmMQTracing/queueManager/{name}&#x60; request
-*ServiceRequestAttributesApi* | [**CreateConfiguration1**](docs/ServiceRequestAttributesApi.md#createconfiguration1) | **Post** /service/requestAttributes | Creates a new request attribute
-*ServiceRequestAttributesApi* | [**CreateOrUpdateConfiguration1**](docs/ServiceRequestAttributesApi.md#createorupdateconfiguration1) | **Put** /service/requestAttributes/{id} | Updates an existing request attribute or creates a new one
-*ServiceRequestAttributesApi* | [**DeleteConfiguration2**](docs/ServiceRequestAttributesApi.md#deleteconfiguration2) | **Delete** /service/requestAttributes/{id} | Deletes the specified request attribute
-*ServiceRequestAttributesApi* | [**GetConfiguration6**](docs/ServiceRequestAttributesApi.md#getconfiguration6) | **Get** /service/requestAttributes/{id} | Shows the properties of the specified request attribute
-*ServiceRequestAttributesApi* | [**ListConfigurations2**](docs/ServiceRequestAttributesApi.md#listconfigurations2) | **Get** /service/requestAttributes | Lists all available request attributes
-*ServiceRequestAttributesApi* | [**ValidateConfiguration10**](docs/ServiceRequestAttributesApi.md#validateconfiguration10) | **Post** /service/requestAttributes/{id}/validator | Validate updates of existing request attribute for the &#x60;PUT /requestAttributes/{id}&#x60; request
-*ServiceRequestAttributesApi* | [**ValidateConfiguration9**](docs/ServiceRequestAttributesApi.md#validateconfiguration9) | **Post** /service/requestAttributes/validator | Validates new request attributes for the &#x60;POST /requestAttributes&#x60; request
-*ServiceRequestNamingApi* | [**Delete6**](docs/ServiceRequestNamingApi.md#delete6) | **Delete** /service/requestNaming/{id} | Deletes the specified request naming rule
+*ServiceRequestAttributesApi* | [**CreateRequestAttributesConfig**](docs/ServiceRequestAttributesApi.md#createrequestattributesconfig) | **Post** /service/requestAttributes | Creates a new request attribute
+*ServiceRequestAttributesApi* | [**DeleteRequestAttributesConfig**](docs/ServiceRequestAttributesApi.md#deleterequestattributesconfig) | **Delete** /service/requestAttributes/{id} | Deletes the specified request attribute
+*ServiceRequestAttributesApi* | [**GetRequestAttributesConfig**](docs/ServiceRequestAttributesApi.md#getrequestattributesconfig) | **Get** /service/requestAttributes/{id} | Shows the properties of the specified request attribute
+*ServiceRequestAttributesApi* | [**ListRequestAttributesConfigs**](docs/ServiceRequestAttributesApi.md#listrequestattributesconfigs) | **Get** /service/requestAttributes | Lists all available request attributes
+*ServiceRequestAttributesApi* | [**UpdateRequestAttributesConfig**](docs/ServiceRequestAttributesApi.md#updaterequestattributesconfig) | **Put** /service/requestAttributes/{id} | Updates an existing request attribute or creates a new one
+*ServiceRequestAttributesApi* | [**ValidateCreateRequestAttributesConfig**](docs/ServiceRequestAttributesApi.md#validatecreaterequestattributesconfig) | **Post** /service/requestAttributes/validator | Validates new request attributes for the &#x60;POST /requestAttributes&#x60; request
+*ServiceRequestAttributesApi* | [**ValidateUpdateRequestAttributesConfig**](docs/ServiceRequestAttributesApi.md#validateupdaterequestattributesconfig) | **Post** /service/requestAttributes/{id}/validator | Validate updates of existing request attribute for the &#x60;PUT /requestAttributes/{id}&#x60; request
+*ServiceRequestNamingApi* | [**CreateRequestNaming**](docs/ServiceRequestNamingApi.md#createrequestnaming) | **Post** /service/requestNaming | Creates a new request naming rule
+*ServiceRequestNamingApi* | [**DeleteRequestNaming**](docs/ServiceRequestNamingApi.md#deleterequestnaming) | **Delete** /service/requestNaming/{id} | Deletes the specified request naming rule
 *ServiceRequestNamingApi* | [**Get**](docs/ServiceRequestNamingApi.md#get) | **Get** /service/resourceNaming | Lists the global service resource requests.
-*ServiceRequestNamingApi* | [**GetItem5**](docs/ServiceRequestNamingApi.md#getitem5) | **Get** /service/requestNaming/{id} | Gets the parameters of the specified request naming rule
-*ServiceRequestNamingApi* | [**GetList5**](docs/ServiceRequestNamingApi.md#getlist5) | **Get** /service/requestNaming | Lists all request naming rules along with their parameters
-*ServiceRequestNamingApi* | [**Post2**](docs/ServiceRequestNamingApi.md#post2) | **Post** /service/requestNaming | Creates a new request naming rule
-*ServiceRequestNamingApi* | [**Put1**](docs/ServiceRequestNamingApi.md#put1) | **Put** /service/requestNaming/{id} | Updates the specified request naming rule
-*ServiceRequestNamingApi* | [**Put2**](docs/ServiceRequestNamingApi.md#put2) | **Put** /service/resourceNaming | Updates the global service resource requests.
-*ServiceRequestNamingApi* | [**ReorderList2**](docs/ServiceRequestNamingApi.md#reorderlist2) | **Put** /service/requestNaming/order | Reorders the request namings
+*ServiceRequestNamingApi* | [**GetRequestNaming**](docs/ServiceRequestNamingApi.md#getrequestnaming) | **Get** /service/requestNaming/{id} | Gets the parameters of the specified request naming rule
+*ServiceRequestNamingApi* | [**ListRequestNaming**](docs/ServiceRequestNamingApi.md#listrequestnaming) | **Get** /service/requestNaming | Lists all request naming rules along with their parameters
+*ServiceRequestNamingApi* | [**OrderRequestNaming**](docs/ServiceRequestNamingApi.md#orderrequestnaming) | **Put** /service/requestNaming/order | Reorders the request namings
+*ServiceRequestNamingApi* | [**Put**](docs/ServiceRequestNamingApi.md#put) | **Put** /service/resourceNaming | Updates the global service resource requests.
+*ServiceRequestNamingApi* | [**UpdateRequestNaming**](docs/ServiceRequestNamingApi.md#updaterequestnaming) | **Put** /service/requestNaming/{id} | Updates the specified request naming rule
 *ServiceRequestNamingApi* | [**Validate**](docs/ServiceRequestNamingApi.md#validate) | **Post** /service/resourceNaming/validator | Validates new resource requests settings for the &#x60;PUT /service/resourceRequest&#x60; request.
-*ServiceRequestNamingApi* | [**ValidateItem3**](docs/ServiceRequestNamingApi.md#validateitem3) | **Post** /service/requestNaming/validator | Validates the new request naming rule for the &#x60;POST /requestNaming&#x60; request
-*ServiceRequestNamingApi* | [**ValidatePut1**](docs/ServiceRequestNamingApi.md#validateput1) | **Post** /service/requestNaming/{id}/validator | Validates the new request naming for the &#x60;PUT /requestNaming/{id}&#x60; request
-*WebApplicationConfigurationApi* | [**CreateConfiguration**](docs/WebApplicationConfigurationApi.md#createconfiguration) | **Post** /applications/web | Creates a new web application
-*WebApplicationConfigurationApi* | [**CreateOrUpdateConfiguration**](docs/WebApplicationConfigurationApi.md#createorupdateconfiguration) | **Put** /applications/web/{id} | Updates the configuration of the specified web application or creates a new one
-*WebApplicationConfigurationApi* | [**CreateOrUpdateDefaultConfiguration**](docs/WebApplicationConfigurationApi.md#createorupdatedefaultconfiguration) | **Put** /applications/web/default | Updates the configuration of the default web application
-*WebApplicationConfigurationApi* | [**DeleteConfiguration**](docs/WebApplicationConfigurationApi.md#deleteconfiguration) | **Delete** /applications/web/{id} | Deletes the specified web application
-*WebApplicationConfigurationApi* | [**GetConfiguration3**](docs/WebApplicationConfigurationApi.md#getconfiguration3) | **Get** /applications/web/{id} | Gets the configuration of the specified web application
-*WebApplicationConfigurationApi* | [**GetDataPrivacySettings**](docs/WebApplicationConfigurationApi.md#getdataprivacysettings) | **Get** /applications/web/{id}/dataPrivacy | Gets the data privacy settings of the specified web application
-*WebApplicationConfigurationApi* | [**GetDefaultApplication**](docs/WebApplicationConfigurationApi.md#getdefaultapplication) | **Get** /applications/web/default | Gets the configuration of the default web application
-*WebApplicationConfigurationApi* | [**GetDefaultApplicationDataPrivacySettings**](docs/WebApplicationConfigurationApi.md#getdefaultapplicationdataprivacysettings) | **Get** /applications/web/default/dataPrivacy | Gets the data privacy settings of the default web application
-*WebApplicationConfigurationApi* | [**ListConfigurations**](docs/WebApplicationConfigurationApi.md#listconfigurations) | **Get** /applications/web | Lists all existing web applications
-*WebApplicationConfigurationApi* | [**ListDataPrivacySettings**](docs/WebApplicationConfigurationApi.md#listdataprivacysettings) | **Get** /applications/web/dataPrivacy | Lists data privacy settings of all web applications
-*WebApplicationConfigurationApi* | [**UpdateDataPrivacySettings**](docs/WebApplicationConfigurationApi.md#updatedataprivacysettings) | **Put** /applications/web/{id}/dataPrivacy | Updates the data privacy settings of the specified web application
-*WebApplicationConfigurationApi* | [**UpdateDefaultApplicationDataPrivacySettings**](docs/WebApplicationConfigurationApi.md#updatedefaultapplicationdataprivacysettings) | **Put** /applications/web/default/dataPrivacy | Updates the data privacy settings of the default web application
-*WebApplicationConfigurationApi* | [**ValidateConfiguration3**](docs/WebApplicationConfigurationApi.md#validateconfiguration3) | **Post** /applications/web/validator | Validates the configuration of the web application for the &#x60;POST /applications/web&#x60; request
-*WebApplicationConfigurationApi* | [**ValidateConfiguration4**](docs/WebApplicationConfigurationApi.md#validateconfiguration4) | **Post** /applications/web/{id}/validator | Validates the configuration of the web application for the &#x60;PUT /applications/web/{id}&#x60; request.
-*WebApplicationConfigurationApi* | [**ValidateDataPrivacySettings**](docs/WebApplicationConfigurationApi.md#validatedataprivacysettings) | **Post** /applications/web/{id}/dataPrivacy/validator | Validates data privacy settings for the &#x60;PUT /applications/web/{id}/dataPrivacy&#x60; request
-*WebApplicationConfigurationApi* | [**ValidateDefaultApplicationDataPrivacySettings**](docs/WebApplicationConfigurationApi.md#validatedefaultapplicationdataprivacysettings) | **Post** /applications/web/default/dataPrivacy/validator | Validates data privacy settings of the default web application for the &#x60;PUT /applications/web/default/dataPrivacy&#x60; request
-*WebApplicationConfigurationApi* | [**ValidateDefaultConfiguration**](docs/WebApplicationConfigurationApi.md#validatedefaultconfiguration) | **Post** /applications/web/default/validator | Validates the configuration of the default web application for the &#x60;PUT /applications/web/default&#x60; request
+*ServiceRequestNamingApi* | [**ValidateCreateRequestNaming**](docs/ServiceRequestNamingApi.md#validatecreaterequestnaming) | **Post** /service/requestNaming/validator | Validates the new request naming rule for the &#x60;POST /requestNaming&#x60; request
+*ServiceRequestNamingApi* | [**ValidateUpdateRequestNaming**](docs/ServiceRequestNamingApi.md#validateupdaterequestnaming) | **Post** /service/requestNaming/{id}/validator | Validates the new request naming for the &#x60;PUT /requestNaming/{id}&#x60; request
 
 
 ## Documentation For Models
@@ -350,6 +467,8 @@ Class | Method | HTTP request | Description
  - [AlertingProfileSeverityRule](docs/AlertingProfileSeverityRule.md)
  - [AlertingProfileTagFilter](docs/AlertingProfileTagFilter.md)
  - [AliasQueue](docs/AliasQueue.md)
+ - [AllowedBeaconOrigins](docs/AllowedBeaconOrigins.md)
+ - [AnomalyDetectionPG](docs/AnomalyDetectionPG.md)
  - [AnsibleTowerNotificationConfig](docs/AnsibleTowerNotificationConfig.md)
  - [AnsibleTowerNotificationConfigAllOf](docs/AnsibleTowerNotificationConfigAllOf.md)
  - [Apdex](docs/Apdex.md)
@@ -358,6 +477,8 @@ Class | Method | HTTP request | Description
  - [ApplicationDataPrivacy](docs/ApplicationDataPrivacy.md)
  - [ApplicationDataPrivacyList](docs/ApplicationDataPrivacyList.md)
  - [ApplicationDetectionRuleConfig](docs/ApplicationDetectionRuleConfig.md)
+ - [ApplicationDetectionRulesHostDetectionSettings](docs/ApplicationDetectionRulesHostDetectionSettings.md)
+ - [ApplicationErrorRules](docs/ApplicationErrorRules.md)
  - [ApplicationFilter](docs/ApplicationFilter.md)
  - [ApplicationId](docs/ApplicationId.md)
  - [ApplicationTypeComparison](docs/ApplicationTypeComparison.md)
@@ -368,18 +489,23 @@ Class | Method | HTTP request | Description
  - [AssignedEntitiesWithMetricTileAllOf](docs/AssignedEntitiesWithMetricTileAllOf.md)
  - [AutoTag](docs/AutoTag.md)
  - [AutoTagRule](docs/AutoTagRule.md)
+ - [AvailabilityMonitoringPG](docs/AvailabilityMonitoringPG.md)
  - [AwsAnomalyDetectionConfig](docs/AwsAnomalyDetectionConfig.md)
  - [AwsAuthenticationData](docs/AwsAuthenticationData.md)
  - [AwsConfigTag](docs/AwsConfigTag.md)
  - [AwsCredentialsConfig](docs/AwsCredentialsConfig.md)
  - [AwsIamToken](docs/AwsIamToken.md)
+ - [AwsPrivateLinkConfig](docs/AwsPrivateLinkConfig.md)
  - [AwsSupportingServiceConfig](docs/AwsSupportingServiceConfig.md)
  - [AwsSupportingServiceMetric](docs/AwsSupportingServiceMetric.md)
  - [AzureComputeModeComparison](docs/AzureComputeModeComparison.md)
  - [AzureComputeModeComparisonAllOf](docs/AzureComputeModeComparisonAllOf.md)
  - [AzureCredentials](docs/AzureCredentials.md)
+ - [AzureMonitoredMetric](docs/AzureMonitoredMetric.md)
  - [AzureSkuComparision](docs/AzureSkuComparision.md)
  - [AzureSkuComparisionAllOf](docs/AzureSkuComparisionAllOf.md)
+ - [AzureSupportingService](docs/AzureSupportingService.md)
+ - [BeaconDomainPattern](docs/BeaconDomainPattern.md)
  - [BeforeTransformation](docs/BeforeTransformation.md)
  - [BeforeTransformationAllOf](docs/BeforeTransformationAllOf.md)
  - [BetweenTransformation](docs/BetweenTransformation.md)
@@ -389,7 +515,12 @@ Class | Method | HTTP request | Description
  - [BooleanComparisonInfo](docs/BooleanComparisonInfo.md)
  - [BooleanComparisonInfoAllOf](docs/BooleanComparisonInfoAllOf.md)
  - [CalculatedMetricDefinition](docs/CalculatedMetricDefinition.md)
+ - [CalculatedMobileMetric](docs/CalculatedMobileMetric.md)
+ - [CalculatedMobileMetricDimension](docs/CalculatedMobileMetricDimension.md)
+ - [CalculatedMobileMetricUpdate](docs/CalculatedMobileMetricUpdate.md)
+ - [CalculatedMobileMetricUserActionFilter](docs/CalculatedMobileMetricUserActionFilter.md)
  - [CalculatedServiceMetric](docs/CalculatedServiceMetric.md)
+ - [CalculatedSyntheticMetric](docs/CalculatedSyntheticMetric.md)
  - [CapturedMethod](docs/CapturedMethod.md)
  - [CertificateCredentials](docs/CertificateCredentials.md)
  - [CertificateCredentialsAllOf](docs/CertificateCredentialsAllOf.md)
@@ -408,11 +539,13 @@ Class | Method | HTTP request | Description
  - [ConditionsFullWebRequestAttributeTypeDto](docs/ConditionsFullWebRequestAttributeTypeDto.md)
  - [ConditionsFullWebServiceAttributeTypeDto](docs/ConditionsFullWebServiceAttributeTypeDto.md)
  - [ConditionsOpaqueAndExternalWebRequestAttributeTypeDto](docs/ConditionsOpaqueAndExternalWebRequestAttributeTypeDto.md)
+ - [ConditionsOpaqueAndExternalWebServiceAttributeTypeDto](docs/ConditionsOpaqueAndExternalWebServiceAttributeTypeDto.md)
  - [ConfigurationMetadata](docs/ConfigurationMetadata.md)
  - [ConfigurationMetadataDtoImpl](docs/ConfigurationMetadataDtoImpl.md)
  - [ConnectionLostDetectionConfig](docs/ConnectionLostDetectionConfig.md)
  - [ConstraintViolation](docs/ConstraintViolation.md)
  - [ContentCapture](docs/ContentCapture.md)
+ - [ContentResources](docs/ContentResources.md)
  - [ContextRoot](docs/ContextRoot.md)
  - [ContextRootTransformation](docs/ContextRootTransformation.md)
  - [ConversionGoal](docs/ConversionGoal.md)
@@ -428,6 +561,7 @@ Class | Method | HTTP request | Description
  - [CustomColumnDefinitionAllOf](docs/CustomColumnDefinitionAllOf.md)
  - [CustomDeviceGroupNameAlertingScope](docs/CustomDeviceGroupNameAlertingScope.md)
  - [CustomDeviceGroupNameAlertingScopeAllOf](docs/CustomDeviceGroupNameAlertingScopeAllOf.md)
+ - [CustomErrorRule](docs/CustomErrorRule.md)
  - [CustomFilterChartConfig](docs/CustomFilterChartConfig.md)
  - [CustomFilterChartSeriesConfig](docs/CustomFilterChartSeriesConfig.md)
  - [CustomFilterChartSeriesDimensionConfig](docs/CustomFilterChartSeriesDimensionConfig.md)
@@ -447,9 +581,6 @@ Class | Method | HTTP request | Description
  - [DashboardReportStub](docs/DashboardReportStub.md)
  - [DashboardReportSubscription](docs/DashboardReportSubscription.md)
  - [DashboardStub](docs/DashboardStub.md)
- - [DataExplorerQuery](docs/DataExplorerQuery.md)
- - [DataExplorerTile](docs/DataExplorerTile.md)
- - [DataExplorerTileAllOf](docs/DataExplorerTileAllOf.md)
  - [DataPrivacyAndSecurity](docs/DataPrivacyAndSecurity.md)
  - [DataSource](docs/DataSource.md)
  - [DatabaseAnomalyDetectionConfig](docs/DatabaseAnomalyDetectionConfig.md)
@@ -461,6 +592,8 @@ Class | Method | HTTP request | Description
  - [DestinationDetails](docs/DestinationDetails.md)
  - [DetectionRule](docs/DetectionRule.md)
  - [DimensionDefinition](docs/DimensionDefinition.md)
+ - [DimensionalManagementZoneConditionDto](docs/DimensionalManagementZoneConditionDto.md)
+ - [DimensionalManagementZoneRuleDto](docs/DimensionalManagementZoneRuleDto.md)
  - [DiskEventAnomalyDetectionConfig](docs/DiskEventAnomalyDetectionConfig.md)
  - [DiskLowInodesDetectionConfig](docs/DiskLowInodesDetectionConfig.md)
  - [DiskLowInodesThresholds](docs/DiskLowInodesThresholds.md)
@@ -471,6 +604,8 @@ Class | Method | HTTP request | Description
  - [DiskSlowWritesAndReadsDetectionConfig](docs/DiskSlowWritesAndReadsDetectionConfig.md)
  - [DroppedPacketsDetectionConfig](docs/DroppedPacketsDetectionConfig.md)
  - [DroppedPacketsThresholds](docs/DroppedPacketsThresholds.md)
+ - [ESBInputNodeTypeComparisonInfo](docs/ESBInputNodeTypeComparisonInfo.md)
+ - [ESBInputNodeTypeComparisonInfoAllOf](docs/ESBInputNodeTypeComparisonInfoAllOf.md)
  - [Ec2CandidateCpuSaturationDetectionConfig](docs/Ec2CandidateCpuSaturationDetectionConfig.md)
  - [Ec2CandidateCpuSaturationThresholds](docs/Ec2CandidateCpuSaturationThresholds.md)
  - [ElbHighConnectionErrorsDetectionConfig](docs/ElbHighConnectionErrorsDetectionConfig.md)
@@ -485,12 +620,11 @@ Class | Method | HTTP request | Description
  - [EntityIdComparisonAllOf](docs/EntityIdComparisonAllOf.md)
  - [EntityRuleEngineCondition](docs/EntityRuleEngineCondition.md)
  - [EntityShortRepresentation](docs/EntityShortRepresentation.md)
+ - [EnvironmentAutoUpdateConfig](docs/EnvironmentAutoUpdateConfig.md)
  - [EqualsCompareOperation](docs/EqualsCompareOperation.md)
  - [EqualsCompareOperationAllOf](docs/EqualsCompareOperationAllOf.md)
  - [Error](docs/Error.md)
  - [ErrorEnvelope](docs/ErrorEnvelope.md)
- - [EsbInputNodeTypeComparisonInfo](docs/EsbInputNodeTypeComparisonInfo.md)
- - [EsbInputNodeTypeComparisonInfoAllOf](docs/EsbInputNodeTypeComparisonInfoAllOf.md)
  - [EsxiHighCpuSaturationConfig](docs/EsxiHighCpuSaturationConfig.md)
  - [EsxiHighCpuThresholds](docs/EsxiHighCpuThresholds.md)
  - [EsxiHighMemoryDetectionConfig](docs/EsxiHighMemoryDetectionConfig.md)
@@ -527,8 +661,8 @@ Class | Method | HTTP request | Description
  - [GlobalExtensionConfiguration](docs/GlobalExtensionConfiguration.md)
  - [GreaterThanCompareOperation](docs/GreaterThanCompareOperation.md)
  - [GreaterThanCompareOperationAllOf](docs/GreaterThanCompareOperationAllOf.md)
- - [GuestCpuLimitReachedConfig](docs/GuestCpuLimitReachedConfig.md)
- - [GuestCpuLimitThresholds](docs/GuestCpuLimitThresholds.md)
+ - [GuestCPULimitReachedConfig](docs/GuestCPULimitReachedConfig.md)
+ - [GuestCPULimitThresholds](docs/GuestCPULimitThresholds.md)
  - [HighCpuSaturationDetectionConfig](docs/HighCpuSaturationDetectionConfig.md)
  - [HighCpuSaturationThresholds](docs/HighCpuSaturationThresholds.md)
  - [HighGcActivityDetectionConfig](docs/HighGcActivityDetectionConfig.md)
@@ -540,11 +674,15 @@ Class | Method | HTTP request | Description
  - [HipChatNotificationConfig](docs/HipChatNotificationConfig.md)
  - [HipChatNotificationConfigAllOf](docs/HipChatNotificationConfigAllOf.md)
  - [Host](docs/Host.md)
+ - [HostAutoUpdateConfig](docs/HostAutoUpdateConfig.md)
+ - [HostConfig](docs/HostConfig.md)
  - [HostGroup](docs/HostGroup.md)
+ - [HostGroupAutoUpdateConfig](docs/HostGroupAutoUpdateConfig.md)
  - [HostGroupNameAlertingScope](docs/HostGroupNameAlertingScope.md)
  - [HostList](docs/HostList.md)
  - [HostNameAlertingScope](docs/HostNameAlertingScope.md)
  - [HostsAnomalyDetectionConfig](docs/HostsAnomalyDetectionConfig.md)
+ - [HttpErrorRule](docs/HttpErrorRule.md)
  - [HttpHeader](docs/HttpHeader.md)
  - [HttpMethodComparisonInfo](docs/HttpMethodComparisonInfo.md)
  - [HttpMethodComparisonInfoAllOf](docs/HttpMethodComparisonInfoAllOf.md)
@@ -552,8 +690,8 @@ Class | Method | HTTP request | Description
  - [HttpStatusClassComparisonInfoAllOf](docs/HttpStatusClassComparisonInfoAllOf.md)
  - [HypervisorTypeComparision](docs/HypervisorTypeComparision.md)
  - [HypervisorTypeComparisionAllOf](docs/HypervisorTypeComparisionAllOf.md)
- - [IbmMqImsEntryQueue](docs/IbmMqImsEntryQueue.md)
- - [IibInputNodeTypeComparisonInfo](docs/IibInputNodeTypeComparisonInfo.md)
+ - [IIBInputNodeTypeComparisonInfo](docs/IIBInputNodeTypeComparisonInfo.md)
+ - [IbmMQImsEntryQueue](docs/IbmMQImsEntryQueue.md)
  - [IndexedNameComparison](docs/IndexedNameComparison.md)
  - [IndexedNameComparisonAllOf](docs/IndexedNameComparisonAllOf.md)
  - [IndexedStringComparison](docs/IndexedStringComparison.md)
@@ -570,7 +708,11 @@ Class | Method | HTTP request | Description
  - [IntegerComparisonAllOf](docs/IntegerComparisonAllOf.md)
  - [IpAddressComparison](docs/IpAddressComparison.md)
  - [IpAddressComparisonAllOf](docs/IpAddressComparisonAllOf.md)
+ - [IpAddressMappingLocation](docs/IpAddressMappingLocation.md)
+ - [IpAddressMappingRule](docs/IpAddressMappingRule.md)
+ - [IpAddressMappings](docs/IpAddressMappings.md)
  - [IpAddressRange](docs/IpAddressRange.md)
+ - [IpDetectionHeaders](docs/IpDetectionHeaders.md)
  - [IpInRangeCompareOperation](docs/IpInRangeCompareOperation.md)
  - [IpInRangeCompareOperationAllOf](docs/IpInRangeCompareOperationAllOf.md)
  - [JavaScriptFrameworkSupport](docs/JavaScriptFrameworkSupport.md)
@@ -579,6 +721,10 @@ Class | Method | HTTP request | Description
  - [JiraNotificationConfigAllOf](docs/JiraNotificationConfigAllOf.md)
  - [JsonColumnDefinition](docs/JsonColumnDefinition.md)
  - [KeyBasedAuthentication](docs/KeyBasedAuthentication.md)
+ - [KeyUserAction](docs/KeyUserAction.md)
+ - [KeyUserActionList](docs/KeyUserActionList.md)
+ - [KeyUserActionMobile](docs/KeyUserActionMobile.md)
+ - [KeyUserActionMobileList](docs/KeyUserActionMobileList.md)
  - [KubernetesCredentials](docs/KubernetesCredentials.md)
  - [KubernetesEventPattern](docs/KubernetesEventPattern.md)
  - [LambdaHighErrorRateDetectionConfig](docs/LambdaHighErrorRateDetectionConfig.md)
@@ -602,20 +748,28 @@ Class | Method | HTTP request | Description
  - [MethodRule](docs/MethodRule.md)
  - [MetricEvent](docs/MetricEvent.md)
  - [MetricEventAlertingScope](docs/MetricEventAlertingScope.md)
+ - [MetricEventAutoAdaptiveBaselineMonitoringStrategy](docs/MetricEventAutoAdaptiveBaselineMonitoringStrategy.md)
+ - [MetricEventAutoAdaptiveBaselineMonitoringStrategyAllOf](docs/MetricEventAutoAdaptiveBaselineMonitoringStrategyAllOf.md)
  - [MetricEventDimensions](docs/MetricEventDimensions.md)
  - [MetricEventEntityDimensions](docs/MetricEventEntityDimensions.md)
  - [MetricEventEntityDimensionsAllOf](docs/MetricEventEntityDimensionsAllOf.md)
+ - [MetricEventMonitoringStrategy](docs/MetricEventMonitoringStrategy.md)
+ - [MetricEventStaticThresholdMonitoringStrategy](docs/MetricEventStaticThresholdMonitoringStrategy.md)
+ - [MetricEventStaticThresholdMonitoringStrategyAllOf](docs/MetricEventStaticThresholdMonitoringStrategyAllOf.md)
  - [MetricEventStringDimensions](docs/MetricEventStringDimensions.md)
  - [MetricEventStringDimensionsAllOf](docs/MetricEventStringDimensionsAllOf.md)
  - [MetricEventTextFilterMetricEventDimensionsFilterOperatorDto](docs/MetricEventTextFilterMetricEventDimensionsFilterOperatorDto.md)
  - [MetricEventTextFilterMetricEventTextFilterOperatorDto](docs/MetricEventTextFilterMetricEventTextFilterOperatorDto.md)
- - [MobileDimensionDefinition](docs/MobileDimensionDefinition.md)
- - [MobileMetric](docs/MobileMetric.md)
- - [MobileMetricUpdate](docs/MobileMetricUpdate.md)
+ - [MobileCustomApdex](docs/MobileCustomApdex.md)
+ - [MobileCustomAppConfig](docs/MobileCustomAppConfig.md)
  - [MobilePlatformComparison](docs/MobilePlatformComparison.md)
  - [MobilePlatformComparisonAllOf](docs/MobilePlatformComparisonAllOf.md)
- - [MobileUserActionFilter](docs/MobileUserActionFilter.md)
+ - [MobileSessionProperty](docs/MobileSessionProperty.md)
+ - [MobileSessionPropertyList](docs/MobileSessionPropertyList.md)
+ - [MobileSessionPropertyShort](docs/MobileSessionPropertyShort.md)
+ - [MobileSessionPropertyUpdate](docs/MobileSessionPropertyUpdate.md)
  - [MonitoredEntityFilter](docs/MonitoredEntityFilter.md)
+ - [MonitoringConfig](docs/MonitoringConfig.md)
  - [MonitoringSettings](docs/MonitoringSettings.md)
  - [NameAlertingScope](docs/NameAlertingScope.md)
  - [NetworkDroppedPacketsDetectionConfig](docs/NetworkDroppedPacketsDetectionConfig.md)
@@ -633,7 +787,9 @@ Class | Method | HTTP request | Description
  - [NumberComparisonInfoAllOf](docs/NumberComparisonInfoAllOf.md)
  - [NumberRequestAttributeComparisonInfo](docs/NumberRequestAttributeComparisonInfo.md)
  - [NumberRequestAttributeComparisonInfoAllOf](docs/NumberRequestAttributeComparisonInfoAllOf.md)
+ - [OneAgentHostGroupConfig](docs/OneAgentHostGroupConfig.md)
  - [OpaqueAndExternalWebRequestRule](docs/OpaqueAndExternalWebRequestRule.md)
+ - [OpaqueAndExternalWebServiceRule](docs/OpaqueAndExternalWebServiceRule.md)
  - [OpsGenieNotificationConfig](docs/OpsGenieNotificationConfig.md)
  - [OpsGenieNotificationConfigAllOf](docs/OpsGenieNotificationConfigAllOf.md)
  - [OsArchitectureComparison](docs/OsArchitectureComparison.md)
@@ -662,6 +818,7 @@ Class | Method | HTTP request | Description
  - [ProcessGroupNameAlertingScope](docs/ProcessGroupNameAlertingScope.md)
  - [ProcessMetadataConditionKey](docs/ProcessMetadataConditionKey.md)
  - [ProcessMetadataConditionKeyAllOf](docs/ProcessMetadataConditionKeyAllOf.md)
+ - [PropagationSource](docs/PropagationSource.md)
  - [PublicDomainName](docs/PublicDomainName.md)
  - [QueueManager](docs/QueueManager.md)
  - [RdsHighCpuDetectionConfig](docs/RdsHighCpuDetectionConfig.md)
@@ -681,8 +838,8 @@ Class | Method | HTTP request | Description
  - [RemotePluginEndpoint](docs/RemotePluginEndpoint.md)
  - [RemoteQueue](docs/RemoteQueue.md)
  - [RemoveCreditCardNumbersTransformation](docs/RemoveCreditCardNumbersTransformation.md)
+ - [RemoveIBANsTransformation](docs/RemoveIBANsTransformation.md)
  - [RemoveIPsTransformation](docs/RemoveIPsTransformation.md)
- - [RemoveIbaNsTransformation](docs/RemoveIbaNsTransformation.md)
  - [RemoveNumbersTransformation](docs/RemoveNumbersTransformation.md)
  - [RemoveNumbersTransformationAllOf](docs/RemoveNumbersTransformationAllOf.md)
  - [ReplaceBetweenTransformation](docs/ReplaceBetweenTransformation.md)
@@ -692,7 +849,10 @@ Class | Method | HTTP request | Description
  - [RequestAttribute](docs/RequestAttribute.md)
  - [RequestNaming](docs/RequestNaming.md)
  - [ResourceNaming](docs/ResourceNaming.md)
+ - [ResourceProvider](docs/ResourceProvider.md)
  - [ResourceTimingSettings](docs/ResourceTimingSettings.md)
+ - [ResourceType](docs/ResourceType.md)
+ - [ResourceUrlCleanupRule](docs/ResourceUrlCleanupRule.md)
  - [ResponseTimeDegradationAutodetectionConfig](docs/ResponseTimeDegradationAutodetectionConfig.md)
  - [ResponseTimeDegradationDetectionConfig](docs/ResponseTimeDegradationDetectionConfig.md)
  - [ResponseTimeDegradationThresholdConfig](docs/ResponseTimeDegradationThresholdConfig.md)
@@ -714,6 +874,7 @@ Class | Method | HTTP request | Description
  - [ServiceTypeComparisonAllOf](docs/ServiceTypeComparisonAllOf.md)
  - [ServiceTypeComparisonInfo](docs/ServiceTypeComparisonInfo.md)
  - [ServiceTypeComparisonInfoAllOf](docs/ServiceTypeComparisonInfoAllOf.md)
+ - [SessionReplaySetting](docs/SessionReplaySetting.md)
  - [SharingInfo](docs/SharingInfo.md)
  - [SimpleHostTech](docs/SimpleHostTech.md)
  - [SimpleHostTechComparison](docs/SimpleHostTechComparison.md)
@@ -744,13 +905,13 @@ Class | Method | HTTP request | Description
  - [StubList](docs/StubList.md)
  - [SupportedVersion](docs/SupportedVersion.md)
  - [SymbolFile](docs/SymbolFile.md)
+ - [SymbolFileClientLinkDto](docs/SymbolFileClientLinkDto.md)
  - [SymbolFileList](docs/SymbolFileList.md)
  - [SymbolFilePinning](docs/SymbolFilePinning.md)
  - [SymbolFileStorageInfo](docs/SymbolFileStorageInfo.md)
  - [SyntheticEngineTypeComparison](docs/SyntheticEngineTypeComparison.md)
  - [SyntheticEngineTypeComparisonAllOf](docs/SyntheticEngineTypeComparisonAllOf.md)
- - [SyntheticMetric](docs/SyntheticMetric.md)
- - [SyntheticMetricDimensionDefinition](docs/SyntheticMetricDimensionDefinition.md)
+ - [SyntheticMetricDimension](docs/SyntheticMetricDimension.md)
  - [SyntheticMetricFilter](docs/SyntheticMetricFilter.md)
  - [SyntheticMetricUpdate](docs/SyntheticMetricUpdate.md)
  - [SyntheticSingleWebcheckTile](docs/SyntheticSingleWebcheckTile.md)
@@ -767,6 +928,8 @@ Class | Method | HTTP request | Description
  - [TagInfo](docs/TagInfo.md)
  - [TakeSegmentsTransformation](docs/TakeSegmentsTransformation.md)
  - [TakeSegmentsTransformationAllOf](docs/TakeSegmentsTransformationAllOf.md)
+ - [TechMonitoringList](docs/TechMonitoringList.md)
+ - [Technology](docs/Technology.md)
  - [Tile](docs/Tile.md)
  - [TileBounds](docs/TileBounds.md)
  - [TileFilter](docs/TileFilter.md)
@@ -780,6 +943,10 @@ Class | Method | HTTP request | Description
  - [TrelloNotificationConfigAllOf](docs/TrelloNotificationConfigAllOf.md)
  - [UndersizedStorageDetectionConfig](docs/UndersizedStorageDetectionConfig.md)
  - [UndersizedStorageThresholds](docs/UndersizedStorageThresholds.md)
+ - [UniversalTag](docs/UniversalTag.md)
+ - [UniversalTagKey](docs/UniversalTagKey.md)
+ - [UrlPath](docs/UrlPath.md)
+ - [UserActionAndSessionProperties](docs/UserActionAndSessionProperties.md)
  - [UserActionDetails](docs/UserActionDetails.md)
  - [UserActionFilter](docs/UserActionFilter.md)
  - [UserActionNamingPlaceholder](docs/UserActionNamingPlaceholder.md)
@@ -793,6 +960,7 @@ Class | Method | HTTP request | Description
  - [UserSessionQueryTile](docs/UserSessionQueryTile.md)
  - [UserSessionQueryTileAllOf](docs/UserSessionQueryTileAllOf.md)
  - [UserSessionQueryTileConfiguration](docs/UserSessionQueryTileConfiguration.md)
+ - [UserTag](docs/UserTag.md)
  - [VMwareAnomalyDetectionConfig](docs/VMwareAnomalyDetectionConfig.md)
  - [ValueCondition](docs/ValueCondition.md)
  - [ValueProcessing](docs/ValueProcessing.md)
@@ -800,6 +968,7 @@ Class | Method | HTTP request | Description
  - [VictorOpsNotificationConfigAllOf](docs/VictorOpsNotificationConfigAllOf.md)
  - [VisitDurationDetails](docs/VisitDurationDetails.md)
  - [VisitNumActionDetails](docs/VisitNumActionDetails.md)
+ - [VisuallyComplete2Settings](docs/VisuallyComplete2Settings.md)
  - [WaterfallSettings](docs/WaterfallSettings.md)
  - [WebApplicationConfig](docs/WebApplicationConfig.md)
  - [WebApplicationConfigBrowserRestriction](docs/WebApplicationConfigBrowserRestriction.md)
@@ -809,6 +978,8 @@ Class | Method | HTTP request | Description
  - [WebHookNotificationConfigAllOf](docs/WebHookNotificationConfigAllOf.md)
  - [WebServiceName](docs/WebServiceName.md)
  - [WebServiceNameSpace](docs/WebServiceNameSpace.md)
+ - [WhitelistedAwsAccount](docs/WhitelistedAwsAccount.md)
+ - [WhitelistedAwsAccountList](docs/WhitelistedAwsAccountList.md)
  - [XMattersNotificationConfig](docs/XMattersNotificationConfig.md)
  - [XMattersNotificationConfigAllOf](docs/XMattersNotificationConfigAllOf.md)
  - [ZosComparisonInfo](docs/ZosComparisonInfo.md)
@@ -819,81 +990,30 @@ Class | Method | HTTP request | Description
 
 
 
-## CaptureRequestDataToken
+### Api-Token
 
 - **Type**: API key
+- **API key parameter name**: Authorization
+- **Location**: HTTP header
 
-Example
-
-```golang
-auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{
-    Key: "APIKEY",
-    Prefix: "Bearer", // Omit if not necessary.
-})
-r, err := client.Service.Operation(auth, args)
-```
+Note, each API key must be added to a map of `map[string]APIKey` where the key is: Authorization and passed in as the auth context for each request.
 
 
-## DataPrivacy
+## Documentation for Utility Methods
 
-- **Type**: API key
+Due to the fact that model structure members are all pointers, this package contains
+a number of utility functions to easily obtain pointers to values of basic types.
+Each of these functions takes a value of the given basic type and returns a pointer to it:
 
-Example
-
-```golang
-auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{
-    Key: "APIKEY",
-    Prefix: "Bearer", // Omit if not necessary.
-})
-r, err := client.Service.Operation(auth, args)
-```
-
-
-## DssFileManagement
-
-- **Type**: API key
-
-Example
-
-```golang
-auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{
-    Key: "APIKEY",
-    Prefix: "Bearer", // Omit if not necessary.
-})
-r, err := client.Service.Operation(auth, args)
-```
-
-
-## ReadConfigToken
-
-- **Type**: API key
-
-Example
-
-```golang
-auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{
-    Key: "APIKEY",
-    Prefix: "Bearer", // Omit if not necessary.
-})
-r, err := client.Service.Operation(auth, args)
-```
-
-
-## WriteConfigToken
-
-- **Type**: API key
-
-Example
-
-```golang
-auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{
-    Key: "APIKEY",
-    Prefix: "Bearer", // Omit if not necessary.
-})
-r, err := client.Service.Operation(auth, args)
-```
-
-
+* `PtrBool`
+* `PtrInt`
+* `PtrInt32`
+* `PtrInt64`
+* `PtrFloat`
+* `PtrFloat32`
+* `PtrFloat64`
+* `PtrString`
+* `PtrTime`
 
 ## Author
 

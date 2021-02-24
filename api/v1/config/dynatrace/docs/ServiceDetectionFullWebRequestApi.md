@@ -1,90 +1,69 @@
 # \ServiceDetectionFullWebRequestApi
 
-All URIs are relative to *https://nph08633.live.dynatrace.com/api/config/v1*
+All URIs are relative to *http://https:/api/config/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateOrUpdateRule**](ServiceDetectionFullWebRequestApi.md#CreateOrUpdateRule) | **Put** /service/detectionRules/FULL_WEB_REQUEST/{id} | Updates an existing service detection rule | maturity&#x3D;EARLY_ADOPTER
-[**CreateRule**](ServiceDetectionFullWebRequestApi.md#CreateRule) | **Post** /service/detectionRules/FULL_WEB_REQUEST | Creates a new service detection rule | maturity&#x3D;EARLY_ADOPTER
-[**DeleteRule**](ServiceDetectionFullWebRequestApi.md#DeleteRule) | **Delete** /service/detectionRules/FULL_WEB_REQUEST/{id} | Deletes the specified service detection rule | maturity&#x3D;EARLY_ADOPTER
-[**GetRule**](ServiceDetectionFullWebRequestApi.md#GetRule) | **Get** /service/detectionRules/FULL_WEB_REQUEST/{id} | Gets the properties of the specified service detection rule | maturity&#x3D;EARLY_ADOPTER
-[**ListRulesSorted**](ServiceDetectionFullWebRequestApi.md#ListRulesSorted) | **Get** /service/detectionRules/FULL_WEB_REQUEST | Lists all full web service detection rules | maturity&#x3D;EARLY_ADOPTER
-[**ReorderList3**](ServiceDetectionFullWebRequestApi.md#ReorderList3) | **Put** /service/detectionRules/FULL_WEB_REQUEST/order | Reorders the service detection rules of the specified type | maturity&#x3D;EARLY_ADOPTER
-[**ValidatePostConfiguration**](ServiceDetectionFullWebRequestApi.md#ValidatePostConfiguration) | **Post** /service/detectionRules/FULL_WEB_REQUEST/validator | Validates the payload for the &#x60;POST /ruleBasedServiceDetection/FULL_WEB_REQUEST&#x60; request | maturity&#x3D;EARLY_ADOPTER
-[**ValidatePutConfiguration**](ServiceDetectionFullWebRequestApi.md#ValidatePutConfiguration) | **Post** /service/detectionRules/FULL_WEB_REQUEST/{id}/validator | Validates the payload for the &#x60;PUT /service/detectionRules/FULL_WEB_REQUEST/{id}&#x60; request | maturity&#x3D;EARLY_ADOPTER
+[**CreateRequestDetectionRule**](ServiceDetectionFullWebRequestApi.md#CreateRequestDetectionRule) | **Post** /service/detectionRules/FULL_WEB_REQUEST | Creates a new service detection rule | maturity&#x3D;EARLY_ADOPTER
+[**DeleteRequestDetectionRule**](ServiceDetectionFullWebRequestApi.md#DeleteRequestDetectionRule) | **Delete** /service/detectionRules/FULL_WEB_REQUEST/{id} | Deletes the specified service detection rule | maturity&#x3D;EARLY_ADOPTER
+[**GetRequestDetectionRule**](ServiceDetectionFullWebRequestApi.md#GetRequestDetectionRule) | **Get** /service/detectionRules/FULL_WEB_REQUEST/{id} | Gets the properties of the specified service detection rule | maturity&#x3D;EARLY_ADOPTER
+[**ListRequestDetectionRules**](ServiceDetectionFullWebRequestApi.md#ListRequestDetectionRules) | **Get** /service/detectionRules/FULL_WEB_REQUEST | Lists all full web service detection rules | maturity&#x3D;EARLY_ADOPTER
+[**OrderRequestDetectionRules**](ServiceDetectionFullWebRequestApi.md#OrderRequestDetectionRules) | **Put** /service/detectionRules/FULL_WEB_REQUEST/order | Reorders the service detection rules of the specified type | maturity&#x3D;EARLY_ADOPTER
+[**UpdateRequestDetectionRule**](ServiceDetectionFullWebRequestApi.md#UpdateRequestDetectionRule) | **Put** /service/detectionRules/FULL_WEB_REQUEST/{id} | Updates an existing service detection rule | maturity&#x3D;EARLY_ADOPTER
+[**ValidateCreateRequestDetectionRule**](ServiceDetectionFullWebRequestApi.md#ValidateCreateRequestDetectionRule) | **Post** /service/detectionRules/FULL_WEB_REQUEST/validator | Validates the payload for the &#x60;POST /ruleBasedServiceDetection/FULL_WEB_REQUEST&#x60; request | maturity&#x3D;EARLY_ADOPTER
+[**ValidateUpdateRequestDetectionRule**](ServiceDetectionFullWebRequestApi.md#ValidateUpdateRequestDetectionRule) | **Post** /service/detectionRules/FULL_WEB_REQUEST/{id}/validator | Validates the payload for the &#x60;PUT /service/detectionRules/FULL_WEB_REQUEST/{id}&#x60; request | maturity&#x3D;EARLY_ADOPTER
 
 
 
-## CreateOrUpdateRule
+## CreateRequestDetectionRule
 
-> EntityShortRepresentation CreateOrUpdateRule(ctx, id, optional)
-
-Updates an existing service detection rule | maturity=EARLY_ADOPTER
-
-If a rule with the specified ID doesn't exist, a new rule is created and appended to the end of the rule list.    The request keeps the existing order of rules, unless the **order** parameter is set.
-
-### Required Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md)| The ID of the rule to be updated. | 
- **optional** | ***CreateOrUpdateRuleOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a CreateOrUpdateRuleOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **fullWebRequestRule** | [**optional.Interface of FullWebRequestRule**](FullWebRequestRule.md)| The JSON body of the request. Contains updated parameters of the service detection rule. | 
-
-### Return type
-
-[**EntityShortRepresentation**](EntityShortRepresentation.md)
-
-### Authorization
-
-[WriteConfigToken](../README.md#WriteConfigToken)
-
-### HTTP request headers
-
-- **Content-Type**: application/json; charset=utf-8
-- **Accept**: application/json; charset=utf-8
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## CreateRule
-
-> EntityShortRepresentation CreateRule(ctx, optional)
+> EntityShortRepresentation CreateRequestDetectionRule(ctx).Position(position).FullWebRequestRule(fullWebRequestRule).Execute()
 
 Creates a new service detection rule | maturity=EARLY_ADOPTER
 
-The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    position := "position_example" // string | The position of the new rule:    * `APPEND`: at the bottom of the rule list.   * `PREPEND`: at the top of the rule list.    If not set, the `APPEND` is used. (optional) (default to "APPEND")
+    fullWebRequestRule := *openapiclient.NewFullWebRequestRule("Type_example", "Name_example", false) // FullWebRequestRule | The JSON body of the request. Contains parameters of the new service detection rule.    You must not specify the ID of the rule!   The **order** field is ignored in this request. To enforce a particular order, use the `PUT /service/detectionRules/FULL_WEB_REQUEST/reorder` request. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceDetectionFullWebRequestApi.CreateRequestDetectionRule(context.Background()).Position(position).FullWebRequestRule(fullWebRequestRule).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceDetectionFullWebRequestApi.CreateRequestDetectionRule``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `CreateRequestDetectionRule`: EntityShortRepresentation
+    fmt.Fprintf(os.Stdout, "Response from `ServiceDetectionFullWebRequestApi.CreateRequestDetectionRule`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateRequestDetectionRuleRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***CreateRuleOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a CreateRuleOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **position** | **optional.String**| The position of the new rule:    * &#x60;APPEND&#x60;: at the bottom of the rule list.   * &#x60;PREPEND&#x60;: at the top of the rule list.    If not set, the &#x60;APPEND&#x60; is used. | [default to APPEND]
- **fullWebRequestRule** | [**optional.Interface of FullWebRequestRule**](FullWebRequestRule.md)| The JSON body of the request. Contains parameters of the new service detection rule.    You must not specify the ID of the rule!   The **order** field is ignored in this request. To enforce a particular order, use the &#x60;PUT /service/detectionRules/FULL_WEB_REQUEST/reorder&#x60; request. | 
+ **position** | **string** | The position of the new rule:    * &#x60;APPEND&#x60;: at the bottom of the rule list.   * &#x60;PREPEND&#x60;: at the top of the rule list.    If not set, the &#x60;APPEND&#x60; is used. | [default to &quot;APPEND&quot;]
+ **fullWebRequestRule** | [**FullWebRequestRule**](FullWebRequestRule.md) | The JSON body of the request. Contains parameters of the new service detection rule.    You must not specify the ID of the rule!   The **order** field is ignored in this request. To enforce a particular order, use the &#x60;PUT /service/detectionRules/FULL_WEB_REQUEST/reorder&#x60; request. | 
 
 ### Return type
 
@@ -92,7 +71,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -104,19 +83,53 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## DeleteRule
+## DeleteRequestDetectionRule
 
-> DeleteRule(ctx, id)
+> DeleteRequestDetectionRule(ctx, id).Execute()
 
 Deletes the specified service detection rule | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := TODO // string | The ID of the service detection rule to be deleted.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceDetectionFullWebRequestApi.DeleteRequestDetectionRule(context.Background(), id).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceDetectionFullWebRequestApi.DeleteRequestDetectionRule``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md)| The ID of the service detection rule to be deleted. | 
+**id** | [**string**](.md) | The ID of the service detection rule to be deleted. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteRequestDetectionRuleRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -124,7 +137,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -136,19 +149,55 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetRule
+## GetRequestDetectionRule
 
-> FullWebRequestRule GetRule(ctx, id)
+> FullWebRequestRule GetRequestDetectionRule(ctx, id).Execute()
 
 Gets the properties of the specified service detection rule | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := TODO // string | The ID of the required service detection rule.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceDetectionFullWebRequestApi.GetRequestDetectionRule(context.Background(), id).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceDetectionFullWebRequestApi.GetRequestDetectionRule``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetRequestDetectionRule`: FullWebRequestRule
+    fmt.Fprintf(os.Stdout, "Response from `ServiceDetectionFullWebRequestApi.GetRequestDetectionRule`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md)| The ID of the required service detection rule. | 
+**id** | [**string**](.md) | The ID of the required service detection rule. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetRequestDetectionRuleRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -156,7 +205,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -168,15 +217,46 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ListRulesSorted
+## ListRequestDetectionRules
 
-> StubList ListRulesSorted(ctx, )
+> StubList ListRequestDetectionRules(ctx).Execute()
 
 Lists all full web service detection rules | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceDetectionFullWebRequestApi.ListRequestDetectionRules(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceDetectionFullWebRequestApi.ListRequestDetectionRules``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ListRequestDetectionRules`: StubList
+    fmt.Fprintf(os.Stdout, "Response from `ServiceDetectionFullWebRequestApi.ListRequestDetectionRules`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiListRequestDetectionRulesRequest struct via the builder pattern
+
 
 ### Return type
 
@@ -184,7 +264,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -196,30 +276,51 @@ This endpoint does not need any parameter.
 [[Back to README]](../README.md)
 
 
-## ReorderList3
+## OrderRequestDetectionRules
 
-> ReorderList3(ctx, optional)
+> OrderRequestDetectionRules(ctx).StubList(stubList).Execute()
 
 Reorders the service detection rules of the specified type | maturity=EARLY_ADOPTER
 
-The request reorders the rules of the specified type according to the order of the IDs in the body of the request.    Rules that are omitted in the body of the request will retain their relative order but will be placed *after* all those present in the request.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    stubList := *openapiclient.NewStubList([]openapiclient.EntityShortRepresentation{*openapiclient.NewEntityShortRepresentation("Id_example")}) // StubList | The JSON body of the request containing the service detection rules in the required order. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceDetectionFullWebRequestApi.OrderRequestDetectionRules(context.Background()).StubList(stubList).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceDetectionFullWebRequestApi.OrderRequestDetectionRules``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiOrderRequestDetectionRulesRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***ReorderList3Opts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a ReorderList3Opts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **stubList** | [**optional.Interface of StubList**](StubList.md)| The JSON body of the request containing the service detection rules in the required order. | 
+ **stubList** | [**StubList**](StubList.md) | The JSON body of the request containing the service detection rules in the required order. | 
 
 ### Return type
 
@@ -227,7 +328,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -239,28 +340,121 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ValidatePostConfiguration
+## UpdateRequestDetectionRule
 
-> ValidatePostConfiguration(ctx, optional)
+> EntityShortRepresentation UpdateRequestDetectionRule(ctx, id).FullWebRequestRule(fullWebRequestRule).Execute()
+
+Updates an existing service detection rule | maturity=EARLY_ADOPTER
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := TODO // string | The ID of the rule to be updated.
+    fullWebRequestRule := *openapiclient.NewFullWebRequestRule("Type_example", "Name_example", false) // FullWebRequestRule | The JSON body of the request. Contains updated parameters of the service detection rule. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceDetectionFullWebRequestApi.UpdateRequestDetectionRule(context.Background(), id).FullWebRequestRule(fullWebRequestRule).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceDetectionFullWebRequestApi.UpdateRequestDetectionRule``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `UpdateRequestDetectionRule`: EntityShortRepresentation
+    fmt.Fprintf(os.Stdout, "Response from `ServiceDetectionFullWebRequestApi.UpdateRequestDetectionRule`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**id** | [**string**](.md) | The ID of the rule to be updated. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateRequestDetectionRuleRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **fullWebRequestRule** | [**FullWebRequestRule**](FullWebRequestRule.md) | The JSON body of the request. Contains updated parameters of the service detection rule. | 
+
+### Return type
+
+[**EntityShortRepresentation**](EntityShortRepresentation.md)
+
+### Authorization
+
+[Api-Token](../README.md#Api-Token)
+
+### HTTP request headers
+
+- **Content-Type**: application/json; charset=utf-8
+- **Accept**: application/json; charset=utf-8
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ValidateCreateRequestDetectionRule
+
+> ValidateCreateRequestDetectionRule(ctx).FullWebRequestRule(fullWebRequestRule).Execute()
 
 Validates the payload for the `POST /ruleBasedServiceDetection/FULL_WEB_REQUEST` request | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    fullWebRequestRule := *openapiclient.NewFullWebRequestRule("Type_example", "Name_example", false) // FullWebRequestRule | The JSON body of the request. Contains parameters of the service detection rule to be validated. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceDetectionFullWebRequestApi.ValidateCreateRequestDetectionRule(context.Background()).FullWebRequestRule(fullWebRequestRule).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceDetectionFullWebRequestApi.ValidateCreateRequestDetectionRule``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateCreateRequestDetectionRuleRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***ValidatePostConfigurationOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a ValidatePostConfigurationOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **fullWebRequestRule** | [**optional.Interface of FullWebRequestRule**](FullWebRequestRule.md)| The JSON body of the request. Contains parameters of the service detection rule to be validated. | 
+ **fullWebRequestRule** | [**FullWebRequestRule**](FullWebRequestRule.md) | The JSON body of the request. Contains parameters of the service detection rule to be validated. | 
 
 ### Return type
 
@@ -268,7 +462,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -280,30 +474,55 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ValidatePutConfiguration
+## ValidateUpdateRequestDetectionRule
 
-> ValidatePutConfiguration(ctx, id, optional)
+> ValidateUpdateRequestDetectionRule(ctx, id).FullWebRequestRule(fullWebRequestRule).Execute()
 
 Validates the payload for the `PUT /service/detectionRules/FULL_WEB_REQUEST/{id}` request | maturity=EARLY_ADOPTER
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := TODO // string | The ID of the service detection rule to be validated.
+    fullWebRequestRule := *openapiclient.NewFullWebRequestRule("Type_example", "Name_example", false) // FullWebRequestRule | The JSON body of the request. Contains parameters of the service detection rule to be validated. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceDetectionFullWebRequestApi.ValidateUpdateRequestDetectionRule(context.Background(), id).FullWebRequestRule(fullWebRequestRule).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceDetectionFullWebRequestApi.ValidateUpdateRequestDetectionRule``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md)| The ID of the service detection rule to be validated. | 
- **optional** | ***ValidatePutConfigurationOpts** | optional parameters | nil if no parameters
+**id** | [**string**](.md) | The ID of the service detection rule to be validated. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a ValidatePutConfigurationOpts struct
+Other parameters are passed through a pointer to a apiValidateUpdateRequestDetectionRuleRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **fullWebRequestRule** | [**optional.Interface of FullWebRequestRule**](FullWebRequestRule.md)| The JSON body of the request. Contains parameters of the service detection rule to be validated. | 
+ **fullWebRequestRule** | [**FullWebRequestRule**](FullWebRequestRule.md) | The JSON body of the request. Contains parameters of the service detection rule to be validated. | 
 
 ### Return type
 
@@ -311,7 +530,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 

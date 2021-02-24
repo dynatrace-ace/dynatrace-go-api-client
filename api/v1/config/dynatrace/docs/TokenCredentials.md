@@ -4,12 +4,47 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** | The name of the credentials set. | 
-**Id** | **string** | The ID of the credentials set. | [optional] 
-**Description** | **string** | A short description of the credentials set.. | 
-**OwnerAccessOnly** | **bool** | The credentials set is available to every user (&#x60;false&#x60;) or to owner only (&#x60;true&#x60;). | [optional] 
-**Type** | **string** | Defines the actual set of fields depending on the value. See one of the following objects:   * &#x60;CERTIFICATE&#x60; -&gt; CertificateCredentials  * &#x60;USERNAME_PASSWORD&#x60; -&gt; UserPasswordCredentials  * &#x60;TOKEN&#x60; -&gt; TokenCredentials   | [optional] 
 **Token** | **string** | Token in the string format. | 
+
+## Methods
+
+### NewTokenCredentials
+
+`func NewTokenCredentials(token string, ) *TokenCredentials`
+
+NewTokenCredentials instantiates a new TokenCredentials object
+This constructor will assign default values to properties that have it defined,
+and makes sure properties required by API are set, but the set of arguments
+will change when the set of required properties is changed
+
+### NewTokenCredentialsWithDefaults
+
+`func NewTokenCredentialsWithDefaults() *TokenCredentials`
+
+NewTokenCredentialsWithDefaults instantiates a new TokenCredentials object
+This constructor will only assign default values to properties that have it defined,
+but it doesn't guarantee that properties required by API are set
+
+### GetToken
+
+`func (o *TokenCredentials) GetToken() string`
+
+GetToken returns the Token field if non-nil, zero value otherwise.
+
+### GetTokenOk
+
+`func (o *TokenCredentials) GetTokenOk() (*string, bool)`
+
+GetTokenOk returns a tuple with the Token field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetToken
+
+`func (o *TokenCredentials) SetToken(v string)`
+
+SetToken sets Token field to given value.
+
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

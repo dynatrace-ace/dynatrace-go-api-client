@@ -1,34 +1,66 @@
 # \ServiceRequestAttributesApi
 
-All URIs are relative to *https://nph08633.live.dynatrace.com/api/config/v1*
+All URIs are relative to *http://https:/api/config/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateConfiguration1**](ServiceRequestAttributesApi.md#CreateConfiguration1) | **Post** /service/requestAttributes | Creates a new request attribute
-[**CreateOrUpdateConfiguration1**](ServiceRequestAttributesApi.md#CreateOrUpdateConfiguration1) | **Put** /service/requestAttributes/{id} | Updates an existing request attribute or creates a new one
-[**DeleteConfiguration2**](ServiceRequestAttributesApi.md#DeleteConfiguration2) | **Delete** /service/requestAttributes/{id} | Deletes the specified request attribute
-[**GetConfiguration6**](ServiceRequestAttributesApi.md#GetConfiguration6) | **Get** /service/requestAttributes/{id} | Shows the properties of the specified request attribute
-[**ListConfigurations2**](ServiceRequestAttributesApi.md#ListConfigurations2) | **Get** /service/requestAttributes | Lists all available request attributes
-[**ValidateConfiguration10**](ServiceRequestAttributesApi.md#ValidateConfiguration10) | **Post** /service/requestAttributes/{id}/validator | Validate updates of existing request attribute for the &#x60;PUT /requestAttributes/{id}&#x60; request
-[**ValidateConfiguration9**](ServiceRequestAttributesApi.md#ValidateConfiguration9) | **Post** /service/requestAttributes/validator | Validates new request attributes for the &#x60;POST /requestAttributes&#x60; request
+[**CreateRequestAttributesConfig**](ServiceRequestAttributesApi.md#CreateRequestAttributesConfig) | **Post** /service/requestAttributes | Creates a new request attribute
+[**DeleteRequestAttributesConfig**](ServiceRequestAttributesApi.md#DeleteRequestAttributesConfig) | **Delete** /service/requestAttributes/{id} | Deletes the specified request attribute
+[**GetRequestAttributesConfig**](ServiceRequestAttributesApi.md#GetRequestAttributesConfig) | **Get** /service/requestAttributes/{id} | Shows the properties of the specified request attribute
+[**ListRequestAttributesConfigs**](ServiceRequestAttributesApi.md#ListRequestAttributesConfigs) | **Get** /service/requestAttributes | Lists all available request attributes
+[**UpdateRequestAttributesConfig**](ServiceRequestAttributesApi.md#UpdateRequestAttributesConfig) | **Put** /service/requestAttributes/{id} | Updates an existing request attribute or creates a new one
+[**ValidateCreateRequestAttributesConfig**](ServiceRequestAttributesApi.md#ValidateCreateRequestAttributesConfig) | **Post** /service/requestAttributes/validator | Validates new request attributes for the &#x60;POST /requestAttributes&#x60; request
+[**ValidateUpdateRequestAttributesConfig**](ServiceRequestAttributesApi.md#ValidateUpdateRequestAttributesConfig) | **Post** /service/requestAttributes/{id}/validator | Validate updates of existing request attribute for the &#x60;PUT /requestAttributes/{id}&#x60; request
 
 
 
-## CreateConfiguration1
+## CreateRequestAttributesConfig
 
-> EntityShortRepresentation CreateConfiguration1(ctx, requestAttribute)
+> EntityShortRepresentation CreateRequestAttributesConfig(ctx).RequestAttribute(requestAttribute).Execute()
 
 Creates a new request attribute
 
-The body must not provide an ID as IDs are automatically assigned.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    requestAttribute := *openapiclient.NewRequestAttribute("Name_example", false, "DataType_example", []openapiclient.DataSource{*openapiclient.NewDataSource(false, "Source_example")}, "Normalization_example", "Aggregation_example", false, false) // RequestAttribute | 
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceRequestAttributesApi.CreateRequestAttributesConfig(context.Background()).RequestAttribute(requestAttribute).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceRequestAttributesApi.CreateRequestAttributesConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `CreateRequestAttributesConfig`: EntityShortRepresentation
+    fmt.Fprintf(os.Stdout, "Response from `ServiceRequestAttributesApi.CreateRequestAttributesConfig`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateRequestAttributesConfigRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**requestAttribute** | [**RequestAttribute**](RequestAttribute.md)|  | 
+ **requestAttribute** | [**RequestAttribute**](RequestAttribute.md) |  | 
 
 ### Return type
 
@@ -36,7 +68,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[CaptureRequestDataToken](../README.md#CaptureRequestDataToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -48,52 +80,53 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## CreateOrUpdateConfiguration1
+## DeleteRequestAttributesConfig
 
-> EntityShortRepresentation CreateOrUpdateConfiguration1(ctx, id, requestAttribute)
-
-Updates an existing request attribute or creates a new one
-
-### Required Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md)| The ID of the request attribute to be updated.   If you set the ID in the body as well, it must match this ID. | 
-**requestAttribute** | [**RequestAttribute**](RequestAttribute.md)|  | 
-
-### Return type
-
-[**EntityShortRepresentation**](EntityShortRepresentation.md)
-
-### Authorization
-
-[CaptureRequestDataToken](../README.md#CaptureRequestDataToken)
-
-### HTTP request headers
-
-- **Content-Type**: application/json; charset=utf-8
-- **Accept**: application/json; charset=utf-8
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## DeleteConfiguration2
-
-> DeleteConfiguration2(ctx, id)
+> DeleteRequestAttributesConfig(ctx, id).Execute()
 
 Deletes the specified request attribute
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := TODO // string | The ID of the request attribute to be deleted.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceRequestAttributesApi.DeleteRequestAttributesConfig(context.Background(), id).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceRequestAttributesApi.DeleteRequestAttributesConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md)| The ID of the request attribute to be deleted. | 
+**id** | [**string**](.md) | The ID of the request attribute to be deleted. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteRequestAttributesConfigRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -101,7 +134,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[CaptureRequestDataToken](../README.md#CaptureRequestDataToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -113,30 +146,57 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetConfiguration6
+## GetRequestAttributesConfig
 
-> RequestAttribute GetConfiguration6(ctx, id, optional)
+> RequestAttribute GetRequestAttributesConfig(ctx, id).IncludeProcessGroupReferences(includeProcessGroupReferences).Execute()
 
 Shows the properties of the specified request attribute
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := TODO // string | The ID of the required request attribute.
+    includeProcessGroupReferences := true // bool | Flag to include process group references to the response.    Process Group group references aren't compatible across environments. (optional) (default to false)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceRequestAttributesApi.GetRequestAttributesConfig(context.Background(), id).IncludeProcessGroupReferences(includeProcessGroupReferences).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceRequestAttributesApi.GetRequestAttributesConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetRequestAttributesConfig`: RequestAttribute
+    fmt.Fprintf(os.Stdout, "Response from `ServiceRequestAttributesApi.GetRequestAttributesConfig`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md)| The ID of the required request attribute. | 
- **optional** | ***GetConfiguration6Opts** | optional parameters | nil if no parameters
+**id** | [**string**](.md) | The ID of the required request attribute. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a GetConfiguration6Opts struct
+Other parameters are passed through a pointer to a apiGetRequestAttributesConfigRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **includeProcessGroupReferences** | **optional.Bool**| Flag to include process group references to the response.    Process Group group references aren&#39;t compatible across environments. | [default to false]
+ **includeProcessGroupReferences** | **bool** | Flag to include process group references to the response.    Process Group group references aren&#39;t compatible across environments. | [default to false]
 
 ### Return type
 
@@ -144,7 +204,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -156,15 +216,46 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ListConfigurations2
+## ListRequestAttributesConfigs
 
-> StubList ListConfigurations2(ctx, )
+> StubList ListRequestAttributesConfigs(ctx).Execute()
 
 Lists all available request attributes
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceRequestAttributesApi.ListRequestAttributesConfigs(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceRequestAttributesApi.ListRequestAttributesConfigs``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ListRequestAttributesConfigs`: StubList
+    fmt.Fprintf(os.Stdout, "Response from `ServiceRequestAttributesApi.ListRequestAttributesConfigs`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiListRequestAttributesConfigsRequest struct via the builder pattern
+
 
 ### Return type
 
@@ -172,7 +263,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -184,28 +275,65 @@ This endpoint does not need any parameter.
 [[Back to README]](../README.md)
 
 
-## ValidateConfiguration10
+## UpdateRequestAttributesConfig
 
-> ValidateConfiguration10(ctx, id, requestAttribute)
+> EntityShortRepresentation UpdateRequestAttributesConfig(ctx, id).RequestAttribute(requestAttribute).Execute()
 
-Validate updates of existing request attribute for the `PUT /requestAttributes/{id}` request
+Updates an existing request attribute or creates a new one
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := TODO // string | The ID of the request attribute to be updated.   If you set the ID in the body as well, it must match this ID.
+    requestAttribute := *openapiclient.NewRequestAttribute("Name_example", false, "DataType_example", []openapiclient.DataSource{*openapiclient.NewDataSource(false, "Source_example")}, "Normalization_example", "Aggregation_example", false, false) // RequestAttribute | 
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceRequestAttributesApi.UpdateRequestAttributesConfig(context.Background(), id).RequestAttribute(requestAttribute).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceRequestAttributesApi.UpdateRequestAttributesConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `UpdateRequestAttributesConfig`: EntityShortRepresentation
+    fmt.Fprintf(os.Stdout, "Response from `ServiceRequestAttributesApi.UpdateRequestAttributesConfig`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md)| The ID of the request attribute to be validated. | 
-**requestAttribute** | [**RequestAttribute**](RequestAttribute.md)|  | 
+**id** | [**string**](.md) | The ID of the request attribute to be updated.   If you set the ID in the body as well, it must match this ID. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateRequestAttributesConfigRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **requestAttribute** | [**RequestAttribute**](RequestAttribute.md) |  | 
 
 ### Return type
 
- (empty response body)
+[**EntityShortRepresentation**](EntityShortRepresentation.md)
 
 ### Authorization
 
-[CaptureRequestDataToken](../README.md#CaptureRequestDataToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -217,19 +345,49 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ValidateConfiguration9
+## ValidateCreateRequestAttributesConfig
 
-> ValidateConfiguration9(ctx, requestAttribute)
+> ValidateCreateRequestAttributesConfig(ctx).RequestAttribute(requestAttribute).Execute()
 
 Validates new request attributes for the `POST /requestAttributes` request
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    requestAttribute := *openapiclient.NewRequestAttribute("Name_example", false, "DataType_example", []openapiclient.DataSource{*openapiclient.NewDataSource(false, "Source_example")}, "Normalization_example", "Aggregation_example", false, false) // RequestAttribute | 
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceRequestAttributesApi.ValidateCreateRequestAttributesConfig(context.Background()).RequestAttribute(requestAttribute).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceRequestAttributesApi.ValidateCreateRequestAttributesConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateCreateRequestAttributesConfigRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**requestAttribute** | [**RequestAttribute**](RequestAttribute.md)|  | 
+ **requestAttribute** | [**RequestAttribute**](RequestAttribute.md) |  | 
 
 ### Return type
 
@@ -237,7 +395,75 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[CaptureRequestDataToken](../README.md#CaptureRequestDataToken)
+[Api-Token](../README.md#Api-Token)
+
+### HTTP request headers
+
+- **Content-Type**: application/json; charset=utf-8
+- **Accept**: application/json; charset=utf-8
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ValidateUpdateRequestAttributesConfig
+
+> ValidateUpdateRequestAttributesConfig(ctx, id).RequestAttribute(requestAttribute).Execute()
+
+Validate updates of existing request attribute for the `PUT /requestAttributes/{id}` request
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := TODO // string | The ID of the request attribute to be validated.
+    requestAttribute := *openapiclient.NewRequestAttribute("Name_example", false, "DataType_example", []openapiclient.DataSource{*openapiclient.NewDataSource(false, "Source_example")}, "Normalization_example", "Aggregation_example", false, false) // RequestAttribute | 
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ServiceRequestAttributesApi.ValidateUpdateRequestAttributesConfig(context.Background(), id).RequestAttribute(requestAttribute).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceRequestAttributesApi.ValidateUpdateRequestAttributesConfig``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**id** | [**string**](.md) | The ID of the request attribute to be validated. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateUpdateRequestAttributesConfigRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **requestAttribute** | [**RequestAttribute**](RequestAttribute.md) |  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 

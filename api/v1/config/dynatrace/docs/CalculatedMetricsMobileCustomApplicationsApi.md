@@ -1,41 +1,64 @@
 # \CalculatedMetricsMobileCustomApplicationsApi
 
-All URIs are relative to *https://nph08633.live.dynatrace.com/api/config/v1*
+All URIs are relative to *http://https:/api/config/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**Create**](CalculatedMetricsMobileCustomApplicationsApi.md#Create) | **Post** /calculatedMetrics/mobile | Stores the provided calculated mobile metric configuration. | maturity&#x3D;EARLY_ADOPTER
-[**Delete2**](CalculatedMetricsMobileCustomApplicationsApi.md#Delete2) | **Delete** /calculatedMetrics/mobile/{metricKey} | Deletes the calculated mobile metric configuration with the given id. | maturity&#x3D;EARLY_ADOPTER
-[**GetItem1**](CalculatedMetricsMobileCustomApplicationsApi.md#GetItem1) | **Get** /calculatedMetrics/mobile/{metricKey} | Gets the definition of the specified calculated mobile metric. | maturity&#x3D;EARLY_ADOPTER
-[**GetList1**](CalculatedMetricsMobileCustomApplicationsApi.md#GetList1) | **Get** /calculatedMetrics/mobile | Lists all calculated mobile metric configurations. | maturity&#x3D;EARLY_ADOPTER
-[**Update**](CalculatedMetricsMobileCustomApplicationsApi.md#Update) | **Put** /calculatedMetrics/mobile/{metricKey} | Updates the specified calculated mobile metric. | maturity&#x3D;EARLY_ADOPTER
-[**ValidateCreateMobileMetric**](CalculatedMetricsMobileCustomApplicationsApi.md#ValidateCreateMobileMetric) | **Post** /calculatedMetrics/mobile/validator | Validates the payload for the &#x60;POST /calculatedMetrics/mobile&#x60; request | maturity&#x3D;EARLY_ADOPTER
-[**ValidateUpdateMobileMetric**](CalculatedMetricsMobileCustomApplicationsApi.md#ValidateUpdateMobileMetric) | **Post** /calculatedMetrics/mobile/{metricKey}/validator | Validates the payload for the &#x60;PUT /calculatedMetrics/mobile/{metricKey}&#x60; request | maturity&#x3D;EARLY_ADOPTER
+[**CreateMobileMetric**](CalculatedMetricsMobileCustomApplicationsApi.md#CreateMobileMetric) | **Post** /calculatedMetrics/mobile | Creates a new calculated metric for a mobile or custom app
+[**DeleteMobileMetric**](CalculatedMetricsMobileCustomApplicationsApi.md#DeleteMobileMetric) | **Delete** /calculatedMetrics/mobile/{metricKey} | Deletes the specified calculated metric for mobile or custom app
+[**GetMobileMetric**](CalculatedMetricsMobileCustomApplicationsApi.md#GetMobileMetric) | **Get** /calculatedMetrics/mobile/{metricKey} | Gets the descriptor of the specified calculated metric for mobile or custom app
+[**ListMobileMetrics**](CalculatedMetricsMobileCustomApplicationsApi.md#ListMobileMetrics) | **Get** /calculatedMetrics/mobile | Lists all calculated metrics for mobile and custom apps configured in your environment
+[**UpdateMobileMetric**](CalculatedMetricsMobileCustomApplicationsApi.md#UpdateMobileMetric) | **Put** /calculatedMetrics/mobile/{metricKey} | Updates the specified calculated metric for a mobile or custom app
+[**ValidateCreateMobileMetric**](CalculatedMetricsMobileCustomApplicationsApi.md#ValidateCreateMobileMetric) | **Post** /calculatedMetrics/mobile/validator | Validates the payload for the &#x60;POST /calculatedMetrics/mobile&#x60; request
+[**ValidateUpdateMobileMetric**](CalculatedMetricsMobileCustomApplicationsApi.md#ValidateUpdateMobileMetric) | **Post** /calculatedMetrics/mobile/{metricKey}/validator | Validates the payload for the &#x60;PUT /calculatedMetrics/mobile/{metricKey}&#x60; request
 
 
 
-## Create
+## CreateMobileMetric
 
-> EntityShortRepresentation Create(ctx, optional)
+> EntityShortRepresentation CreateMobileMetric(ctx).CalculatedMobileMetric(calculatedMobileMetric).Execute()
 
-Stores the provided calculated mobile metric configuration. | maturity=EARLY_ADOPTER
+Creates a new calculated metric for a mobile or custom app
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    calculatedMobileMetric := *openapiclient.NewCalculatedMobileMetric("ApplicationIdentifier_example", "Name_example", "MetricKey_example", false, "MetricType_example") // CalculatedMobileMetric | The JSON body of the request. Contains the definition of the new calculated metric for mobile or custom app. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CalculatedMetricsMobileCustomApplicationsApi.CreateMobileMetric(context.Background()).CalculatedMobileMetric(calculatedMobileMetric).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CalculatedMetricsMobileCustomApplicationsApi.CreateMobileMetric``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `CreateMobileMetric`: EntityShortRepresentation
+    fmt.Fprintf(os.Stdout, "Response from `CalculatedMetricsMobileCustomApplicationsApi.CreateMobileMetric`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateMobileMetricRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***CreateOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a CreateOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **mobileMetric** | [**optional.Interface of MobileMetric**](MobileMetric.md)| JSON body of the request containing definition of the new calculated mobile metric. | 
+ **calculatedMobileMetric** | [**CalculatedMobileMetric**](CalculatedMobileMetric.md) | The JSON body of the request. Contains the definition of the new calculated metric for mobile or custom app. | 
 
 ### Return type
 
@@ -43,7 +66,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -55,19 +78,53 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## Delete2
+## DeleteMobileMetric
 
-> Delete2(ctx, metricKey)
+> DeleteMobileMetric(ctx, metricKey).Execute()
 
-Deletes the calculated mobile metric configuration with the given id. | maturity=EARLY_ADOPTER
+Deletes the specified calculated metric for mobile or custom app
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    metricKey := "metricKey_example" // string | The key of the metric to be deleted.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CalculatedMetricsMobileCustomApplicationsApi.DeleteMobileMetric(context.Background(), metricKey).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CalculatedMetricsMobileCustomApplicationsApi.DeleteMobileMetric``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**metricKey** | **string**| The ID of the calculated mobile metric to delete. | 
+**metricKey** | **string** | The key of the metric to be deleted. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteMobileMetricRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -75,7 +132,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -87,27 +144,63 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetItem1
+## GetMobileMetric
 
-> MobileMetric GetItem1(ctx, metricKey)
+> CalculatedMobileMetric GetMobileMetric(ctx, metricKey).Execute()
 
-Gets the definition of the specified calculated mobile metric. | maturity=EARLY_ADOPTER
+Gets the descriptor of the specified calculated metric for mobile or custom app
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    metricKey := "metricKey_example" // string | The key of the required metric.
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CalculatedMetricsMobileCustomApplicationsApi.GetMobileMetric(context.Background(), metricKey).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CalculatedMetricsMobileCustomApplicationsApi.GetMobileMetric``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetMobileMetric`: CalculatedMobileMetric
+    fmt.Fprintf(os.Stdout, "Response from `CalculatedMetricsMobileCustomApplicationsApi.GetMobileMetric`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**metricKey** | **string**| The ID of the calculated mobile metric you&#39;re inquiring. | 
+**metricKey** | **string** | The key of the required metric. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetMobileMetricRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
-[**MobileMetric**](MobileMetric.md)
+[**CalculatedMobileMetric**](CalculatedMobileMetric.md)
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -119,15 +212,46 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetList1
+## ListMobileMetrics
 
-> StubList GetList1(ctx, )
+> StubList ListMobileMetrics(ctx).Execute()
 
-Lists all calculated mobile metric configurations. | maturity=EARLY_ADOPTER
+Lists all calculated metrics for mobile and custom apps configured in your environment
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CalculatedMetricsMobileCustomApplicationsApi.ListMobileMetrics(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CalculatedMetricsMobileCustomApplicationsApi.ListMobileMetrics``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ListMobileMetrics`: StubList
+    fmt.Fprintf(os.Stdout, "Response from `CalculatedMetricsMobileCustomApplicationsApi.ListMobileMetrics`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiListMobileMetricsRequest struct via the builder pattern
+
 
 ### Return type
 
@@ -135,7 +259,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[ReadConfigToken](../README.md#ReadConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -147,38 +271,63 @@ This endpoint does not need any parameter.
 [[Back to README]](../README.md)
 
 
-## Update
+## UpdateMobileMetric
 
-> EntityShortRepresentation Update(ctx, metricKey, optional)
+> UpdateMobileMetric(ctx, metricKey).CalculatedMobileMetricUpdate(calculatedMobileMetricUpdate).Execute()
 
-Updates the specified calculated mobile metric. | maturity=EARLY_ADOPTER
+Updates the specified calculated metric for a mobile or custom app
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    metricKey := "metricKey_example" // string | The key of the metric to be updated.
+    calculatedMobileMetricUpdate := *openapiclient.NewCalculatedMobileMetricUpdate() // CalculatedMobileMetricUpdate | The JSON body of the request. Contains the updated definition of the calculated mobile metric. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CalculatedMetricsMobileCustomApplicationsApi.UpdateMobileMetric(context.Background(), metricKey).CalculatedMobileMetricUpdate(calculatedMobileMetricUpdate).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CalculatedMetricsMobileCustomApplicationsApi.UpdateMobileMetric``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**metricKey** | **string**| The ID of the calculated mobile metric to update. | 
- **optional** | ***UpdateOpts** | optional parameters | nil if no parameters
+**metricKey** | **string** | The key of the metric to be updated. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a UpdateOpts struct
+Other parameters are passed through a pointer to a apiUpdateMobileMetricRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **mobileMetricUpdate** | [**optional.Interface of MobileMetricUpdate**](MobileMetricUpdate.md)| JSON body of the request containing updated definition of the calculated mobile metric. | 
+ **calculatedMobileMetricUpdate** | [**CalculatedMobileMetricUpdate**](CalculatedMobileMetricUpdate.md) | The JSON body of the request. Contains the updated definition of the calculated mobile metric. | 
 
 ### Return type
 
-[**EntityShortRepresentation**](EntityShortRepresentation.md)
+ (empty response body)
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -192,19 +341,47 @@ Name | Type | Description  | Notes
 
 ## ValidateCreateMobileMetric
 
-> ValidateCreateMobileMetric(ctx, mobileMetric)
+> ValidateCreateMobileMetric(ctx).CalculatedMobileMetric(calculatedMobileMetric).Execute()
 
-Validates the payload for the `POST /calculatedMetrics/mobile` request | maturity=EARLY_ADOPTER
+Validates the payload for the `POST /calculatedMetrics/mobile` request
 
-The body must not provide an ID.
+### Example
 
-### Required Parameters
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    calculatedMobileMetric := *openapiclient.NewCalculatedMobileMetric("ApplicationIdentifier_example", "Name_example", "MetricKey_example", false, "MetricType_example") // CalculatedMobileMetric | The JSON body of the request. Contains the definition of the metric to be validated.   The key of the metric must be omitted. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CalculatedMetricsMobileCustomApplicationsApi.ValidateCreateMobileMetric(context.Background()).CalculatedMobileMetric(calculatedMobileMetric).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CalculatedMetricsMobileCustomApplicationsApi.ValidateCreateMobileMetric``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateCreateMobileMetricRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**mobileMetric** | [**MobileMetric**](MobileMetric.md)|  | 
+ **calculatedMobileMetric** | [**CalculatedMobileMetric**](CalculatedMobileMetric.md) | The JSON body of the request. Contains the definition of the metric to be validated.   The key of the metric must be omitted. | 
 
 ### Return type
 
@@ -212,7 +389,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
@@ -226,18 +403,53 @@ Name | Type | Description  | Notes
 
 ## ValidateUpdateMobileMetric
 
-> ValidateUpdateMobileMetric(ctx, metricKey, mobileMetricUpdate)
+> ValidateUpdateMobileMetric(ctx, metricKey).CalculatedMobileMetricUpdate(calculatedMobileMetricUpdate).Execute()
 
-Validates the payload for the `PUT /calculatedMetrics/mobile/{metricKey}` request | maturity=EARLY_ADOPTER
+Validates the payload for the `PUT /calculatedMetrics/mobile/{metricKey}` request
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    metricKey := "metricKey_example" // string | The key of the metric to be validated.
+    calculatedMobileMetricUpdate := *openapiclient.NewCalculatedMobileMetricUpdate() // CalculatedMobileMetricUpdate | The JSON body of the request. Contains the definition of the metric to be validated. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.CalculatedMetricsMobileCustomApplicationsApi.ValidateUpdateMobileMetric(context.Background(), metricKey).CalculatedMobileMetricUpdate(calculatedMobileMetricUpdate).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CalculatedMetricsMobileCustomApplicationsApi.ValidateUpdateMobileMetric``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**metricKey** | **string**|  | 
-**mobileMetricUpdate** | [**MobileMetricUpdate**](MobileMetricUpdate.md)|  | 
+**metricKey** | **string** | The key of the metric to be validated. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateUpdateMobileMetricRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **calculatedMobileMetricUpdate** | [**CalculatedMobileMetricUpdate**](CalculatedMobileMetricUpdate.md) | The JSON body of the request. Contains the definition of the metric to be validated. | 
 
 ### Return type
 
@@ -245,7 +457,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[WriteConfigToken](../README.md#WriteConfigToken)
+[Api-Token](../README.md#Api-Token)
 
 ### HTTP request headers
 
