@@ -2,15 +2,25 @@
 
 Repository for the Go API client for the [dynatrace API]. The code is generated using [openapi-generator].
 
-## The dynatrace API v1 Config Client
+## Dynatrace Configuration API V1
 
-The client library for the dynatrace config API v1 is located in the `api/v1/config/dynatrace` directory. Import it with
+The `Dynatrace Configuration API V1` can be imported as follows:
 
 ```go
 import "github.com/dynatrace-ace/dynatrace-go-api-client/api/v1/config/dynatrace"
 ```
 
-All the documentation for this package is available through `api/v1/config/dynatrace`.
+Documentation can be found here `api/v1/config/dynatrace/docs`.
+
+## Dynatrace Environment API V1
+
+The `Dynatrace Environment API V1` can be imported as follows:
+
+```go
+import "github.com/dynatrace-ace/dynatrace-go-api-client/api/v1/environment/dynatrace"
+```
+
+Documentation can be found here `api/v1/environment/dynatrace/docs`.
 
 [Dynatrace API]: https://www.dynatrace.com/support/help/dynatrace-api/
 [openapi-generator]: https://github.com/OpenAPITools/openapi-generator

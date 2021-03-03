@@ -12,6 +12,7 @@ servers:
 - url: '{protocol}://{name}/api/config/v1'
   variables:
     name:
+      default: ""
       description: Dynatrace full environment name.
     protocol:
       default: https
