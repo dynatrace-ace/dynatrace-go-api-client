@@ -1,4 +1,4 @@
-module github.com/GIT_USER_ID/GIT_REPO_ID
+module module github.com/dynatrace-ace/dynatrace-go-api-client/api/v2/environment/dynatrace
 
 go 1.13
 
