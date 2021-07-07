@@ -1,0 +1,5063 @@
+openapi: 3.0.1
+info:
+  description: "Dynatrace Managed exposes cluster management functionality via REST\
+    \ endpoints. This interactive documentation also acts as a REST client you can\
+    \ use to interact with Dynatrace Managed clusters. \n\nTo authorize, use the API\
+    \ Token generated in [Settings - API Tokens page](/cmc#cm/apiToken). The HTTP\
+    \ status code of the response shows the result of your request. The expected response\
+    \ code for a successful request is documented individually per REST endpoint.\
+    \ Additionally the following error response codes can occur in our REST interface:\n\
+    \n* 400 - Bad Request: Some request parameters are not correct. See response body\
+    \ for details.\n* 401 - Unauthorized: A valid authorization header is required\
+    \ but is missing.\n* 403 - Forbidden: Execution of request is not allowed, e.g.\
+    \ api-token is invalid.\n* 404 - Not Found: Endpoint does not exist or some entities\
+    \ could not be found, e.g. User account.\n* 500 - Internal Server Error: See response\
+    \ body for details.\n* 556 - Upgrade in progress: Operation couldn't be performed\
+    \ during the upgrade.\n"
+  title: Dynatrace Cluster API
+  version: "1.0"
+servers:
+- url: '{protocol}://{name}/api/v1.0/onpremise'
+  variables:
+    name:
+      default: ""
+      description: Dynatrace full cluster name.
+    protocol:
+      default: https
+      description: The protocol for accessing the API.
+security:
+- Api-Token: []
+paths:
+  /backup/config/status:
+    get:
+      operationId: getStatusOfChangeBackupConfig
+      parameters:
+      - explode: true
+        in: query
+        name: requestId
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          description: Success
+        "404":
+          description: There is no response for your request id, it might have been
+            already removed from cache if request was made several hours ago. Please
+            make sure that request id is correct and not empty.
+        "207":
+          description: Request accepted. There will be an id in the response body
+            to check status through the config/status endpoint.
+        "512":
+          description: Configuration change failed
+      summary: Check status of change backup configuration
+      tags:
+      - Backup configuration
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /backup/config:
+    get:
+      operationId: getBackupConfig
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backupConfigDto'
+          description: Success
+      summary: Return backup configuration overview
+      tags:
+      - Backup configuration
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+    put:
+      operationId: changeBackupConfig
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backupConfigDto'
+        description: The JSON body of the request, containing new state of backup
+          configuration.
+      responses:
+        "200":
+          description: Success
+        "512":
+          description: Configuration change failed.
+      summary: Change backup configuration
+      tags:
+      - Backup configuration
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /backup/clusterCheckDir:
+    get:
+      operationId: checkBackupDirForCluster
+      parameters:
+      - description: Backup store directory path parameter. Missing or empty values
+          will return a 'Bad Request'
+        explode: true
+        in: query
+        name: dir
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Datacenter where backup should be executed. Should be omitted
+          for Single Datacenter Cluster
+        explode: true
+        in: query
+        name: datacenter
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorageTestImpl'
+          description: Success
+        "400":
+          description: No directory information received for validation
+      summary: Check if given directory is valid for backup in the cluster
+      tags:
+      - Backup configuration
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /bootstrapManagement/files/secureConfigProperties:
+    get:
+      operationId: getSecureConfigProperties
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileDto'
+          description: Success
+        "510":
+          description: No 'secure.config.properties' file available
+      summary: Get secure config properties
+      tags:
+      - Startup configuration
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /bootstrapManagement/files/runtimeProperties:
+    get:
+      operationId: getRuntimeProperties
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileDto'
+          description: Success
+        "510":
+          description: No 'runtime.properties' file available
+      summary: Get runtime properties
+      tags:
+      - Startup configuration
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /bootstrapManagement/files/installerMetadata:
+    get:
+      operationId: getInstallerMetadata
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstallerMetadata'
+          description: Success
+      summary: Get installer metadata
+      tags:
+      - Startup configuration
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /bootstrapManagement/files/ag/configProperties:
+    get:
+      operationId: getActiveGateConfigProperties
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileDto'
+          description: Success
+        "510":
+          description: No 'config.properties' file available
+      summary: Get ActiveGate config properties
+      tags:
+      - Startup configuration
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /bootstrapManagement/files/ag/secureConfigProperties:
+    get:
+      operationId: getActiveGateSecureConfigProperties
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileDto'
+          description: Success
+        "510":
+          description: No 'secure.config.properties' file available
+      summary: Get ActiveGate secure config properties
+      tags:
+      - Startup configuration
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /bootstrapManagement/newNodeId:
+    post:
+      operationId: generateNewNodeId
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileDto'
+          description: Success
+        "510":
+          description: Failed to generate new node Id
+      summary: Get new node id
+      tags:
+      - Startup configuration
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /bootstrapManagement/files/keyStore:
+    get:
+      operationId: getKeyStore
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileDto'
+          description: Success
+        "510":
+          description: No 'key store' file available
+      summary: Get key store
+      tags:
+      - Startup configuration
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /bootstrapManagement/files/configProperties:
+    get:
+      operationId: getConfigProperties
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileDto'
+          description: Success
+        "510":
+          description: No 'config.properties' file available
+      summary: Get config properties
+      tags:
+      - Startup configuration
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /endpoint/webUiAddress:
+    get:
+      operationId: getWebUiAddress
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddressWrapper'
+          description: Success
+      summary: Get WebUi address
+      tags:
+      - Public endpoints
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+    post:
+      operationId: updateWebUiAddress
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddressWrapper'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddressWrapper'
+          description: Success
+        "510":
+          description: Operation failed
+      summary: Update WebUi address
+      tags:
+      - Public endpoints
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /endpoint/cdnAddress:
+    get:
+      operationId: getRootCDNAddress
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddressWrapper'
+          description: Success
+      summary: Get root CDN address
+      tags:
+      - Public endpoints
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+    post:
+      operationId: updateRootCDNAddress
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddressWrapper'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddressWrapper'
+          description: Success
+        "510":
+          description: Operation failed
+      summary: Update root CDN address
+      tags:
+      - Public endpoints
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /endpoint/beaconForwarderAddress:
+    get:
+      operationId: getBeaconForwarderAddress
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddressWrapper'
+          description: Success
+      summary: Get beacon forwarder address
+      tags:
+      - Public endpoints
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+    post:
+      operationId: updateBeaconForwarderAddress
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddressWrapper'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddressWrapper'
+          description: Success
+        "510":
+          description: Operation failed
+      summary: Update beacon forwarder address
+      tags:
+      - Public endpoints
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /endpoint/publicIp/domain/{nodeId}:
+    get:
+      operationId: getNodeIpForDomain
+      parameters:
+      - description: Node ID
+        explode: false
+        in: path
+        name: nodeId
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddressWrapper'
+          description: Success
+        "404":
+          description: Node not found by id
+      summary: Get node IP for domain
+      tags:
+      - Public endpoints
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+    put:
+      operationId: storeNodeIpForDomain
+      parameters:
+      - description: Node ID
+        explode: false
+        in: path
+        name: nodeId
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        description: String
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddressWrapper'
+          description: Success
+        "510":
+          description: Operation failed
+        "550":
+          description: Invalid IP address
+        "551":
+          description: Storing IP failed
+      summary: Store node IP for domain
+      tags:
+      - Public endpoints
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /endpoint/publicIp/agents/{nodeId}:
+    get:
+      operationId: getNodeIpForAgents
+      parameters:
+      - description: Node ID
+        explode: false
+        in: path
+        name: nodeId
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddressWrapper'
+          description: Success
+        "550":
+          description: Invalid address
+        "552":
+          description: Collector not found
+        "544":
+          description: Timeout
+      summary: Get node IP for OneAgents
+      tags:
+      - Public endpoints
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+    put:
+      operationId: storeNodeIpForAgents
+      parameters:
+      - description: Node ID
+        explode: false
+        in: path
+        name: nodeId
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        description: String
+      responses:
+        "200":
+          description: Success
+        "510":
+          description: Operation failed
+        "540":
+          description: Storing configuration failed
+        "550":
+          description: Invalid IP address
+        "552":
+          description: Collector not found
+      summary: Store node IP for OneAgents
+      tags:
+      - Public endpoints
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /cluster/configuration/status/{requestedAt}:
+    get:
+      operationId: configureNodesRequestStatus
+      parameters:
+      - explode: false
+        in: path
+        name: requestedAt
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: Success
+      summary: Get cluster nodes configuration request status
+      tags:
+      - Cluster
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`ControlManagement` (ControlManagement)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /cluster/configuration:
+    get:
+      operationId: nodesConfiguration
+      responses:
+        "200":
+          description: Success
+      summary: Cluster nodes configuration
+      tags:
+      - Cluster
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`ControlManagement` (ControlManagement)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+    post:
+      operationId: configureNodes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClusterNodesConfigDto'
+      responses:
+        "200":
+          description: Success
+      summary: Configure cluster nodes responsibilities
+      tags:
+      - Cluster
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`ControlManagement` (ControlManagement)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /cluster/configuration/status:
+    get:
+      operationId: configureNodesStatus
+      responses:
+        "200":
+          description: Success
+      summary: Get cluster nodes configuration current status
+      tags:
+      - Cluster
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`ControlManagement` (ControlManagement)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /cluster:
+    get:
+      operationId: getClustersInfo
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Cluster'
+                type: array
+          description: Success
+      summary: Get information about known servers
+      tags:
+      - Cluster
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`ControlManagement` (ControlManagement)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /multiDc/migration/inServerconfigState:
+    get:
+      operationId: getMigrationStateForAllComponents
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InServerConfigDatacenterMigrationState'
+          description: Successful
+      summary: Get state of in-server config migration (from single to multi datacenter
+        cluster) | maturity=EARLY_ADOPTER
+      tags:
+      - Migration to multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /multiDc/migration/clusterState:
+    get:
+      operationId: getClusterState
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleToMultiDcMigrationClusterState'
+          description: Successful
+      summary: Get cluster state of migration from single to multi datacenter cluster
+        and its sub steps | maturity=EARLY_ADOPTER
+      tags:
+      - Migration to multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+    put:
+      operationId: modifyClusterState
+      parameters:
+      - explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          enum:
+          - FAILED
+          - IN_PROGRESS
+          - NOT_STARTED
+          - SUCCEEDED
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: details
+        required: false
+        schema:
+          default: ""
+          type: string
+        style: form
+      responses:
+        "204":
+          description: No Content
+      summary: Modify the overall cluster state of migration from single to multi
+        datacenter cluster | maturity=EARLY_ADOPTER
+      tags:
+      - Migration to multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /multiDc/migration/clusterState/{subStep}:
+    get:
+      operationId: getSubStepState
+      parameters:
+      - explode: false
+        in: path
+        name: subStep
+        required: true
+        schema:
+          enum:
+          - SERVER_RECONFIGURATION
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MigrationState'
+          description: Successful
+      summary: Get sub step of migration from single to multi datacenter cluster |
+        maturity=EARLY_ADOPTER
+      tags:
+      - Migration to multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+    put:
+      operationId: modifySubStepState
+      parameters:
+      - explode: false
+        in: path
+        name: subStep
+        required: true
+        schema:
+          enum:
+          - SERVER_RECONFIGURATION
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          enum:
+          - FAILED
+          - IN_PROGRESS
+          - NOT_STARTED
+          - SUCCEEDED
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: details
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "204":
+          description: No Content
+      summary: Modify sub step of migration from single to multi datacenter cluster
+        | maturity=EARLY_ADOPTER
+      tags:
+      - Migration to multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /multiDc/migration/clusterReplicationPreparation:
+    get:
+      operationId: getPrepareClusterForReplicationProgress
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterPreparationForReplicationDto'
+          description: Successful
+        "207":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterPreparationForReplicationDto'
+          description: Your request is still progressed.
+        "404":
+          description: There is no response for your request id. Please make sure
+            that request id is correct and retry. You may get this error when components
+            are restarting or this request is already removed from cache
+        "512":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterPreparationForReplicationDto'
+          description: There was problem in your request. Please check body or logs
+            for more details.
+      summary: Get progress status of cluster preparation for a replication | maturity=EARLY_ADOPTER
+      tags:
+      - Migration to multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+    post:
+      operationId: initPrepareClusterForReplication
+      responses:
+        "200":
+          description: Successful
+        "500":
+          description: Unexpected problem in server.
+      summary: Start procedure of cluster preparation for a replication | maturity=EARLY_ADOPTER
+      tags:
+      - Migration to multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /multiDc/migration/datacenterTopology:
+    delete:
+      operationId: deleteMultiDCTopologyDraft
+      responses:
+        "200":
+          description: Successful
+      summary: Delete cluster topology draft | maturity=EARLY_ADOPTER
+      tags:
+      - Migration to multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+    get:
+      operationId: getMultiDCTopologyDraft
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MultiDatacenterTopology'
+          description: Successful
+      summary: Get cluster topology draft | maturity=EARLY_ADOPTER
+      tags:
+      - Migration to multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+    post:
+      operationId: createMultiDCTopologyDraft
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/DatacenterMigrationDto'
+      responses:
+        "200":
+          description: Successful
+        "400":
+          description: Invalid datacenter migration draft
+      summary: Create cluster topology draft | maturity=EARLY_ADOPTER
+      tags:
+      - Migration to multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /multiDc/migration/clusterNodes/currentDc:
+    post:
+      operationId: initTopologyConfiguration
+      responses:
+        "200":
+          description: Successful
+        "400":
+          description: Request is incorrect please validate your path and arguments.
+        "500":
+          description: Unexpected problem in server.
+        "512":
+          description: There was problem in your request. Please check body or logs
+            for more details.
+      summary: Start cluster topology configuration - open firewall ports | maturity=EARLY_ADOPTER
+      tags:
+      - Migration to multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /multiDc/migration/clusterNodes/currentDc/{requestId}:
+    get:
+      operationId: getTopologyConfiguration
+      parameters:
+      - explode: false
+        in: path
+        name: requestId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Successful
+        "207":
+          description: Your request is still progressed.
+        "400":
+          description: Request is incorrect please validate your path and arguments.
+        "404":
+          description: There is no response for your request id. Please make sure
+            that request id is correct and retry. You may get this error when components
+            are restarting or this request is already removed from cache
+        "500":
+          description: Unexpected problem in server.
+        "512":
+          description: There was problem in your request. Please check body or logs
+            for more details.
+      summary: Get topology configuration status | maturity=EARLY_ADOPTER
+      tags:
+      - Migration to multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /multiDc/migration/nodekeeper/healthCheck:
+    get:
+      operationId: getMultiDcNodekeeperHealthcheck
+      responses:
+        "200":
+          description: Successful
+        "400":
+          description: Request is incorrect please validate your path and arguments.
+        "500":
+          description: Unexpected problem in server.
+        "512":
+          description: There was problem in your request. Please check body or logs
+            for more details.
+      summary: Get nodekeeper helathcheck | maturity=EARLY_ADOPTER
+      tags:
+      - Migration to multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /multiDc/migration/cassandra/currentDc:
+    post:
+      operationId: initMigrateCassandraOldDatacenter
+      responses:
+        "200":
+          description: Successful
+        "400":
+          description: Request is incorrect please validate your path and arguments.
+        "500":
+          description: Unexpected problem in server.
+        "512":
+          description: There was problem in your request. Please check body or logs
+            for more details.
+      summary: Start cassandra migration in current datacenter | maturity=EARLY_ADOPTER
+      tags:
+      - Migration to multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /multiDc/migration/cassandra/currentDc/{requestId}:
+    get:
+      operationId: getMigrateCassandraOldDatacenter
+      parameters:
+      - explode: false
+        in: path
+        name: requestId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Successful
+        "207":
+          description: Your request is still progressed.
+        "400":
+          description: Request is incorrect please validate your path and arguments.
+        "404":
+          description: There is no response for your request id. Please make sure
+            that request id is correct and retry. You may get this error when components
+            are restarting or this request is already removed from cache
+        "500":
+          description: Unexpected problem in server.
+        "512":
+          description: There was problem in your request. Please check body or logs
+            for more details.
+      summary: Get cassandra migration status in current datacenter | maturity=EARLY_ADOPTER
+      tags:
+      - Migration to multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /multiDc/migration/cassandra/newDc:
+    post:
+      operationId: initMigrateCassandraNewDatacenter
+      responses:
+        "200":
+          description: Successful
+        "400":
+          description: Request is incorrect please validate your path and arguments.
+        "500":
+          description: Unexpected problem in server.
+        "512":
+          description: There was problem in your request. Please check body or logs
+            for more details.
+      summary: Start cassandra migration in new datacenter | maturity=EARLY_ADOPTER
+      tags:
+      - Migration to multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /multiDc/migration/cassandra/newDc/{requestId}:
+    get:
+      operationId: getMigrateCassandraNewDatacenter
+      parameters:
+      - explode: false
+        in: path
+        name: requestId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Successful
+        "207":
+          description: Your request is still progressed.
+        "400":
+          description: Request is incorrect please validate your path and arguments.
+        "404":
+          description: There is no response for your request id. Please make sure
+            that request id is correct and retry. You may get this error when components
+            are restarting or this request is already removed from cache
+        "500":
+          description: Unexpected problem in server.
+        "512":
+          description: There was problem in your request. Please check body or logs
+            for more details.
+      summary: Get cassandra migration status in new datacenter | maturity=EARLY_ADOPTER
+      tags:
+      - Migration to multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /multiDc/migration/elasticsearch:
+    post:
+      operationId: migrateElasticsearch
+      responses:
+        "200":
+          description: Successful
+        "400":
+          description: Request is incorrect please validate your path and arguments.
+        "500":
+          description: Unexpected problem in server.
+        "512":
+          description: There was problem in your request. Please check body or logs
+            for more details.
+      summary: Start elasticsearch migration | maturity=EARLY_ADOPTER
+      tags:
+      - Migration to multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /multiDc/migration/elasticsearch/{requestId}:
+    get:
+      operationId: getMigrateElasticsearchStatus
+      parameters:
+      - explode: false
+        in: path
+        name: requestId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Successful
+        "207":
+          description: Your request is still progressed.
+        "400":
+          description: Request is incorrect please validate your path and arguments.
+        "404":
+          description: There is no response for your request id. Please make sure
+            that request id is correct and retry. You may get this error when components
+            are restarting or this request is already removed from cache
+        "500":
+          description: Unexpected problem in server.
+        "512":
+          description: There was problem in your request. Please check body or logs
+            for more details.
+      summary: Get elasticsearch migration status | maturity=EARLY_ADOPTER
+      tags:
+      - Migration to multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /multiDc/migration/elasticsearch/indexMigrationStatus:
+    get:
+      operationId: getVerifyElasticsearchMigration
+      responses:
+        "200":
+          description: Successful
+        "400":
+          description: Request is incorrect please validate your path and arguments.
+        "500":
+          description: Unexpected problem in server.
+        "512":
+          description: There was problem in your request. Please check body or logs
+            for more details.
+      summary: Verify elasticsearch migration status | maturity=EARLY_ADOPTER
+      tags:
+      - Migration to multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /multiDc/migration/cassandra/rebuildStatus:
+    get:
+      operationId: getVerifyCassandraStatus
+      responses:
+        "200":
+          description: Successful
+        "400":
+          description: Request is incorrect please validate your path and arguments.
+        "500":
+          description: Unexpected problem in server.
+        "512":
+          description: There was problem in your request. Please check body or logs
+            for more details.
+      summary: Verify cassandra rebuild status | maturity=EARLY_ADOPTER
+      tags:
+      - Migration to multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /multiDc/migration/server:
+    post:
+      operationId: migrateServer
+      responses:
+        "200":
+          description: Successful
+        "400":
+          description: Request is incorrect please validate your path and arguments.
+        "500":
+          description: Unexpected problem in server.
+        "512":
+          description: There was problem in your request. Please check body or logs
+            for more details.
+      summary: Start server migration in current datacenter | maturity=EARLY_ADOPTER
+      tags:
+      - Migration to multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /multiDc/migration/server/{requestId}:
+    get:
+      operationId: getMigrateServerStatus
+      parameters:
+      - explode: false
+        in: path
+        name: requestId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Successful
+        "207":
+          description: Your request is still progressed.
+        "400":
+          description: Request is incorrect please validate your path and arguments.
+        "404":
+          description: There is no response for your request id. Please make sure
+            that request id is correct and retry. You may get this error when components
+            are restarting or this request is already removed from cache
+        "500":
+          description: Unexpected problem in server.
+        "512":
+          description: There was problem in your request. Please check body or logs
+            for more details.
+      summary: Get server migration status | maturity=EARLY_ADOPTER
+      tags:
+      - Migration to multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /multiDc/migration/lostDatacenterCleanUp:
+    post:
+      operationId: initDatacenterCleanUp
+      responses:
+        "200":
+          description: Successful
+        "400":
+          description: Request is incorrect please validate your path and arguments.
+        "500":
+          description: Unexpected problem in server.
+        "512":
+          description: There was problem in your request. Please check body or logs
+            for more details.
+      summary: Clean up lost datacenter settings | maturity=EARLY_ADOPTER
+      tags:
+      - Migration to multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /multiDc/migration/finish:
+    post:
+      operationId: finishMigration
+      responses:
+        "200":
+          description: Successful
+        "400":
+          description: Request is incorrect please validate your path and arguments.
+        "500":
+          description: Unexpected problem in server.
+        "512":
+          description: There was problem in your request. Please check body or logs
+            for more details.
+      summary: Finish migration | maturity=EARLY_ADOPTER
+      tags:
+      - Migration to multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /multiDc/restore/elasticsearch/recover:
+    get:
+      operationId: getRecoverStatus
+      responses:
+        "404":
+          description: There is no response for your request id. Please make sure
+            that request id is correct and retry. You may get this error when components
+            are restarting or this request is already removed from cache
+        "207":
+          description: Your request is still progressed.
+        "501":
+          description: Path not implemented.
+        "200":
+          description: Successful
+      summary: Get status of disaster recovery. | maturity=EARLY_ADOPTER
+      tags:
+      - Elasticsearch disaster recovery in multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+    post:
+      operationId: startRecover
+      responses:
+        "400":
+          description: Request is incorrect please validate your path and arguments.
+        "501":
+          description: Path not implemented.
+        "200":
+          description: Successful
+      summary: Recover elasticsearch from a snapshot on one datacenter. | maturity=EARLY_ADOPTER
+      tags:
+      - Elasticsearch disaster recovery in multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /multiDc/restore/server/recovery/{requestId}:
+    get:
+      operationId: startComponentsAfterMigration
+      parameters:
+      - explode: false
+        in: path
+        name: requestId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Successful
+        "207":
+          description: Your request is still progressed.
+        "400":
+          description: Request is incorrect please validate your path and arguments.
+        "404":
+          description: There is no response for your request id. Please make sure
+            that request id is correct and retry. You may get this error when components
+            are restarting or this request is already removed from cache
+        "500":
+          description: Unexpected problem in server.
+        "512":
+          description: There was problem in your request. Please check body or logs
+            for more details.
+      summary: Get status after server migration and start components in disaster
+        recovery | maturity=EARLY_ADOPTER
+      tags:
+      - Elasticsearch disaster recovery in multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /multiDc/restore/server/recovery:
+    post:
+      operationId: startComponentsAfterMigration_1
+      responses:
+        "200":
+          description: Successful
+        "400":
+          description: Request is incorrect please validate your path and arguments.
+        "500":
+          description: Unexpected problem in server.
+        "512":
+          description: There was problem in your request. Please check body or logs
+            for more details.
+      summary: Migrate servers and start components after disaster recovery | maturity=EARLY_ADOPTER
+      tags:
+      - Elasticsearch disaster recovery in multi-datacenter deployment
+      x-maturity: EARLY_ADOPTER
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /elastic/upgradeStatus:
+    get:
+      operationId: checkElasticsearchUpgradePossibility
+      parameters:
+      - explode: true
+        in: query
+        name: expectedElasticsearchNodes
+        required: false
+        schema:
+          default: -1
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ElasticsearchUpgradeDTO'
+          description: Success
+      summary: 'Checks if it is safe to upgrade elasticsearch '
+      tags:
+      - Elasticsearch Management API
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /elastic/ccr/autoFollowPattern:
+    delete:
+      operationId: deleteAutoFollowPattern
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ElasticsearchOperationDto'
+          description: Success
+      summary: Deletes auto follow pattern for MultiDC environment
+      tags:
+      - Elasticsearch Management API
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+    post:
+      operationId: createAutoFollowPattern
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ElasticsearchOperationDto'
+          description: Success
+      summary: Creates auto follow pattern for MultiDC environment
+      tags:
+      - Elasticsearch Management API
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /firewallManagement/clusterNodes:
+    get:
+      operationId: getClusterNodes
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterNodesConfigDto'
+          description: Success
+        "510":
+          description: Operation failed
+      summary: Get cluster nodes
+      tags:
+      - Firewall configuration
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /firewallManagement/addClusterNode:
+    post:
+      operationId: addClusterNodes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NodeConfigDto'
+      responses:
+        "200":
+          description: Success
+        "422":
+          description: Addition of node failed
+      summary: Add cluster node
+      tags:
+      - Firewall configuration
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /firewallManagement/removeClusterNode:
+    get:
+      operationId: getAsyncNodeRemovalStatus
+      responses:
+        default:
+          content:
+            application/json: {}
+          description: default response
+      tags:
+      - Firewall configuration
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+    post:
+      operationId: removeClusterNodes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FirewallNodeIp'
+      responses:
+        "200":
+          description: Success
+        "422":
+          description: Removal of node failed
+      summary: Remove cluster node
+      tags:
+      - Firewall configuration
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /firewallManagement/removeClusterNode/{ip}:
+    delete:
+      operationId: removeClusterNodesDeleteMethod
+      parameters:
+      - explode: false
+        in: path
+        name: ip
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: scope
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: asyncCrossNodeCommunication
+        required: false
+        schema:
+          type: boolean
+        style: form
+      responses:
+        default:
+          content:
+            application/json: {}
+          description: default response
+      tags:
+      - Firewall configuration
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /nodeManagement/responsibilityOverride:
+    put:
+      description: "This API allows you to define which nodes can perform cluster-wide\
+        \ responsibilities, for example metric aging or problem detection, by specifying\
+        \ nodes IDs. \n\nTypically you only need it in multi-datacenter fail-over\
+        \ scenarios. \n\n To reset the overrides call the API with an empty list of\
+        \ node IDs."
+      operationId: responsibilityOverride
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/ResponsibilityOverrideDto'
+      responses:
+        "200":
+          description: Success
+      summary: Override which nodes can perform internal responsibilities
+      tags:
+      - Cluster node
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /nodeManagement/cassandraQuorumOverride/{quorum}:
+    put:
+      description: "This API allows you to override cassandra read quorum of this\
+        \ particular server instance. Other server instances are not affected.\n\n\
+        Note that this will not be persisted, after server restart this override will\
+        \ be lost!\n\nTypically you only need it in multi-datacenter fail-over scenarios.\
+        \ \n\n To reset the overrides call the API with the UNSET value."
+      operationId: forceCassandraQuorumOverride
+      parameters:
+      - explode: false
+        in: path
+        name: quorum
+        required: true
+        schema:
+          enum:
+          - CL_ALL
+          - CL_ANY
+          - CL_EACH_QUORUM
+          - CL_LOCAL_ONE
+          - CL_LOCAL_QUORUM
+          - CL_ONE
+          - CL_QUORUM
+          - CL_THREE
+          - CL_TWO
+          - UNSET
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Success
+      summary: Override cassandra read quorum at runtime only for this particular
+        server instance
+      tags:
+      - Cluster node
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /nodeManagement/cassandraQuorumOverride:
+    get:
+      description: Does not return actual used read quorum if no override is set,
+        in this case UNSET is returned.
+      operationId: getCassandraQuorumOverride
+      responses:
+        "200":
+          description: Success
+      summary: Get the cassandra read quorum override.
+      tags:
+      - Cluster node
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /nodeManagement/tryLockRemoval:
+    put:
+      operationId: tryLockRemoval
+      parameters:
+      - explode: true
+        in: query
+        name: id
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: ip
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: requestedOnNode
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: requestedByUser
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        default:
+          content:
+            application/json: {}
+          description: default response
+      tags:
+      - Cluster node
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /nodeManagement/unlockRemoval:
+    put:
+      operationId: unlockRemoval
+      parameters:
+      - explode: true
+        in: query
+        name: id
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: ip
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: removalStopReason
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        default:
+          content:
+            application/json: {}
+          description: default response
+      tags:
+      - Cluster node
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /nodeManagement/nodeRemovalStatus:
+    get:
+      description: Responses with status of current node removal (if it's already
+        running) and statuses of historical removals.
+      operationId: getNodeRemovalStatus
+      responses:
+        "200":
+          description: Success
+      summary: Get node removal status
+      tags:
+      - Cluster node
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /nodeManagement/deadNodeCleaning:
+    delete:
+      operationId: deadNodeCleaning
+      parameters:
+      - explode: true
+        in: query
+        name: ip
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: requestedOnNode
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: requestedByUser
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        default:
+          content:
+            application/json: {}
+          description: default response
+      tags:
+      - Cluster node
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /nodeManagement/triggerRemoveNode:
+    post:
+      operationId: triggerRemoveNode
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RemoveNode'
+      responses:
+        "200":
+          description: Node removal process started successfully
+        "207":
+          description: Node not found by id or IP address
+        "505":
+          description: Node joining operation is in progress
+        "506":
+          description: Node removal operation is in progress
+        "507":
+          description: Node removal operation timeout
+        "530":
+          description: Offline node removal operation error. Cleaning cluster configuration
+            was not completed
+        "531":
+          description: Lock node removal operation error
+        "532":
+          description: Trigger node removal process error
+        "533":
+          description: Node removal operation is not allowed. Upgrade is in progress.
+        "534":
+          description: Node removal operation is not allowed. Cassandra nodes are
+            not in valid state (UN).
+        "535":
+          description: Node removal operation is not allowed. Elasticsearch is sharding
+            data.
+        "536":
+          description: Node is not reachable error
+      summary: Remove node
+      tags:
+      - Cluster node
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /nodeManagement/installerStatus:
+    post:
+      operationId: setInstallerStatus
+      parameters:
+      - explode: true
+        in: query
+        name: ip
+        required: false
+        schema:
+          type: string
+        style: form
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/InstallerStatusDto'
+      responses:
+        default:
+          content:
+            application/json: {}
+          description: default response
+      tags:
+      - Cluster node
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /nodeManagement/tryLockJoining:
+    put:
+      operationId: tryLockJoining
+      parameters:
+      - explode: true
+        in: query
+        name: ip
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        default:
+          content:
+            application/json: {}
+          description: default response
+      tags:
+      - Cluster node
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /nodeManagement/finalizeJoining:
+    put:
+      operationId: finalizeJoining
+      parameters:
+      - explode: true
+        in: query
+        name: ip
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          enum:
+          - ABORTED
+          - FAILURE
+          - IN_PROGRESS
+          - STOPPED
+          - SUCCESS
+          - UNKNOWN
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: forceUnlock
+        required: false
+        schema:
+          type: boolean
+        style: form
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/FinalizeNodeJoiningRequestDto'
+      responses:
+        default:
+          content:
+            application/json: {}
+          description: default response
+      tags:
+      - Cluster node
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /nodeManagement/joining:
+    post:
+      operationId: initializeNodeJoining
+      parameters:
+      - explode: true
+        in: query
+        name: ip
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: timestamp
+        required: false
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: datacenter
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        default:
+          content:
+            application/json: {}
+          description: default response
+      tags:
+      - Cluster node
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /nodeManagement/joining/{requestId}:
+    get:
+      operationId: getNodeJoining
+      parameters:
+      - explode: false
+        in: path
+        name: requestId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        default:
+          content:
+            application/json: {}
+          description: default response
+      tags:
+      - Cluster node
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /nodeManagement/join/check:
+    post:
+      operationId: initializeNodeJoinCheck
+      parameters:
+      - explode: true
+        in: query
+        name: ip
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: timestamp
+        required: false
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: datacenter
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeJoiningInitializePreCheckResponseDto'
+          description: Success
+      summary: Initialize verification if a node can be added to the cluster
+      tags:
+      - Cluster node
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /nodeManagement/join/check/{requestId}:
+    get:
+      operationId: getNodeJoin
+      parameters:
+      - explode: false
+        in: path
+        name: requestId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeJoiningPreCheckStatusDto'
+          description: Success
+      summary: Verification if a node can be added to the cluster status
+      tags:
+      - Cluster node
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /nodeManagement/nodeRestart:
+    post:
+      operationId: nodeRestart
+      responses:
+        "200":
+          description: Success
+        "510":
+          description: Restart failed
+      summary: Restart node
+      tags:
+      - Cluster node
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /nodeManagement/nodeServerStatus:
+    get:
+      operationId: getNodeServerStatus
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                enum:
+                - DATABASE_DISCONNECTED
+                - EMERGENCY
+                - OFFLINE
+                - RUNNING
+                - RUNNING_FORSAKEN
+                - SHUTDOWN
+                - SHUTDOWN_IMMINENT
+                - SHUTDOWN_PHASED_OUT
+                - STARTUP
+                - STARTUP_CANCELED
+                - STARTUP_SUSPENDED
+                - UNDEFINED
+                type: string
+          description: Success
+      summary: Get node's server status
+      tags:
+      - Cluster node
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /nodeManagement/productVersion:
+    get:
+      operationId: getNodeProductVersion
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductVersion'
+          description: Success
+      summary: Get product version
+      tags:
+      - Cluster node
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /nodeManagement/nodekeeperProductVersion:
+    get:
+      operationId: getNodekeeperProductVersion
+      responses:
+        default:
+          content:
+            application/json: {}
+          description: default response
+      tags:
+      - Cluster node
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`Nodekeeper` (Nodekeeper access for node management)'
+  /preferences:
+    get:
+      operationId: getProperties
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Preferences'
+          description: Success
+      summary: Get Dynatrace Managed specific properties
+      tags:
+      - Preferences
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+    post:
+      operationId: updateProperties
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Preferences'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Preferences'
+          description: Success
+        "500":
+          description: Internal server error
+      summary: Update properties
+      tags:
+      - Preferences
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /smtp:
+    get:
+      operationId: getSmtpConfiguration
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmtpConfiguration'
+          description: Success
+      summary: Get SMTP configuration
+      tags:
+      - SMTP settings
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+    post:
+      operationId: updateSmtpConfiguration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmtpConfiguration'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmtpConfiguration'
+          description: Success
+        "400":
+          description: Invalid SMTP configuration
+        "406":
+          description: SMTP configuration not accepted
+      summary: Update SMTP configuration
+      tags:
+      - SMTP settings
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /smtp/sendTestMessage/{emailAddress}:
+    post:
+      description: You can send only one test email per minute
+      operationId: sendTestEmail
+      parameters:
+      - explode: false
+        in: path
+        name: emailAddress
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            text/plain: {}
+          description: Successfully sent
+        "406":
+          description: Incorrect email address
+        "429":
+          description: Too short a time interval between sending attempts
+        "510":
+          description: Sending email failed
+      summary: Send test email
+      tags:
+      - SMTP settings
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /sslCertificate/store/{entityType}/{entityId}:
+    get:
+      operationId: getStoringSslCertificateStatus
+      parameters:
+      - description: 'entity type, possible values = "COLLECTOR" '
+        explode: false
+        in: path
+        name: entityType
+        required: true
+        schema:
+          enum:
+          - COLLECTOR
+          - SERVER
+          type: string
+        style: simple
+      - description: Node ID, which can be extracted from the URL in 'Node details'
+          view.
+        explode: false
+        in: path
+        name: entityId
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateStoreStatus'
+          description: Successful or in progress
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateStoreStatus'
+          description: Incorrect entity type
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateStoreStatus'
+          description: Status not found
+        "500":
+          description: Internal error
+        "522":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateStoreStatus'
+          description: Certificate chain is invalid
+        "523":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateStoreStatus'
+          description: Private key does not match public key certificate
+        "525":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateStoreStatus'
+          description: Public key certificate is invalid
+        "526":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateStoreStatus'
+          description: Private key is invalid
+        "527":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateStoreStatus'
+          description: Error while storing SSL certificate
+        "528":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateStoreStatus'
+          description: Certificate has been stored but has not been refreshed
+        "529":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateStoreStatus'
+          description: Internal error
+      summary: Get certificate-storage status
+      tags:
+      - SSL certificates
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+    post:
+      operationId: storeSslCertificateStatus
+      parameters:
+      - description: 'entity type, possible values = "SERVER, COLLECTOR" '
+        explode: false
+        in: path
+        name: entityType
+        required: true
+        schema:
+          enum:
+          - COLLECTOR
+          - SERVER
+          type: string
+        style: simple
+      - description: Node ID, which can be extracted from the URL in 'Node details'
+          view.
+        explode: false
+        in: path
+        name: entityId
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sslCertDto'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateStoreStatus'
+          description: Successful or in progress
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateStoreStatus'
+          description: Incorrect entity type
+        "500":
+          description: Internal error
+        "522":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateStoreStatus'
+          description: Certificate chain is invalid
+        "523":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateStoreStatus'
+          description: Private key does not match public key certificate
+        "525":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateStoreStatus'
+          description: Public key certificate is invalid
+        "526":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateStoreStatus'
+          description: Private key is invalid
+        "527":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateStoreStatus'
+          description: Error while storing SSL certificate
+        "528":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateStoreStatus'
+          description: Certificate has been stored but has not been refreshed
+        "529":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateStoreStatus'
+          description: Internal error
+      summary: Store SSL certificate status
+      tags:
+      - SSL certificates
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /sslCertificate/{entityType}/{entityId}:
+    get:
+      operationId: getSslCertificateDetails
+      parameters:
+      - description: 'entity type, possible values = "SERVER, COLLECTOR" '
+        explode: false
+        in: path
+        name: entityType
+        required: true
+        schema:
+          enum:
+          - COLLECTOR
+          - SERVER
+          type: string
+        style: simple
+      - description: Node ID, which can be extracted from the URL in 'Node details'
+          view.
+        explode: false
+        in: path
+        name: entityId
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SSLDetails'
+          description: Success
+        "500":
+          description: Internal server error.
+      summary: SSL certificate details.
+      tags:
+      - SSL certificates
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /sso/saml/sp/cert:
+    get:
+      operationId: getSamlSpCert
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateDetails'
+          description: Success
+        "500":
+          description: Internal server error.
+      summary: Get SAML SP X.509 certificate details
+      tags:
+      - SSO configuration
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+    put:
+      operationId: updateSamlSpCert
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/certDto'
+      responses:
+        "200":
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+          description: Failed. The input is invalid.
+        "510":
+          description: Operation failed. Check server logs for more details.
+      summary: Update SAML SP X.509 certificate
+      tags:
+      - SSO configuration
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /supportArchive/{id}/status:
+    get:
+      operationId: getSupportArchiveStatus
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupportArchiveDownload'
+          description: Support archive generation state
+        "404":
+          description: Could not find support archive request
+      summary: Get support upgrade generation status
+      tags:
+      - Support Archives
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /supportArchive/{id}/report:
+    get:
+      operationId: getSupportArchiveReport
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupportArchiveDownload'
+          description: Support archive generation report
+        "202":
+          description: Support archive generation has not completed yet
+        "404":
+          description: Could not find support archive request
+      summary: Get support upgrade generation report
+      tags:
+      - Support Archives
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /supportArchive/{id}:
+    delete:
+      operationId: deleteSupportArchive
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: Ok - deleted successfully
+        "404":
+          description: Could not find support archive request
+        "409":
+          description: Support archive generation in progress - please cancel it using
+            /cancel
+      summary: Delete existing support archive
+      tags:
+      - Support Archives
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+    get:
+      operationId: getSupportArchive
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/zip: {}
+          description: Ok - download file
+        "202":
+          description: Support archive generation has not completed yet
+        "404":
+          description: Could not find support archive request
+        "410":
+          description: Support archive was already deleted from disk
+      summary: Get support upgrade file
+      tags:
+      - Support Archives
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+    put:
+      operationId: cancelSupportArchiveCreation
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: Ok
+      summary: Cancel support upgrade generation
+      tags:
+      - Support Archives
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /supportArchive:
+    post:
+      operationId: startCreatingSupportArchive
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnPremClusterSupportArchiveRequestImpl'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                format: int64
+                type: integer
+          description: Ok - returns support archive id
+        "500":
+          description: Could not trigger support archive generation
+      summary: Trigger support upgrade generation
+      tags:
+      - Support Archives
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /upgradeManagement/triggerUpgrade:
+    post:
+      operationId: triggerManualUpgrade
+      responses:
+        "200":
+          description: Started successfully.
+        "412":
+          description: Triggering of upgrade failed due to missing new version on
+            all nodes.
+        "510":
+          description: Could not trigger upgrade. Check logs for details...
+        "553":
+          description: Upgrade suspended by Dynatrace Mission Control. Could not upgrade
+            cluster now.
+      summary: Trigger manual cluster upgrade
+      tags:
+      - Updates
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /upgradeManagement/clusterUpgradeStartupState:
+    get:
+      operationId: getClusterUpgradeStartupState
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpgradeStartupState'
+          description: Success
+      summary: Get system precondition check state for the cluster
+      tags:
+      - Updates
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /upgradeManagement/installationFiles:
+    get:
+      operationId: getInstallationFileList
+      responses:
+        "200":
+          content:
+            application/json; charset=utf-8:
+              schema:
+                items:
+                  $ref: '#/components/schemas/InstallationPackage'
+                type: array
+          description: Success
+      summary: Get list of installation files and their cluster-wide availability
+        information
+      tags:
+      - Updates
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /upgradeManagement/installationFiles/{type}/{version}:
+    delete:
+      operationId: removeInstallationBatch
+      parameters:
+      - description: 'Installation package type, possible values = "SERVER, AGENT,
+          JS_AGENT, SG, NGINX" '
+        explode: false
+        in: path
+        name: type
+        required: true
+        schema:
+          enum:
+          - AGENT
+          - DEPLOYMENT_ORCHESTRATION
+          - DOCKER_AGENT
+          - JS_AGENT
+          - NGINX
+          - ODIN
+          - SERVER
+          - SG
+          - SYNTHETIC
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: version
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Successfully scheduled. Package should be removed from all
+            nodes within a couple of minutes.
+        "404":
+          description: Specified installation package was not found.
+        "412":
+          description: Removing installation files is not allowed. Update list is
+            synchronized with Mission Control.
+        "510":
+          description: Operation failed. Check server logs for more details.
+      summary: Trigger removal of installation package
+      tags:
+      - Updates
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+    put:
+      operationId: editInstallationBatch
+      parameters:
+      - description: 'Installation package type, possible values = "SERVER, AGENT,
+          JS_AGENT, SG, NGINX" '
+        explode: false
+        in: path
+        name: type
+        required: true
+        schema:
+          enum:
+          - AGENT
+          - DEPLOYMENT_ORCHESTRATION
+          - DOCKER_AGENT
+          - JS_AGENT
+          - NGINX
+          - ODIN
+          - SERVER
+          - SG
+          - SYNTHETIC
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: version
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEntryChangeRequestDto'
+        description: The JSON body of the request. Contains parameters of update entry
+          configuration.
+      responses:
+        "200":
+          description: Successfully scheduled. Package should be excluded/re-downloaded
+            soon.
+        "404":
+          description: Specified installation package was not found.
+        "412":
+          description: Operation is not allowed. See response message for more details.
+        "510":
+          description: Operation failed. Check server logs for more details.
+      summary: Modify update package state. Particular package might be excluded from
+        download or re-downloaded.
+      tags:
+      - Updates
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /groups/bulk:
+    post:
+      operationId: createGroups
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: '#/components/schemas/GroupConfig'
+              type: array
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/GroupConfig'
+                type: array
+          description: Success
+        "400":
+          description: No group information received for the create-group request
+        "406":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/GroupConfig'
+                type: array
+          description: Unacceptable or incomplete request. Some groups were added.
+      summary: Create groups
+      tags:
+      - User groups
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /groups:
+    get:
+      operationId: getGroups
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/GroupConfig'
+                type: array
+          description: Success
+      summary: Get groups
+      tags:
+      - User groups
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+    post:
+      operationId: createGroup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupConfig'
+        description: "Request body used for creating new user group. \nFor creating\
+          \ user group leave 'id' empty, setting 'id' will return 'Bad Request'. \n\
+          Trying to create group with name that already exists will return 'Not Acceptable'.\n\
+          'isAccessAccount' value is ignored when 'Dynatrace Platform Subscription'\
+          \ is not in use."
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupConfig'
+          description: Successfully updated
+        "400":
+          description: |
+            Operation failed. The input is invalid. Possible reasons:
+             - No group information received for the request to create a group
+             - Group ID cannot be set
+             - Group name cannot be null or empty
+             - At least one of the specified environments doesn't exist
+        "406":
+          description: Not acceptable. Group already exists
+      summary: Create group
+      tags:
+      - User groups
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+    put:
+      operationId: updateGroup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupConfig'
+        description: "Request body used for updating existing user group. \nFor updating\
+          \ user group set correct 'id', not setting 'id' will return 'Bad Request'.\
+          \ \nTrying to change group name to one that already exists will return 'Bad\
+          \ Request'. \nTrying to update group that doesn't exist will return 'Not\
+          \ Acceptable'.\n'isAccessAccount' value is ignored when 'Dynatrace Platform\
+          \ Subscription' is not in use. "
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupConfig'
+          description: Successfully updated
+        "400":
+          description: |
+            Operation failed. The input is invalid. Possible reasons:
+             - No group information received for the request to create a group
+             - Group ID is not set
+             - Group name cannot be null or empty
+             - At least one of the specified environments doesn't exist
+        "406":
+          description: Not acceptable. Group name already exists or group not found
+      summary: Update group
+      tags:
+      - User groups
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /groups/{groupId}:
+    delete:
+      operationId: removeGroup
+      parameters:
+      - description: Group ID path parameter. Missing or empty values will return
+          a 'Bad Request'.
+        explode: false
+        in: path
+        name: groupId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupConfig'
+          description: Successfully deleted
+        "400":
+          description: Not Found
+      summary: Delete group
+      tags:
+      - User groups
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+    get:
+      operationId: getGroup
+      parameters:
+      - description: Group ID path parameter. Missing or empty values will return
+          a 'Bad Request'.
+        explode: false
+        in: path
+        name: groupId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupConfig'
+          description: Success
+        "404":
+          description: Not found
+        "400":
+          description: No ID information received for the request to get a group
+      summary: Get group
+      tags:
+      - User groups
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /groups/managementZones:
+    get:
+      description: This is a list of management zone specific permissions only. Environment
+        permissions are not taken into account here. Groups with permissions for whole
+        environments can also see all management zones defined in these environments,
+        even if they have no management zone specific permissions and the list returned
+        by this request is empty.
+      operationId: getManagementZonesPermissions
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/MzPermissionsForGroup'
+                type: array
+          description: Success
+      summary: Get management zone permissions for all groups
+      tags:
+      - User groups
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+    put:
+      operationId: updateManagementZonesPermissionsForGroup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MzPermissionsForGroup'
+      responses:
+        "200":
+          description: Successfully updated
+        "400":
+          description: Provided model is incorrect or is missing required elements
+        "404":
+          description: A group, environment or management zone does not exist
+        "510":
+          description: Operation failed
+      summary: Update management zone permissions for a single group
+      tags:
+      - User groups
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /groups/managementZones/{groupId}:
+    get:
+      description: This is a list of management zone specific permissions only. Environment
+        permissions are not taken into account here. Groups with permissions for whole
+        environments can also see all management zones defined in these environments,
+        even if they have no management zone specific permissions and the list returned
+        by this request is empty.
+      operationId: getManagementZonesPermissionsForGroup
+      parameters:
+      - description: Group ID path parameter. Missing or empty values will return
+          a 'Bad Request'.
+        explode: false
+        in: path
+        name: groupId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MzPermissionsForGroup'
+          description: Success
+        "404":
+          description: Group not found
+        "400":
+          description: No ID information received for the request to get group MZ
+            permissions
+      summary: Get management zone permissions for a given group
+      tags:
+      - User groups
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /users:
+    get:
+      operationId: getUsers
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/UserConfig'
+                type: array
+          description: Success
+      summary: Get users
+      tags:
+      - Users
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+    post:
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserConfig'
+        description: The JSON body of the request, containing parameters of the user.
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserConfig'
+          description: Successfully created
+        "400":
+          description: |-
+            Operation failed. The input is invalid. Possible reasons:
+             - all required values (ID, email, first name, last name) must be set
+             - invalid user data
+             - user ID already exists
+             - user email address already assigned
+             - user group ID does not exist
+        "403":
+          description: Operation forbidden - users and groups are fully managed via
+            LDAP or SSO
+        "522":
+          description: Couldn't create user
+        "523":
+          description: User already exists
+        "524":
+          description: Email address already registered
+        "406":
+          description: Unacceptable request
+      summary: Create user
+      tags:
+      - Users
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+    put:
+      operationId: updateUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserConfig'
+        description: The JSON body of the request, containing parameters of the user.
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserConfig'
+          description: Successfully updated
+        "400":
+          description: |-
+            Operation failed. The input is invalid. Possible reasons:
+             - all required values (ID, email, first name, last name) must be set
+             - invalid user data
+             - user email address already assigned
+             - user group ID does not exist
+        "403":
+          description: Operation forbidden - users and groups are fully managed via
+            LDAP or SSO
+        "404":
+          description: Not found
+        "524":
+          description: Email address already registered
+        "406":
+          description: Unacceptable request
+      summary: Update user
+      tags:
+      - Users
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /users/bulk:
+    post:
+      operationId: createUsers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: '#/components/schemas/UserConfig'
+              type: array
+        description: The JSON body of the request, containing parameters of the users.
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/UserConfig'
+                type: array
+          description: Success
+        "400":
+          description: |-
+            Operation failed. The input is invalid. Possible reasons:
+             - no user information received for the create-users request
+             - all required values (ID, email, first name, last name) must be set
+             - invalid user data
+             - input contains duplicated IDs
+             - input contains duplicated email addresses
+             - user ID already exists
+             - user email address already assigned
+             - user group ID does not exist
+        "403":
+          description: Operation forbidden - either LDAP or SSO with group assignment
+            integration is turned on
+        "406":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/UserConfig'
+                type: array
+          description: Unacceptable or incomplete request. Some users added
+      summary: Create users
+      tags:
+      - Users
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /users/{id}:
+    delete:
+      operationId: removeUser
+      parameters:
+      - description: User ID path parameter. Missing or empty values will return a
+          'Bad Request'.
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserConfig'
+          description: Successfully deleted
+        "304":
+          description: Not modified
+        "406":
+          description: Unacceptable request
+        "400":
+          description: No ID information received for the delete-user request
+      summary: Delete user
+      tags:
+      - Users
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+    get:
+      operationId: getUser
+      parameters:
+      - description: User ID path parameter. Missing or empty values will return a
+          'Bad Request'
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserConfig'
+          description: Success
+        "404":
+          description: Not found
+        "400":
+          description: No ID information received for the get-user request
+      summary: Get user
+      tags:
+      - Users
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /userRepository/authenticationMode:
+    get:
+      operationId: getAuthenticationMode
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationMode'
+          description: Success
+      summary: Get authentication mode
+      tags:
+      - User repository configuration
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+    post:
+      operationId: updateAuthenticationMode
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthenticationModel'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationMode'
+          description: Success
+        "406":
+          description: Not Acceptable. LDAP cannot be turned on if "Import user groups"
+            from SSO flag is turned on
+      summary: Update authentication mode
+      tags:
+      - User repository configuration
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /userRepository/ldap/connectionConfiguration:
+    get:
+      operationId: getLdapConnectionConfiguration
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LdapConnectionDescImpl'
+          description: Success
+      summary: Get LDAP configuration
+      tags:
+      - User repository configuration
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+    post:
+      operationId: updateLdapConnection
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LdapConnectionDescImpl'
+      responses:
+        "200":
+          description: Success
+        "406":
+          description: Not Acceptable
+      summary: Update LDAP connection
+      tags:
+      - User repository configuration
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /userRepository/ldap/queryGroups:
+    get:
+      operationId: getLdapGroupsQuery
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LdapGroupsQueryDtoImpl'
+          description: Success
+      summary: Get LDAP group configuration
+      tags:
+      - User repository configuration
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+    post:
+      operationId: updateLdapGroupsQuery
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LdapGroupsQueryDtoImpl'
+      responses:
+        "200":
+          description: Success
+        "406":
+          description: Unacceptable request
+      summary: Update LDAP groups query configuration
+      tags:
+      - User repository configuration
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /userRepository/ldap/queryUsers:
+    get:
+      operationId: getLdapLdapUsersQuery
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LdapUsersQueryDescImpl'
+          description: Success
+      summary: Get LDAP users query configuration
+      tags:
+      - User repository configuration
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+    post:
+      operationId: updateLdapUsersQueryDescImpl
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LdapUsersQueryDescImpl'
+      responses:
+        "200":
+          description: Success
+        "406":
+          description: Unacceptable request
+      summary: Update LDAP users query configuration
+      tags:
+      - User repository configuration
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+  /proxy/configurations/{dc}:
+    delete:
+      operationId: deleteOneOfMultiDCConfiguration
+      parameters:
+      - description: Data Center
+        explode: false
+        in: path
+        name: dc
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternetProxy'
+          description: Successful, previous configuration returned
+        "404":
+          description: Proxy was not configured for given Data Center
+      summary: Remove Data Center proxy configuration (Multi Data Center deployment)
+      tags:
+      - Internet proxy
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+    get:
+      operationId: getOneOfMultiDCConfiguration
+      parameters:
+      - description: Data Center
+        explode: false
+        in: path
+        name: dc
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternetProxy'
+          description: Success
+        "404":
+          description: Proxy is not configured for given Data Center
+      summary: Get Data Center proxy configuration (Multi Data Center deployment)
+      tags:
+      - Internet proxy
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+    put:
+      operationId: modifyOneOfMultiDCConfiguration
+      parameters:
+      - description: Data Center
+        explode: false
+        in: path
+        name: dc
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InternetProxyChangeRequest'
+        required: true
+      responses:
+        "201":
+          description: Successful, new configuration created
+        "204":
+          description: Successful, configuration updated
+        "400":
+          description: Given proxy configuration is invalid
+      summary: Set/update Data Center proxy configuration (Multi Data Center deployment)
+      tags:
+      - Internet proxy
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+  /proxy/test:
+    put:
+      operationId: testConnectionInSingleDCMode
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InternetProxyChangeRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectionStatus'
+          description: Request was processed, check response body for details
+      summary: Test Internet connection using given proxy configuration
+      tags:
+      - Internet proxy
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+  /proxy/configurations:
+    get:
+      operationId: getAllMultiDCConfigurations
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProxyConfigurations'
+          description: Success
+      summary: Get proxy configurations for all Data Centers (Multi Data Center deployment)
+      tags:
+      - Internet proxy
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+  /proxy/test/{dc}:
+    put:
+      operationId: testConnectionInMultiDCMode
+      parameters:
+      - description: Data Center
+        explode: false
+        in: path
+        name: dc
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InternetProxyChangeRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectionStatus'
+          description: Request was processed, check response body for details
+      summary: Test Internet connection from specific Data Center using given proxy
+        configuration (Multi Data Center deployment)
+      tags:
+      - Internet proxy
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+  /proxy/configuration:
+    delete:
+      operationId: deleteSingleDCConfiguration
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternetProxy'
+          description: Successful, previous configuration returned
+        "404":
+          description: Proxy was not configured
+      summary: Remove cluster proxy configuration
+      tags:
+      - Internet proxy
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+    get:
+      operationId: getSingleDCConfiguration
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternetProxy'
+          description: Success
+        "404":
+          description: Proxy is not configured
+      summary: Get cluster proxy configuration
+      tags:
+      - Internet proxy
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+    put:
+      operationId: modifySingleDCConfiguration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InternetProxyChangeRequest'
+        required: true
+      responses:
+        "201":
+          description: Successful, new configuration created
+        "204":
+          description: Successful, configuration updated
+        "400":
+          description: Given proxy configuration is invalid
+      summary: Set/update cluster proxy configuration
+      tags:
+      - Internet proxy
+      x-token-scopes:
+      - '`ControlManagement` (ControlManagement)'
+      - '`ServiceProviderAPI` (Service Provider API)'
+      - '`UnattendedInstall` (UnattendedInstall)'
+  /passwordPolicy:
+    get:
+      operationId: getDefaultPasswordPolicy
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasswordPolicy'
+          description: Success
+        "404":
+          description: Realm not found
+      summary: Get default's realm password policy configuration
+      tags:
+      - Password policy
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+    put:
+      operationId: updatePasswordPolicy
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordPolicy'
+        description: The JSON body of the request. Contains parameters of password
+          policy configuration.
+      responses:
+        "204":
+          description: Successfully updated. Response doesn't have a body.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+          description: Failed. The input is invalid.
+        "404":
+          description: Realm not found
+      summary: Update password policy configuration
+      tags:
+      - Password policy
+      x-token-scopes:
+      - '`ServiceProviderAPI` (Service Provider API)'
+components:
+  schemas:
+    backupConfigDto:
+      description: Configuration of the cluster backup.
+      example:
+        datacenter: dc1
+        enabled: true
+        storagePath: /efs/backup
+        includeRumData: true
+        includeTsMetricData: true
+        bandwidthLimitMbits: 240
+        maxEsSnapshotsToClean: 30
+        cassandraScheduledTime: 22
+        pauseBackups: false
+      properties:
+        enabled:
+          description: Backups are enabled (`true`) or disabled (`false`).
+          readOnly: true
+          type: boolean
+        datacenter:
+          description: Datacenter which will create backups
+          readOnly: true
+          type: string
+        storagePath:
+          description: A full path to the backup archive
+          readOnly: true
+          type: string
+        includeRumData:
+          description: Include user sessions (`true`) or GDPR compliance (`false`)
+          type: boolean
+        includeTsMetricData:
+          description: Include time series metric-data (`true`) or retain configuration
+            data only (`false`))
+          type: boolean
+        bandwidthLimitMbits:
+          description: Cassandra backup bandwidth limit in Mbps
+          format: int32
+          type: integer
+        maxEsSnapshotsToClean:
+          description: Max number of Elasticsearch snapshots to clean. Elasticsearch
+            snapshots won't be created anymore if there will be more backups to clean
+            than this value.
+          format: int32
+          type: integer
+        cassandraScheduledTime:
+          description: Hour to start Cassandra backups each day.
+          format: int32
+          type: integer
+        pauseBackups:
+          description: Pauses Elasticsearch and Cassandra backups. In comparison to
+            enable/disable backup, this option does not modify any configuration like
+            Elasticsearch properties.
+          type: boolean
+      type: object
+    StorageTestImpl:
+      example:
+        storageError: storageError
+        inProgress: true
+        storagePath: storagePath
+      properties:
+        storagePath:
+          type: string
+        storageError:
+          type: string
+        inProgress:
+          type: boolean
+      type: object
+    FileDto:
+      example:
+        content:
+        - content
+        - content
+      properties:
+        content:
+          items:
+            format: byte
+            type: string
+          type: array
+      type: object
+    InstallerMetadata:
+      description: Metadata used by installer
+      example:
+        clusterBackupPath: clusterBackupPath
+        datacenterWithBackupEnabled: datacenterWithBackupEnabled
+        elasticsearchBackupPath: elasticsearchBackupPath
+      properties:
+        clusterBackupPath:
+          description: Network attached storage path for the backup
+          type: string
+        elasticsearchBackupPath:
+          description: Elasticsearch repository used for the backup
+          type: string
+        datacenterWithBackupEnabled:
+          description: Datacenter for backup, used only in multidc setups
+          type: string
+      type: object
+    AddressWrapper:
+      example:
+        address: address
+        usePublicIpForDomainGeneration: true
+        usePublicIpForAgents: true
+        newAddress: newAddress
+      properties:
+        address:
+          description: Address
+          type: string
+        newAddress:
+          description: New address
+          type: string
+        usePublicIpForDomainGeneration:
+          description: If true, public IP will be used for domain generation.
+          type: boolean
+        usePublicIpForAgents:
+          description: If true, public IP address will be used for OneAgents.
+          type: boolean
+      required:
+      - address
+      type: object
+    Cluster:
+      example:
+        clusterMemberAddress: clusterMemberAddress
+        buildVersion: buildVersion
+        osInfo: osInfo
+        dnsEntryPointUris:
+        - https://openapi-generator.tech
+        - https://openapi-generator.tech
+        communicationUris:
+        - https://openapi-generator.tech
+        - https://openapi-generator.tech
+        operationState: operationState
+        restServiceRootUris:
+        - https://openapi-generator.tech
+        - https://openapi-generator.tech
+        id: 0
+        jvmInfo: jvmInfo
+      properties:
+        id:
+          description: Node ID
+          format: int32
+          type: integer
+        clusterMemberAddress:
+          description: Cluster member address
+          type: string
+        operationState:
+          description: Operation state
+          type: string
+        buildVersion:
+          description: Server version
+          type: string
+        osInfo:
+          description: OS info
+          type: string
+        jvmInfo:
+          description: JVM info
+          type: string
+        dnsEntryPointUris:
+          description: DNS entry point URIs
+          items:
+            format: uri
+            type: string
+          type: array
+        restServiceRootUris:
+          description: REST service root URIs
+          items:
+            format: uri
+            type: string
+          type: array
+        communicationUris:
+          description: Communication URIs
+          items:
+            format: uri
+            type: string
+          type: array
+      type: object
+    ClusterNodesConfigDto:
+      example:
+        clusterNodes:
+        - agent: true
+          webUI: true
+          kubernetesRole: kubernetesRole
+          datacenter: datacenter
+          id: 0
+        - agent: true
+          webUI: true
+          kubernetesRole: kubernetesRole
+          datacenter: datacenter
+          id: 0
+      properties:
+        clusterNodes:
+          items:
+            $ref: '#/components/schemas/NodeConfigDto'
+          type: array
+      type: object
+    NodeConfigDto:
+      example:
+        agent: true
+        webUI: true
+        kubernetesRole: kubernetesRole
+        datacenter: datacenter
+        id: 0
+      properties:
+        id:
+          format: int32
+          type: integer
+        webUI:
+          type: boolean
+        agent:
+          type: boolean
+        datacenter:
+          type: string
+        kubernetesRole:
+          type: string
+      type: object
+    InServerConfigDatacenterMigrationState:
+      description: State of in-server config migration for all components
+      example:
+        componentMigrationStates:
+          key:
+            startedAt: 0
+            details: details
+            status: FAILED
+            finishedAt: 6
+      properties:
+        componentMigrationStates:
+          additionalProperties:
+            $ref: '#/components/schemas/MigrationState'
+          description: Map of (component, migration state) pairs
+          type: object
+      type: object
+    MigrationState:
+      description: State of in-server config migration for single component
+      example:
+        startedAt: 0
+        details: details
+        status: FAILED
+        finishedAt: 6
+      properties:
+        status:
+          description: Current status of migration
+          enum:
+          - FAILED
+          - IN_PROGRESS
+          - NOT_STARTED
+          - SUCCEEDED
+          type: string
+        startedAt:
+          description: Timestamp (milliseconds format) of migration start
+          format: int64
+          type: integer
+        finishedAt:
+          description: Timestamp (milliseconds format) of migration finish
+          format: int64
+          type: integer
+        details:
+          description: Additional information about migration state
+          type: string
+      type: object
+    ClusterPreparationForReplicationDto:
+      example:
+        percentDone: 0.8008281904610115
+        success: true
+        errorMessage: errorMessage
+        done: true
+      properties:
+        done:
+          type: boolean
+        success:
+          type: boolean
+        percentDone:
+          format: double
+          type: number
+        errorMessage:
+          type: string
+      type: object
+    DatacenterMigrationDto:
+      example:
+        nodesIp:
+        - nodesIp
+        - nodesIp
+        newDatacenterName: newDatacenterName
+      properties:
+        newDatacenterName:
+          type: string
+        nodesIp:
+          items:
+            type: string
+          type: array
+      type: object
+    DatacenterDesc:
+      description: Map of multidatacenter topology
+      example:
+        newDatacenter: true
+        datacenterMembersList:
+        - nodeIp: nodeIp
+          nodeId: 0
+        - nodeIp: nodeIp
+          nodeId: 0
+      properties:
+        datacenterMembersList:
+          items:
+            $ref: '#/components/schemas/DatacenterMember'
+          type: array
+        newDatacenter:
+          type: boolean
+      type: object
+    DatacenterMember:
+      example:
+        nodeIp: nodeIp
+        nodeId: 0
+      properties:
+        nodeId:
+          format: int32
+          type: integer
+        nodeIp:
+          type: string
+      type: object
+    MultiDatacenterTopology:
+      description: Multi datacenter topology
+      example:
+        datacenterTopology:
+          key:
+            newDatacenter: true
+            datacenterMembersList:
+            - nodeIp: nodeIp
+              nodeId: 0
+            - nodeIp: nodeIp
+              nodeId: 0
+        newDatacenterName: newDatacenterName
+        oldDatacenterName: oldDatacenterName
+      properties:
+        datacenterTopology:
+          additionalProperties:
+            $ref: '#/components/schemas/DatacenterDesc'
+          description: Map of multidatacenter topology
+          type: object
+        oldDatacenterName:
+          type: string
+        newDatacenterName:
+          type: string
+      type: object
+    SingleToMultiDcMigrationClusterState:
+      description: State of the cluster during migration of single datacenter to multi
+        datacenter and its substeps
+      example:
+        migrationSteps:
+          key:
+            startedAt: 0
+            details: details
+            status: FAILED
+            finishedAt: 6
+        singleToMultiDcMigration:
+          startedAt: 0
+          details: details
+          status: FAILED
+          finishedAt: 6
+      properties:
+        singleToMultiDcMigration:
+          $ref: '#/components/schemas/MigrationState'
+        migrationSteps:
+          additionalProperties:
+            $ref: '#/components/schemas/MigrationState'
+          description: Status of the various sub steps of the migration
+          type: object
+      type: object
+    ElasticsearchUpgradeDTO:
+      example:
+        reason: reason
+        upgradePossible: true
+      properties:
+        upgradePossible:
+          type: boolean
+        reason:
+          type: string
+      type: object
+    ElasticsearchOperationDto:
+      example:
+        reason: reason
+        success: true
+      properties:
+        success:
+          type: boolean
+        reason:
+          type: string
+      type: object
+    FirewallNodeIp:
+      example:
+        ipAddress: ipAddress
+      properties:
+        ipAddress:
+          description: Node IP address to remove from firewall
+          type: string
+      type: object
+    ResponsibilityOverrideDto:
+      example:
+        responsibilityNodeIds:
+        - 0
+        - 0
+      properties:
+        responsibilityNodeIds:
+          items:
+            format: int32
+            type: integer
+          type: array
+      type: object
+    RemoveNode:
+      description: Information which node is going to be removed.
+      example:
+        ipAddress: ipAddress
+        nodeId: 0
+      properties:
+        nodeId:
+          format: int32
+          type: integer
+        ipAddress:
+          type: string
+      type: object
+    InstallerStatusDto:
+      example:
+        details: details
+        status: status
+      properties:
+        status:
+          type: string
+        details:
+          type: string
+      type: object
+    FinalizeNodeJoiningRequestDto:
+      example:
+        result: ABORTED
+        ip: ip
+        details: details
+      properties:
+        ip:
+          type: string
+        result:
+          enum:
+          - ABORTED
+          - FAILURE
+          - IN_PROGRESS
+          - STOPPED
+          - SUCCESS
+          - UNKNOWN
+          type: string
+        details:
+          type: string
+      type: object
+    NodeJoiningInitializePreCheckResponseDto:
+      example:
+        requestId: requestId
+      properties:
+        requestId:
+          type: string
+      type: object
+    NodeJoiningPreCheckStatusDto:
+      example:
+        canRunNodeInstallation: true
+        nodeJoiningPreCheckFinished: true
+        details: details
+      properties:
+        nodeJoiningPreCheckFinished:
+          type: boolean
+        canRunNodeInstallation:
+          type: boolean
+        details:
+          type: string
+      type: object
+    ProductVersion:
+      example:
+        productVersion: productVersion
+      properties:
+        productVersion:
+          type: string
+      type: object
+    Preferences:
+      example:
+        telemetrySharing: true
+        supportSendBilling: true
+        certificateManagementEnabled: true
+        readOnlyRemoteAccessAllowed: true
+        supportSendEvents: true
+        communityExternalSearch: true
+        suppressNonBillingRelevantData: true
+        ruxitMonitorsRuxit: true
+        supportSendClusterHealth: true
+        backupEnabled: true
+        remoteAccessOnDemandOnly: true
+        supportAllowRemoteAccess: true
+        helpChatEnabled: true
+        certificateManagementPossible: true
+        communityCreateUser: true
+      properties:
+        certificateManagementEnabled:
+          type: boolean
+        certificateManagementPossible:
+          type: boolean
+        supportSendBilling:
+          description: If true, usage and billing information will be reported.
+          type: boolean
+        suppressNonBillingRelevantData:
+          description: If true, usage and billing information will NOT be reported.
+          type: boolean
+        supportSendClusterHealth:
+          description: If true, Dynatrace cluster health will be reported.
+          type: boolean
+        supportSendEvents:
+          description: If true, Dynatrace cluster health and OneAgent events will
+            be reported.
+          type: boolean
+        supportAllowRemoteAccess:
+          description: If true, audited remote-access to your Dynatrace configuration
+            is allowed settings.
+          type: boolean
+        remoteAccessOnDemandOnly:
+          description: If true, audited access to your Dynatrace cluster is allowed
+            by approved Dynatrace employees otherwise by privileged Dynatrace employees.
+          type: boolean
+        communityCreateUser:
+          description: If true, each new user will be set up as a Dynatrace Community
+            user upon first login.
+          type: boolean
+        communityExternalSearch:
+          description: If true, you can search Dynatrace Community and Dynatrace Help
+            when using the product search.
+          type: boolean
+        backupEnabled:
+          description: Deprecated. Use the backup configuration endpoint. If true,
+            backups are enabled.
+          readOnly: true
+          type: boolean
+        ruxitMonitorsRuxit:
+          description: If true, Dynatrace OneAgent monitors Dynatrace.
+          type: boolean
+        telemetrySharing:
+          type: boolean
+        helpChatEnabled:
+          description: If true, Dynatrace ONE live chat is enabled.
+          type: boolean
+        readOnlyRemoteAccessAllowed:
+          description: If true, audited, read-only remote access to your Dynatrace
+            configuration settings is allowed.
+          type: boolean
+      required:
+      - supportSendBilling
+      - supportSendClusterHealth
+      - suppressNonBillingRelevantData
+      type: object
+    CertificateDetails:
+      description: X.509 certificate for signing/encryption
+      example:
+        subject: subject
+        expirationTimestamp: 0
+        issuer: issuer
+        expirationDate: expirationDate
+      properties:
+        issuer:
+          description: Issuer
+          type: string
+        subject:
+          description: Subject
+          type: string
+        expirationTimestamp:
+          description: Expiration timestamp
+          format: int64
+          type: integer
+        expirationDate:
+          description: Expiration date
+          type: string
+      type: object
+    ConstraintViolation:
+      description: A list of constraint violations
+      properties:
+        parameterLocation:
+          enum:
+          - PATH
+          - PAYLOAD_BODY
+          - QUERY
+          type: string
+        location:
+          type: string
+        message:
+          type: string
+        path:
+          type: string
+      type: object
+    Error:
+      properties:
+        constraintViolations:
+          description: A list of constraint violations
+          items:
+            $ref: '#/components/schemas/ConstraintViolation'
+          type: array
+        code:
+          description: The HTTP status code
+          format: int32
+          type: integer
+        message:
+          description: The error message
+          type: string
+      type: object
+    ErrorEnvelope:
+      properties:
+        error:
+          $ref: '#/components/schemas/Error'
+      type: object
+    certDto:
+      description: Certificate configuration.
+      example:
+        privateKeyEncoded: |-
+          -----BEGIN RSA PRIVATE KEY-----
+          MIIEow...aHzMvp
+          -----END RSA PRIVATE KEY-----
+        publicKeyCertificateEncoded: |-
+          -----BEGIN CERTIFICATE-----
+          MIIDKT...XbTK+M
+          -----END CERTIFICATE-----
+      properties:
+        privateKeyEncoded:
+          description: 'Private key PKCS #8 standard, PEM base64-encoded format'
+          type: string
+        publicKeyCertificateEncoded:
+          description: Certificate X.509 standard, PEM base64-encoded format
+          type: string
+      required:
+      - privateKeyEncoded
+      - publicKeyCertificateEncoded
+      type: object
+    SmtpConfiguration:
+      example:
+        hostName: hostName
+        password: password
+        senderEmailAddress: senderEmailAddress
+        isPasswordConfigured: true
+        port: 0
+        connectionSecurity: NO_ENCRYPTION
+        useSmtpServer: true
+        allowFallbackViaMissionControl: true
+        userName: userName
+      properties:
+        hostName:
+          description: Host name
+          type: string
+        port:
+          description: Integer value of port
+          format: int32
+          type: integer
+        userName:
+          description: User name
+          type: string
+        password:
+          description: Password
+          type: string
+        isPasswordConfigured:
+          description: If true, a password has been configured.
+          type: boolean
+        connectionSecurity:
+          description: Connection security
+          enum:
+          - NO_ENCRYPTION
+          - OPTIONAL_STARTTLS
+          - REQUIRE_STARTTLS
+          - TLS
+          type: string
+        senderEmailAddress:
+          description: Sender email address
+          type: string
+        allowFallbackViaMissionControl:
+          description: If true, we will send e-mails via Mission Control in case of
+            problems with SMTP server.
+          type: boolean
+        useSmtpServer:
+          description: If true, we will send e-mails via SMTP server.
+          type: boolean
+      type: object
+    CertificateStoreStatus:
+      example:
+        certificateStoreStatus: BAD_REQUEST
+        detailedError: detailedError
+      properties:
+        detailedError:
+          type: string
+        certificateStoreStatus:
+          enum:
+          - BAD_REQUEST
+          - CERTIFICATE_CHAIN_IS_INVALID
+          - CERTIFICATE_IS_EXPIRED
+          - CERTIFICATE_STORED_BUT_NOT_REFRESHED
+          - ERROR
+          - GENERAL_ERROR_WHILE_STORING_CERTIFICATE
+          - IN_PROGRESS
+          - NOT_FOUND
+          - OK
+          - PRIVATE_KEY_DOES_NOT_MATCH_PUBLIC_KEY_CERTIFICATE
+          - PRIVATE_KEY_IS_INVALID
+          - PUBLIC_KEY_CERTIFICATE_IS_INVALID
+          type: string
+      type: object
+    sslCertDto:
+      description: SSL certificate configuration.
+      example:
+        privateKeyEncoded: |-
+          -----BEGIN RSA PRIVATE KEY-----
+          MIIEow...aHzMvp
+          -----END RSA PRIVATE KEY-----
+        publicKeyCertificateEncoded: |-
+          -----BEGIN CERTIFICATE-----
+          MIIDKT...XbTK+M
+          -----END CERTIFICATE-----
+        certificateChainEncoded: |-
+          -----BEGIN CERTIFICATE-----
+          MIIDKT...XbTK+M
+          -----END CERTIFICATE-----
+          -----BEGIN CERTIFICATE-----
+          MIIDKT...bXTK+M
+          -----END CERTIFICATE-----
+      properties:
+        privateKeyEncoded:
+          description: 'Private key PKCS #8 standard, PEM base64-encoded format'
+          type: string
+        publicKeyCertificateEncoded:
+          description: Certificate X.509 standard, PEM base64-encoded format, server
+            certificate
+          type: string
+        certificateChainEncoded:
+          description: Certificate(s) X.509 standard, PEM base64-encoded format, intermediate
+            and root certificates
+          type: string
+      required:
+      - privateKeyEncoded
+      - publicKeyCertificateEncoded
+      type: object
+    SSLDetails:
+      example:
+        default: true
+        customKeyStore: true
+        inProgress: true
+        restartRequired: true
+        subject: subject
+        customKeyStoreWritable: true
+        issuer: issuer
+        expirationDate: 2000-01-23T04:56:07.000+00:00
+      properties:
+        inProgress:
+          type: boolean
+        expirationDate:
+          format: date-time
+          type: string
+        restartRequired:
+          type: boolean
+        customKeyStore:
+          type: boolean
+        customKeyStoreWritable:
+          type: boolean
+        issuer:
+          type: string
+        subject:
+          type: string
+        default:
+          type: boolean
+      type: object
+    SupportArchiveDownload:
+      example:
+        downloadState: FINISHED
+        report:
+          parts:
+          - numberOfFiles: 0
+            uncompressedTotalBytes: 6
+            source: source
+            compressedTotalBytes: 1
+            errors:
+            - errors
+            - errors
+          - numberOfFiles: 0
+            uncompressedTotalBytes: 6
+            source: source
+            compressedTotalBytes: 1
+            errors:
+            - errors
+            - errors
+      properties:
+        downloadState:
+          enum:
+          - FINISHED
+          - PROCESSING
+          - STARTING
+          - TRANSFERING
+          type: string
+        report:
+          $ref: '#/components/schemas/SupportArchiveReport'
+      type: object
+    SupportArchiveReport:
+      example:
+        parts:
+        - numberOfFiles: 0
+          uncompressedTotalBytes: 6
+          source: source
+          compressedTotalBytes: 1
+          errors:
+          - errors
+          - errors
+        - numberOfFiles: 0
+          uncompressedTotalBytes: 6
+          source: source
+          compressedTotalBytes: 1
+          errors:
+          - errors
+          - errors
+      properties:
+        parts:
+          items:
+            $ref: '#/components/schemas/SupportArchiveReportPart'
+          type: array
+      type: object
+    SupportArchiveReportPart:
+      example:
+        numberOfFiles: 0
+        uncompressedTotalBytes: 6
+        source: source
+        compressedTotalBytes: 1
+        errors:
+        - errors
+        - errors
+      properties:
+        numberOfFiles:
+          format: int32
+          type: integer
+        uncompressedTotalBytes:
+          format: int64
+          type: integer
+        compressedTotalBytes:
+          format: int64
+          type: integer
+        source:
+          type: string
+        errors:
+          items:
+            type: string
+          type: array
+      type: object
+    OnPremClusterSupportArchiveRequestImpl:
+      example:
+        includeMonitoringConfigAuditLogs: true
+        includeLauncherLogs: true
+        includeActiveGateData: true
+        includeLogs: true
+        includeOtherAuditLogs: true
+        includeAgentRegistryLogs: true
+        numberOfDays: 0
+        includeDebugLogs: true
+        includeServerData: true
+      properties:
+        numberOfDays:
+          format: int32
+          type: integer
+        includeServerData:
+          type: boolean
+        includeActiveGateData:
+          type: boolean
+        includeLogs:
+          type: boolean
+        includeDebugLogs:
+          type: boolean
+        includeAgentRegistryLogs:
+          type: boolean
+        includeLauncherLogs:
+          type: boolean
+        includeMonitoringConfigAuditLogs:
+          type: boolean
+        includeOtherAuditLogs:
+          type: boolean
+      type: object
+    UpgradeStartupState:
+      example:
+        state: ERROR
+        error: error
+      properties:
+        state:
+          description: System precondition check state
+          enum:
+          - ERROR
+          - FINISHED
+          - LAUNCHING
+          - NODEKEEPER_UPGRADE
+          - SYSTEM_CHECK
+          - UNDEFINED
+          type: string
+        error:
+          description: Error
+          type: string
+      type: object
+    InstallationPackage:
+      example:
+        readyNodeIds:
+        - 0
+        - 0
+        countOfTenantsUsingThisAgentAsStandardVersion: 1
+        deletedFromMCStorage: true
+        excludedFromDownload: true
+        fileSizeInBytes: 6
+        deleteEnabled: true
+        type: AGENT
+        version: version
+        status: EXCLUDED
+      properties:
+        excludedFromDownload:
+          description: If true, update package is excluded from download to save storage
+          type: boolean
+        deletedFromMCStorage:
+          description: If true, update package is removed from Dynatrace repository.
+            Once you remove it from your cluster it will be gone permanently.
+          type: boolean
+        readyNodeIds:
+          description: IDs of nodes that have finished package processing (i.e, downloaded
+            or removed depending on status)
+          items:
+            format: int32
+            type: integer
+          type: array
+        fileSizeInBytes:
+          description: Total file size of a package in bytes
+          format: int64
+          type: integer
+        deleteEnabled:
+          description: If true, it's possible to remove this package via the REST
+            API or the WebUi
+          type: boolean
+        countOfTenantsUsingThisAgentAsStandardVersion:
+          description: Count of tenants where this agent is configured as standard
+            agent version. Applies to OneAgent type only.
+          format: int32
+          type: integer
+        version:
+          description: Version
+          type: string
+        status:
+          description: Cluster-wide status
+          enum:
+          - EXCLUDED
+          - MISSING
+          - PROBLEM
+          - PROGRESS
+          - READY
+          - REMOVED
+          - REMOVING
+          - UPLOADING
+          type: string
+        type:
+          description: Type
+          enum:
+          - AGENT
+          - DEPLOYMENT_ORCHESTRATION
+          - DOCKER_AGENT
+          - JS_AGENT
+          - NGINX
+          - ODIN
+          - SERVER
+          - SG
+          - SYNTHETIC
+          type: string
+      type: object
+    UpdateEntryChangeRequestDto:
+      example:
+        excludedFromDownload: true
+      properties:
+        excludedFromDownload:
+          description: If true, update package will be excluded from download and
+            removed from storage. If false, already excluded package will be re-downloaded.
+          type: boolean
+      type: object
+    GroupConfig:
+      description: The configuration of the group.
+      example:
+        hasManageAccountAndViewProductUsageRole: true
+        isClusterAdminGroup: true
+        isManageAccount: true
+        accessRight:
+          key:
+          - accessRight
+          - accessRight
+        ssoGroupNames:
+        - ssoGroupNames
+        - ssoGroupNames
+        name: name
+        ldapGroupNames:
+        - ldapGroupNames
+        - ldapGroupNames
+        hasAccessAccountRole: true
+        id: id
+        isAccessAccount: true
+      properties:
+        isClusterAdminGroup:
+          description: If true, then the group has the cluster administrator rights.
+          type: boolean
+        hasAccessAccountRole:
+          description: If true, then the group has the access account rights.
+          type: boolean
+        hasManageAccountAndViewProductUsageRole:
+          description: If true, then the group has the manage account rights.
+          type: boolean
+        isAccessAccount:
+          type: boolean
+          writeOnly: true
+        isManageAccount:
+          type: boolean
+          writeOnly: true
+        id:
+          description: Group ID. Leave empty if creating group. Set if updating group.
+          type: string
+        name:
+          description: Group name
+          type: string
+        ldapGroupNames:
+          description: LDAP group names
+          items:
+            type: string
+          type: array
+          uniqueItems: true
+        ssoGroupNames:
+          description: SSO group names. If defined it's used to map SSO group name
+            to Dynatrace group name, otherwise mapping is done by group name
+          items:
+            type: string
+          type: array
+          uniqueItems: true
+        accessRight:
+          additionalProperties:
+            description: Access rights
+            items:
+              description: Access rights
+              type: string
+            properties:
+              empty:
+                type: boolean
+            type: array
+          description: Access rights
+          type: object
+      required:
+      - id
+      - isClusterAdminGroup
+      - name
+      type: object
+    MzListForEnvironment:
+      example:
+        environmentUuid: environmentUuid
+        mzPermissions:
+        - permissions:
+          - DEMO_USER
+          - DEMO_USER
+          mzId: mzId
+        - permissions:
+          - DEMO_USER
+          - DEMO_USER
+          mzId: mzId
+      properties:
+        environmentUuid:
+          description: Environment UUID
+          type: string
+        mzPermissions:
+          description: List of management zone models with permissions
+          items:
+            $ref: '#/components/schemas/MzPermissionsList'
+          type: array
+      type: object
+    MzPermissionsForGroup:
+      example:
+        mzPermissionsPerEnvironment:
+        - environmentUuid: environmentUuid
+          mzPermissions:
+          - permissions:
+            - DEMO_USER
+            - DEMO_USER
+            mzId: mzId
+          - permissions:
+            - DEMO_USER
+            - DEMO_USER
+            mzId: mzId
+        - environmentUuid: environmentUuid
+          mzPermissions:
+          - permissions:
+            - DEMO_USER
+            - DEMO_USER
+            mzId: mzId
+          - permissions:
+            - DEMO_USER
+            - DEMO_USER
+            mzId: mzId
+        groupId: groupId
+      properties:
+        groupId:
+          description: Group ID
+          type: string
+        mzPermissionsPerEnvironment:
+          description: List of management zone permissions per environment
+          items:
+            $ref: '#/components/schemas/MzListForEnvironment'
+          type: array
+      type: object
+    MzPermissionsList:
+      example:
+        permissions:
+        - DEMO_USER
+        - DEMO_USER
+        mzId: mzId
+      properties:
+        mzId:
+          description: The ID of the required management zone
+          type: string
+        permissions:
+          description: The list of permissions for the required management zone
+          items:
+            enum:
+            - DEMO_USER
+            - LOG_VIEWER
+            - MANAGE_SECURITY_PROBLEMS
+            - MANAGE_SETTINGS
+            - REPLAY_SESSION_DATA
+            - REPLAY_SESSION_DATA_WITHOUT_MASKING
+            - VIEWER
+            - VIEW_SENSITIVE_REQUEST_DATA
+            type: string
+          type: array
+      type: object
+    UserConfig:
+      description: The configuration of the user.
+      example:
+        firstName: firstName
+        lastName: lastName
+        groups:
+        - groups
+        - groups
+        id: id
+        email: email
+        passwordClearText: passwordClearText
+      properties:
+        id:
+          description: User ID
+          type: string
+        email:
+          description: User's email address
+          type: string
+        firstName:
+          description: User's first name
+          type: string
+        lastName:
+          description: User's last name
+          type: string
+        passwordClearText:
+          description: User's password in a clear text; used only to set initial password
+          type: string
+        groups:
+          description: List of user's user group IDs.
+          items:
+            type: string
+          type: array
+      required:
+      - email
+      - firstName
+      - id
+      - lastName
+      type: object
+    AuthenticationMode:
+      example:
+        ssoOnly: true
+        authenticationProvider: INTERNAL
+        authorizationProvider: INTERNAL
+      properties:
+        authenticationProvider:
+          enum:
+          - INTERNAL
+          - LDAP
+          type: string
+        authorizationProvider:
+          enum:
+          - INTERNAL
+          - LDAP
+          type: string
+        ssoOnly:
+          type: boolean
+      type: object
+    AuthenticationModel:
+      example:
+        ssoOnly: true
+        authenticationProvider: INTERNAL
+        authorizationProvider: INTERNAL
+      properties:
+        authenticationProvider:
+          description: Defines the authentication provider
+          enum:
+          - INTERNAL
+          - LDAP
+          type: string
+        authorizationProvider:
+          description: Defines the authorization provider
+          enum:
+          - INTERNAL
+          - LDAP
+          type: string
+        ssoOnly:
+          description: Defines login page type as SSO
+          readOnly: true
+          type: boolean
+      required:
+      - authenticationProvider
+      type: object
+    LdapConnectionDescImpl:
+      example:
+        hostName: hostName
+        bindDn: bindDn
+        bindPassword: bindPassword
+        port: 0
+        bindPasswordSet: true
+        shouldUseSecureConnection: true
+        referralHopLimit: 6
+      properties:
+        shouldUseSecureConnection:
+          type: boolean
+        hostName:
+          type: string
+        port:
+          format: int32
+          type: integer
+        bindDn:
+          type: string
+        bindPassword:
+          type: string
+        bindPasswordSet:
+          type: boolean
+        referralHopLimit:
+          format: int32
+          type: integer
+      type: object
+    LdapGroupsQueryDtoImpl:
+      example:
+        groupsDn: groupsDn
+        groupsFilter: groupsFilter
+        groupsIdAttribute: groupsIdAttribute
+        groupsDisplayNameAttribute: groupsDisplayNameAttribute
+        groupsMemberAttribute: groupsMemberAttribute
+      properties:
+        groupsDn:
+          type: string
+        groupsFilter:
+          type: string
+        groupsIdAttribute:
+          type: string
+        groupsDisplayNameAttribute:
+          type: string
+        groupsMemberAttribute:
+          type: string
+      type: object
+    LdapUsersQueryDescImpl:
+      example:
+        usersBaseDn: usersBaseDn
+        usersMembershipAttribute: usersMembershipAttribute
+        usersFilter: usersFilter
+        usersAccountNameAttribute: usersAccountNameAttribute
+        usersLastNameAttribute: usersLastNameAttribute
+        usersEmailAttribute: usersEmailAttribute
+        usersFirstNameAttribute: usersFirstNameAttribute
+      properties:
+        usersBaseDn:
+          type: string
+        usersAccountNameAttribute:
+          type: string
+        usersFirstNameAttribute:
+          type: string
+        usersLastNameAttribute:
+          type: string
+        usersEmailAttribute:
+          type: string
+        usersMembershipAttribute:
+          type: string
+        usersFilter:
+          type: string
+      type: object
+    InternetProxy:
+      description: Configuration of proxy server for Internet connection
+      example:
+        server: server
+        nonProxyHosts:
+        - nonProxyHosts
+        - nonProxyHosts
+        scheme: scheme
+        userOrPasswordDefined: true
+        port: 0
+      properties:
+        scheme:
+          description: Protocol which proxy server uses
+          type: string
+        server:
+          description: Address (either IP or Hostname) of proxy server
+          type: string
+        port:
+          description: Port of proxy server
+          format: int32
+          type: integer
+        nonProxyHosts:
+          description: Definition of hosts for which proxy won't be used.
+          items:
+            description: Definition of hosts for which proxy won't be used.
+            type: string
+          type: array
+        userOrPasswordDefined:
+          description: Indicates if user/password for proxy is configured
+          type: boolean
+      type: object
+    ConnectionStatus:
+      description: Internet connection test result
+      example:
+        testExecutionMessage: testExecutionMessage
+        testExecuted: true
+        connectionOk: true
+      properties:
+        connectionOk:
+          description: Connection test result
+          type: boolean
+        testExecuted:
+          description: Indicates whether test was executed at all
+          type: boolean
+        testExecutionMessage:
+          description: Additional comments usually indicates why test was not executed
+          type: string
+      type: object
+    InternetProxyChangeRequest:
+      description: Configuration of proxy server for Internet connection
+      example:
+        server: server
+        password: password
+        nonProxyHosts:
+        - nonProxyHosts
+        - nonProxyHosts
+        scheme: http
+        port: 5248
+        user: user
+      properties:
+        scheme:
+          description: Protocol which proxy server uses
+          enum:
+          - http
+          - https
+          pattern: http[s]?
+          type: string
+        server:
+          description: Address (either IP or Hostname) of proxy server
+          pattern: ^[a-zA-Z0-9:/.-]*$
+          type: string
+        port:
+          description: Port of proxy server
+          format: int32
+          maximum: 65535
+          minimum: 0
+          type: integer
+        user:
+          description: User of proxy server, null means do not change previous value
+          type: string
+        password:
+          description: Password of proxy server, null means do not change previous
+            value
+          type: string
+        nonProxyHosts:
+          description: Definition of hosts for which proxy won't be used. You can
+            define multiple hosts. Each host can start or end with wildcard '*' for
+            instance to match whole domain.
+          items:
+            description: Definition of hosts for which proxy won't be used. You can
+              define multiple hosts. Each host can start or end with wildcard '*'
+              for instance to match whole domain.
+            type: string
+          type: array
+      required:
+      - port
+      - scheme
+      - server
+      type: object
+    ProxyConfigurations:
+      description: Configurations of proxy servers for all existing Data Centers
+      example:
+        configurations:
+          key:
+            server: server
+            nonProxyHosts:
+            - nonProxyHosts
+            - nonProxyHosts
+            scheme: scheme
+            userOrPasswordDefined: true
+            port: 0
+      properties:
+        configurations:
+          additionalProperties:
+            $ref: '#/components/schemas/InternetProxy'
+          description: Map of (Data Center name, Proxy) pairs
+          type: object
+      type: object
+    PasswordPolicy:
+      description: Password policy configuration.
+      example:
+        minNumberOfUppercaseChars: 77
+        realmId: realmId
+        minNumberOfLowercaseChars: 18
+        minPasswordLength: 17
+        minNumberOfDigits: 76
+        minNumberOfNonAlphanumericChars: 72
+      properties:
+        realmId:
+          type: string
+        minPasswordLength:
+          description: Minimum password length
+          format: int64
+          maximum: 128
+          minimum: 8
+          type: integer
+        minNumberOfUppercaseChars:
+          description: Minimum number of uppercase characters
+          format: int64
+          maximum: 128
+          minimum: 0
+          type: integer
+        minNumberOfLowercaseChars:
+          description: Minimum number of lowercase characters
+          format: int64
+          maximum: 128
+          minimum: 0
+          type: integer
+        minNumberOfDigits:
+          description: Minimum number of digits
+          format: int64
+          maximum: 128
+          minimum: 0
+          type: integer
+        minNumberOfNonAlphanumericChars:
+          description: Minimum number of non-alphanumeric characters
+          format: int64
+          maximum: 128
+          minimum: 0
+          type: integer
+      required:
+      - minNumberOfDigits
+      - minNumberOfLowercaseChars
+      - minNumberOfNonAlphanumericChars
+      - minNumberOfUppercaseChars
+      - minPasswordLength
+      type: object
+  securitySchemes:
+    Api-Token:
+      description: |-
+        Dynatrace API Token
+
+         The token is passed in the **Authorization** header in the following format: `Authorization: Api-Token abcdefjhij1234567890`.
+      in: header
+      name: Authorization
+      type: apiKey
