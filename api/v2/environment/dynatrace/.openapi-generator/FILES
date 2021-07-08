@@ -99,6 +99,7 @@ docs/Extensions20Api.md
 docs/FromPosition.md
 docs/Impact.md
 docs/ImpactAnalysis.md
+docs/InlineObject.md
 docs/Item.md
 docs/LinkedProblem.md
 docs/LocationCollectionElement.md
@@ -277,6 +278,7 @@ model_extension_status_dto.go
 model_from_position.go
 model_impact.go
 model_impact_analysis.go
+model_inline_object.go
 model_item.go
 model_linked_problem.go
 model_location_collection_element.go

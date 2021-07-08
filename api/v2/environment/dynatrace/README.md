@@ -258,6 +258,7 @@ Class | Method | HTTP request | Description
  - [FromPosition](docs/FromPosition.md)
  - [Impact](docs/Impact.md)
  - [ImpactAnalysis](docs/ImpactAnalysis.md)
+ - [InlineObject](docs/InlineObject.md)
  - [Item](docs/Item.md)
  - [LinkedProblem](docs/LinkedProblem.md)
  - [LocationCollectionElement](docs/LocationCollectionElement.md)

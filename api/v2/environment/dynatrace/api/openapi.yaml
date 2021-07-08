@@ -3716,7 +3716,7 @@ paths:
           type: boolean
         style: form
       requestBody:
-        $ref: '#/components/requestBodies/inline_object'
+        $ref: '#/components/requestBodies/inline_object_1'
       responses:
         "200":
           content:
@@ -5873,6 +5873,11 @@ components:
         multipart/form-data:
           schema:
             $ref: '#/components/schemas/inline_object'
+    inline_object_1:
+      content:
+        multipart/form-data:
+          schema:
+            $ref: '#/components/schemas/inline_object_1'
   schemas:
     ConstraintViolation:
       description: A list of constraint violations
