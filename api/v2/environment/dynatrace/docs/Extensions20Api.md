@@ -1428,7 +1428,7 @@ Name | Type | Description  | Notes
 
 ## UploadExtension
 
-> Extension UploadExtension(ctx).ValidateOnly(validateOnly).Body(body).Execute()
+> Extension UploadExtension(ctx).ValidateOnly(validateOnly).InlineObject(inlineObject).Execute()
 
 Uploads or verifies a new extension 2.0
 
@@ -1446,11 +1446,11 @@ import (
 
 func main() {
     validateOnly := true // bool | Only run validation but do not persist the extension even if validation was successful. (optional) (default to false)
-    body := InlineObject1(987) // InlineObject1 |  (optional)
+    inlineObject := TODO // InlineObject |  (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.Extensions20Api.UploadExtension(context.Background()).ValidateOnly(validateOnly).Body(body).Execute()
+    resp, r, err := api_client.Extensions20Api.UploadExtension(context.Background()).ValidateOnly(validateOnly).InlineObject(inlineObject).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `Extensions20Api.UploadExtension``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -1472,7 +1472,7 @@ Other parameters are passed through a pointer to a apiUploadExtensionRequest str
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **validateOnly** | **bool** | Only run validation but do not persist the extension even if validation was successful. | [default to false]
- **body** | **InlineObject1** |  | 
+ **inlineObject** | [**InlineObject**](InlineObject.md) |  | 
 
 ### Return type
 

@@ -2831,15 +2831,15 @@ type ApiUploadExtensionRequest struct {
 	ctx _context.Context
 	ApiService *Extensions20ApiService
 	validateOnly *bool
-	body *InlineObject1
+	inlineObject *InlineObject
 }
 
 func (r ApiUploadExtensionRequest) ValidateOnly(validateOnly bool) ApiUploadExtensionRequest {
 	r.validateOnly = &validateOnly
 	return r
 }
-func (r ApiUploadExtensionRequest) Body(body InlineObject1) ApiUploadExtensionRequest {
-	r.body = &body
+func (r ApiUploadExtensionRequest) InlineObject(inlineObject InlineObject) ApiUploadExtensionRequest {
+	r.inlineObject = &inlineObject
 	return r
 }
 
@@ -2905,7 +2905,7 @@ func (a *Extensions20ApiService) UploadExtensionExecute(r ApiUploadExtensionRequ
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.body
+	localVarPostBody = r.inlineObject
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
