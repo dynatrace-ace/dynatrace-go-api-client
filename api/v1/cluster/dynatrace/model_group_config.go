@@ -1,7 +1,7 @@
 /*
  * Dynatrace Cluster API
  *
- * Dynatrace Managed exposes cluster management functionality via REST endpoints. This interactive documentation also acts as a REST client you can use to interact with Dynatrace Managed clusters.   To authorize, use the API Token generated in [Settings - API Tokens page](/cmc#cm/apiToken). The HTTP status code of the response shows the result of your request. The expected response code for a successful request is documented individually per REST endpoint. Additionally the following error response codes can occur in our REST interface:  * 400 - Bad Request: Some request parameters are not correct. See response body for details. * 401 - Unauthorized: A valid authorization header is required but is missing. * 403 - Forbidden: Execution of request is not allowed, e.g. api-token is invalid. * 404 - Not Found: Endpoint does not exist or some entities could not be found, e.g. User account. * 500 - Internal Server Error: See response body for details. * 556 - Upgrade in progress: Operation couldn't be performed during the upgrade. 
+ * Dynatrace Managed exposes cluster management functionality via REST endpoints. This interactive documentation also acts as a REST client you can use to interact with Dynatrace Managed clusters.   To authorize, use the API Token generated in [Settings - API Tokens page](/cmc#cm/apiToken). The HTTP status code of the response shows the result of your request. The expected response code for a successful request is documented individually per REST endpoint. Additionally the following error response codes can occur in our REST interface:  * 400 - Bad Request: Some request parameters are not correct. See response body for details. * 401 - Unauthorized: A valid authorization header is required but is missing. * 403 - Forbidden: Execution of request is not allowed, e.g. api-token is invalid. * 404 - Not Found: Endpoint does not exist or some entities could not be found, e.g. User account. * 500 - Internal Server Error: See response body for details. * 556 - Upgrade in progress: Operation couldn't be performed during the upgrade.
  *
  * API version: 1.0
  */
@@ -22,8 +22,8 @@ type GroupConfig struct {
 	HasAccessAccountRole *bool `json:"hasAccessAccountRole,omitempty"`
 	// If true, then the group has the manage account rights.
 	HasManageAccountAndViewProductUsageRole *bool `json:"hasManageAccountAndViewProductUsageRole,omitempty"`
-	IsAccessAccount *bool `json:"isAccessAccount,omitempty"`
-	IsManageAccount *bool `json:"isManageAccount,omitempty"`
+	IsAccessAccount                         *bool `json:"isAccessAccount,omitempty"`
+	IsManageAccount                         *bool `json:"isManageAccount,omitempty"`
 	// Group ID. Leave empty if creating group. Set if updating group.
 	Id string `json:"id"`
 	// Group name
@@ -33,7 +33,7 @@ type GroupConfig struct {
 	// SSO group names. If defined it's used to map SSO group name to Dynatrace group name, otherwise mapping is done by group name
 	SsoGroupNames *[]string `json:"ssoGroupNames,omitempty"`
 	// Access rights
-	AccessRight *map[string][]string `json:"accessRight,omitempty"`
+	AccessRight *interface{} `json:"accessRight,omitempty"`
 }
 
 // NewGroupConfig instantiates a new GroupConfig object
@@ -69,7 +69,7 @@ func (o *GroupConfig) GetIsClusterAdminGroup() bool {
 // GetIsClusterAdminGroupOk returns a tuple with the IsClusterAdminGroup field value
 // and a boolean to check if the value has been set.
 func (o *GroupConfig) GetIsClusterAdminGroupOk() (*bool, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.IsClusterAdminGroup, true
@@ -221,7 +221,7 @@ func (o *GroupConfig) GetId() string {
 // GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
 func (o *GroupConfig) GetIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Id, true
@@ -245,7 +245,7 @@ func (o *GroupConfig) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *GroupConfig) GetNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true
@@ -321,9 +321,9 @@ func (o *GroupConfig) SetSsoGroupNames(v []string) {
 }
 
 // GetAccessRight returns the AccessRight field value if set, zero value otherwise.
-func (o *GroupConfig) GetAccessRight() map[string][]string {
+func (o *GroupConfig) GetAccessRight() interface{} {
 	if o == nil || o.AccessRight == nil {
-		var ret map[string][]string
+		var ret interface{}
 		return ret
 	}
 	return *o.AccessRight
@@ -331,7 +331,7 @@ func (o *GroupConfig) GetAccessRight() map[string][]string {
 
 // GetAccessRightOk returns a tuple with the AccessRight field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GroupConfig) GetAccessRightOk() (*map[string][]string, bool) {
+func (o *GroupConfig) GetAccessRightOk() (*interface{}, bool) {
 	if o == nil || o.AccessRight == nil {
 		return nil, false
 	}
@@ -347,8 +347,8 @@ func (o *GroupConfig) HasAccessRight() bool {
 	return false
 }
 
-// SetAccessRight gets a reference to the given map[string][]string and assigns it to the AccessRight field.
-func (o *GroupConfig) SetAccessRight(v map[string][]string) {
+// SetAccessRight gets a reference to the given interface{} and assigns it to the AccessRight field.
+func (o *GroupConfig) SetAccessRight(v interface{}) {
 	o.AccessRight = &v
 }
 
@@ -422,5 +422,3 @@ func (v *NullableGroupConfig) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-
