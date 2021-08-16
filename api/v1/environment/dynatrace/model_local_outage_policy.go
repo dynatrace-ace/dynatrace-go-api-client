@@ -26,7 +26,7 @@ type LocalOutagePolicy struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewLocalOutagePolicy(affectedLocations int32, consecutiveRuns int32, ) *LocalOutagePolicy {
+func NewLocalOutagePolicy(affectedLocations int32, consecutiveRuns int32) *LocalOutagePolicy {
 	this := LocalOutagePolicy{}
 	this.AffectedLocations = affectedLocations
 	this.ConsecutiveRuns = consecutiveRuns
@@ -43,7 +43,7 @@ func NewLocalOutagePolicyWithDefaults() *LocalOutagePolicy {
 
 // GetAffectedLocations returns the AffectedLocations field value
 func (o *LocalOutagePolicy) GetAffectedLocations() int32 {
-	if o == nil  {
+	if o == nil {
 		var ret int32
 		return ret
 	}
@@ -67,7 +67,7 @@ func (o *LocalOutagePolicy) SetAffectedLocations(v int32) {
 
 // GetConsecutiveRuns returns the ConsecutiveRuns field value
 func (o *LocalOutagePolicy) GetConsecutiveRuns() int32 {
-	if o == nil  {
+	if o == nil {
 		var ret int32
 		return ret
 	}

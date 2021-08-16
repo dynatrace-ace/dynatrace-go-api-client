@@ -24,7 +24,7 @@ type StubList struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewStubList(values []EntityShortRepresentation, ) *StubList {
+func NewStubList(values []EntityShortRepresentation) *StubList {
 	this := StubList{}
 	this.Values = values
 	return &this
@@ -40,7 +40,7 @@ func NewStubListWithDefaults() *StubList {
 
 // GetValues returns the Values field value
 func (o *StubList) GetValues() []EntityShortRepresentation {
-	if o == nil  {
+	if o == nil {
 		var ret []EntityShortRepresentation
 		return ret
 	}

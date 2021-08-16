@@ -46,7 +46,7 @@ type NodeCollectionElement struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewNodeCollectionElement(entityId string, hostname string, ips []string, version string, browserMonitorsEnabled bool, activeGateVersion string, oneAgentRoutingEnabled bool, operatingSystem string, autoUpdateEnabled bool, status string, playerVersion string, healthCheckStatus string, ) *NodeCollectionElement {
+func NewNodeCollectionElement(entityId string, hostname string, ips []string, version string, browserMonitorsEnabled bool, activeGateVersion string, oneAgentRoutingEnabled bool, operatingSystem string, autoUpdateEnabled bool, status string, playerVersion string, healthCheckStatus string) *NodeCollectionElement {
 	this := NodeCollectionElement{}
 	this.EntityId = entityId
 	this.Hostname = hostname
@@ -73,7 +73,7 @@ func NewNodeCollectionElementWithDefaults() *NodeCollectionElement {
 
 // GetEntityId returns the EntityId field value
 func (o *NodeCollectionElement) GetEntityId() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -97,7 +97,7 @@ func (o *NodeCollectionElement) SetEntityId(v string) {
 
 // GetHostname returns the Hostname field value
 func (o *NodeCollectionElement) GetHostname() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -121,7 +121,7 @@ func (o *NodeCollectionElement) SetHostname(v string) {
 
 // GetIps returns the Ips field value
 func (o *NodeCollectionElement) GetIps() []string {
-	if o == nil  {
+	if o == nil {
 		var ret []string
 		return ret
 	}
@@ -145,7 +145,7 @@ func (o *NodeCollectionElement) SetIps(v []string) {
 
 // GetVersion returns the Version field value
 func (o *NodeCollectionElement) GetVersion() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -169,7 +169,7 @@ func (o *NodeCollectionElement) SetVersion(v string) {
 
 // GetBrowserMonitorsEnabled returns the BrowserMonitorsEnabled field value
 func (o *NodeCollectionElement) GetBrowserMonitorsEnabled() bool {
-	if o == nil  {
+	if o == nil {
 		var ret bool
 		return ret
 	}
@@ -193,7 +193,7 @@ func (o *NodeCollectionElement) SetBrowserMonitorsEnabled(v bool) {
 
 // GetActiveGateVersion returns the ActiveGateVersion field value
 func (o *NodeCollectionElement) GetActiveGateVersion() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -217,7 +217,7 @@ func (o *NodeCollectionElement) SetActiveGateVersion(v string) {
 
 // GetOneAgentRoutingEnabled returns the OneAgentRoutingEnabled field value
 func (o *NodeCollectionElement) GetOneAgentRoutingEnabled() bool {
-	if o == nil  {
+	if o == nil {
 		var ret bool
 		return ret
 	}
@@ -241,7 +241,7 @@ func (o *NodeCollectionElement) SetOneAgentRoutingEnabled(v bool) {
 
 // GetOperatingSystem returns the OperatingSystem field value
 func (o *NodeCollectionElement) GetOperatingSystem() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -265,7 +265,7 @@ func (o *NodeCollectionElement) SetOperatingSystem(v string) {
 
 // GetAutoUpdateEnabled returns the AutoUpdateEnabled field value
 func (o *NodeCollectionElement) GetAutoUpdateEnabled() bool {
-	if o == nil  {
+	if o == nil {
 		var ret bool
 		return ret
 	}
@@ -289,7 +289,7 @@ func (o *NodeCollectionElement) SetAutoUpdateEnabled(v bool) {
 
 // GetStatus returns the Status field value
 func (o *NodeCollectionElement) GetStatus() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -313,7 +313,7 @@ func (o *NodeCollectionElement) SetStatus(v string) {
 
 // GetPlayerVersion returns the PlayerVersion field value
 func (o *NodeCollectionElement) GetPlayerVersion() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -337,7 +337,7 @@ func (o *NodeCollectionElement) SetPlayerVersion(v string) {
 
 // GetHealthCheckStatus returns the HealthCheckStatus field value
 func (o *NodeCollectionElement) GetHealthCheckStatus() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}

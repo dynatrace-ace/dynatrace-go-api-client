@@ -30,7 +30,7 @@ type LoadingTimeThreshold struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewLoadingTimeThreshold(type_ string, valueMs int32, ) *LoadingTimeThreshold {
+func NewLoadingTimeThreshold(type_ string, valueMs int32) *LoadingTimeThreshold {
 	this := LoadingTimeThreshold{}
 	this.Type = type_
 	this.ValueMs = valueMs
@@ -47,7 +47,7 @@ func NewLoadingTimeThresholdWithDefaults() *LoadingTimeThreshold {
 
 // GetType returns the Type field value
 func (o *LoadingTimeThreshold) GetType() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -71,7 +71,7 @@ func (o *LoadingTimeThreshold) SetType(v string) {
 
 // GetValueMs returns the ValueMs field value
 func (o *LoadingTimeThreshold) GetValueMs() int32 {
-	if o == nil  {
+	if o == nil {
 		var ret int32
 		return ret
 	}

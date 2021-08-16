@@ -7,9 +7,9 @@ Name | Type | Description | Notes
 **SyntheticEngineName** | **string** | The type of the third-party synthetic monitor. | 
 **SyntheticEngineIconUrl** | Pointer to **string** | The URL of the third-party synthetic monitor icon. | [optional] 
 **MessageTimestamp** | **int64** | The timestamp of the message creation, in UTC milliseconds. | 
-**Locations** | [**[]Model3rdPartySyntheticLocation**](3rdPartySyntheticLocation.md) | The list of third-party synthetic locations. | 
-**Tests** | [**[]Model3rdPartySyntheticMonitor**](3rdPartySyntheticMonitor.md) | The list of third-party synthetic monitors. | 
-**TestResults** | Pointer to [**[]Model3rdPartySyntheticTestResult**](3rdPartySyntheticTestResult.md) | The list of results of third-party synthetic monitor execution. | [optional] 
+**Locations** | [**[]Model3rdPartySyntheticLocation**](Model3rdPartySyntheticLocation.md) | The list of third-party synthetic locations. | 
+**Tests** | [**[]Model3rdPartySyntheticMonitor**](Model3rdPartySyntheticMonitor.md) | The list of third-party synthetic monitors. | 
+**TestResults** | Pointer to [**[]Model3rdPartySyntheticTestResult**](Model3rdPartySyntheticTestResult.md) | The list of results of third-party synthetic monitor execution. | [optional] 
 
 ## Methods
 

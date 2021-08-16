@@ -24,7 +24,7 @@ type StateModification struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewStateModification(state string, ) *StateModification {
+func NewStateModification(state string) *StateModification {
 	this := StateModification{}
 	this.State = state
 	return &this
@@ -40,7 +40,7 @@ func NewStateModificationWithDefaults() *StateModification {
 
 // GetState returns the State field value
 func (o *StateModification) GetState() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}

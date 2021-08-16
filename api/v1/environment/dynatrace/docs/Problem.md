@@ -15,8 +15,8 @@ Name | Type | Description | Notes
 **TagsOfAffectedEntities** | Pointer to [**[]TagInfo**](TagInfo.md) | Tags of entities affected by the problem. | [optional] 
 **RankedEvents** | Pointer to [**[]Event**](Event.md) | The list of events related to the problem. | [optional] 
 **RankedImpacts** | Pointer to [**[]EventRestImpact**](EventRestImpact.md) | Provides impact information of the events in an aggregated form. For a more detailed impact analysis, see &#x60;rankedEvents&#x60;. | [optional] 
-**AffectedCounts** | Pointer to [**ProblemAffectedCounts**](Problem_affectedCounts.md) |  | [optional] 
-**RecoveredCounts** | Pointer to [**ProblemRecoveredCounts**](Problem_recoveredCounts.md) |  | [optional] 
+**AffectedCounts** | Pointer to [**ProblemAffectedCounts**](ProblemAffectedCounts.md) |  | [optional] 
+**RecoveredCounts** | Pointer to [**ProblemRecoveredCounts**](ProblemRecoveredCounts.md) |  | [optional] 
 **HasRootCause** | Pointer to **bool** | Indicates whether Dynatrace has found at least one possible root cause for the problem. | [optional] 
 
 ## Methods

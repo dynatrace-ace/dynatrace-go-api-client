@@ -33,8 +33,13 @@ type PrivateSyntheticLocation struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewPrivateSyntheticLocation(nodes []string, ) *PrivateSyntheticLocation {
+func NewPrivateSyntheticLocation(nodes []string, entityId string, type_ string, name string, latitude float64, longitude float64) *PrivateSyntheticLocation {
 	this := PrivateSyntheticLocation{}
+	this.EntityId = entityId
+	this.Type = type_
+	this.Name = name
+	this.Latitude = latitude
+	this.Longitude = longitude
 	this.Nodes = nodes
 	return &this
 }
@@ -49,7 +54,7 @@ func NewPrivateSyntheticLocationWithDefaults() *PrivateSyntheticLocation {
 
 // GetNodes returns the Nodes field value
 func (o *PrivateSyntheticLocation) GetNodes() []string {
-	if o == nil  {
+	if o == nil {
 		var ret []string
 		return ret
 	}

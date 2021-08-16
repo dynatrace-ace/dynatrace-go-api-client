@@ -40,7 +40,7 @@ type SyntheticLocation struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSyntheticLocation(entityId string, type_ string, name string, latitude float64, longitude float64, ) *SyntheticLocation {
+func NewSyntheticLocation(entityId string, type_ string, name string, latitude float64, longitude float64) *SyntheticLocation {
 	this := SyntheticLocation{}
 	this.EntityId = entityId
 	this.Type = type_
@@ -60,7 +60,7 @@ func NewSyntheticLocationWithDefaults() *SyntheticLocation {
 
 // GetEntityId returns the EntityId field value
 func (o *SyntheticLocation) GetEntityId() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -84,7 +84,7 @@ func (o *SyntheticLocation) SetEntityId(v string) {
 
 // GetType returns the Type field value
 func (o *SyntheticLocation) GetType() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -108,7 +108,7 @@ func (o *SyntheticLocation) SetType(v string) {
 
 // GetName returns the Name field value
 func (o *SyntheticLocation) GetName() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -228,7 +228,7 @@ func (o *SyntheticLocation) SetCity(v string) {
 
 // GetLatitude returns the Latitude field value
 func (o *SyntheticLocation) GetLatitude() float64 {
-	if o == nil  {
+	if o == nil {
 		var ret float64
 		return ret
 	}
@@ -252,7 +252,7 @@ func (o *SyntheticLocation) SetLatitude(v float64) {
 
 // GetLongitude returns the Longitude field value
 func (o *SyntheticLocation) GetLongitude() float64 {
-	if o == nil  {
+	if o == nil {
 		var ret float64
 		return ret
 	}

@@ -30,7 +30,7 @@ type MonitorCollectionElement struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitorCollectionElement(name string, entityId string, type_ string, enabled bool, ) *MonitorCollectionElement {
+func NewMonitorCollectionElement(name string, entityId string, type_ string, enabled bool) *MonitorCollectionElement {
 	this := MonitorCollectionElement{}
 	this.Name = name
 	this.EntityId = entityId
@@ -49,7 +49,7 @@ func NewMonitorCollectionElementWithDefaults() *MonitorCollectionElement {
 
 // GetName returns the Name field value
 func (o *MonitorCollectionElement) GetName() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -73,7 +73,7 @@ func (o *MonitorCollectionElement) SetName(v string) {
 
 // GetEntityId returns the EntityId field value
 func (o *MonitorCollectionElement) GetEntityId() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -97,7 +97,7 @@ func (o *MonitorCollectionElement) SetEntityId(v string) {
 
 // GetType returns the Type field value
 func (o *MonitorCollectionElement) GetType() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -121,7 +121,7 @@ func (o *MonitorCollectionElement) SetType(v string) {
 
 // GetEnabled returns the Enabled field value
 func (o *MonitorCollectionElement) GetEnabled() bool {
-	if o == nil  {
+	if o == nil {
 		var ret bool
 		return ret
 	}

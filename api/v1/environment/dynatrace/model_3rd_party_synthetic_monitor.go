@@ -48,7 +48,7 @@ type Model3rdPartySyntheticMonitor struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewModel3rdPartySyntheticMonitor(id string, title string, locations []SyntheticTestLocation, scheduleIntervalInSeconds int32, ) *Model3rdPartySyntheticMonitor {
+func NewModel3rdPartySyntheticMonitor(id string, title string, locations []SyntheticTestLocation, scheduleIntervalInSeconds int32) *Model3rdPartySyntheticMonitor {
 	this := Model3rdPartySyntheticMonitor{}
 	this.Id = id
 	this.Title = title
@@ -67,7 +67,7 @@ func NewModel3rdPartySyntheticMonitorWithDefaults() *Model3rdPartySyntheticMonit
 
 // GetId returns the Id field value
 func (o *Model3rdPartySyntheticMonitor) GetId() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -91,7 +91,7 @@ func (o *Model3rdPartySyntheticMonitor) SetId(v string) {
 
 // GetTitle returns the Title field value
 func (o *Model3rdPartySyntheticMonitor) GetTitle() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -339,7 +339,7 @@ func (o *Model3rdPartySyntheticMonitor) SetDeleted(v bool) {
 
 // GetLocations returns the Locations field value
 func (o *Model3rdPartySyntheticMonitor) GetLocations() []SyntheticTestLocation {
-	if o == nil  {
+	if o == nil {
 		var ret []SyntheticTestLocation
 		return ret
 	}
@@ -395,7 +395,7 @@ func (o *Model3rdPartySyntheticMonitor) SetSteps(v []SyntheticTestStep) {
 
 // GetScheduleIntervalInSeconds returns the ScheduleIntervalInSeconds field value
 func (o *Model3rdPartySyntheticMonitor) GetScheduleIntervalInSeconds() int32 {
-	if o == nil  {
+	if o == nil {
 		var ret int32
 		return ret
 	}

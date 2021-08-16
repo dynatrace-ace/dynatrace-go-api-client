@@ -24,7 +24,7 @@ type EntityIdDto struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEntityIdDto(entityId string, ) *EntityIdDto {
+func NewEntityIdDto(entityId string) *EntityIdDto {
 	this := EntityIdDto{}
 	this.EntityId = entityId
 	return &this
@@ -40,7 +40,7 @@ func NewEntityIdDtoWithDefaults() *EntityIdDto {
 
 // GetEntityId returns the EntityId field value
 func (o *EntityIdDto) GetEntityId() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}

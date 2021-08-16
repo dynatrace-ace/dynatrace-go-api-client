@@ -29,7 +29,7 @@ import (
 )
 
 func main() {
-    model3rdPartySyntheticEvents := *openapiclient.New3rdPartySyntheticEvents("SyntheticEngineName_example") // Model3rdPartySyntheticEvents | The JSON body of the request. Contains third-party synthetic events.
+    model3rdPartySyntheticEvents := *openapiclient.NewModel3rdPartySyntheticEvents("SyntheticEngineName_example") // Model3rdPartySyntheticEvents | The JSON body of the request. Contains third-party synthetic events.
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -153,7 +153,7 @@ import (
 )
 
 func main() {
-    model3rdPartySyntheticTests := *openapiclient.New3rdPartySyntheticTests("SyntheticEngineName_example", int64(123), []openapiclient.Model3rdPartySyntheticLocation{*openapiclient.New3rdPartySyntheticLocation("Id_example", "Name_example")}, []openapiclient.Model3rdPartySyntheticMonitor{*openapiclient.New3rdPartySyntheticMonitor("Id_example", "Title_example", []openapiclient.SyntheticTestLocation{*openapiclient.NewSyntheticTestLocation("Id_example")}, int32(123))}) // Model3rdPartySyntheticTests | The JSON body of the request. Contains third-party synthetic monitors, locations, and results.
+    model3rdPartySyntheticTests := *openapiclient.NewModel3rdPartySyntheticTests("SyntheticEngineName_example", int64(123), []openapiclient.Model3rdPartySyntheticLocation{*openapiclient.NewModel3rdPartySyntheticLocation("Id_example", "Name_example")}, []openapiclient.Model3rdPartySyntheticMonitor{*openapiclient.NewModel3rdPartySyntheticMonitor("Id_example", "Title_example", []openapiclient.SyntheticTestLocation{*openapiclient.NewSyntheticTestLocation("Id_example")}, int32(123))}) // Model3rdPartySyntheticTests | The JSON body of the request. Contains third-party synthetic monitors, locations, and results.
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)

@@ -26,7 +26,7 @@ type SyntheticTestLocation struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSyntheticTestLocation(id string, ) *SyntheticTestLocation {
+func NewSyntheticTestLocation(id string) *SyntheticTestLocation {
 	this := SyntheticTestLocation{}
 	this.Id = id
 	return &this
@@ -42,7 +42,7 @@ func NewSyntheticTestLocationWithDefaults() *SyntheticTestLocation {
 
 // GetId returns the Id field value
 func (o *SyntheticTestLocation) GetId() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}

@@ -24,7 +24,7 @@ type Nodes struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewNodes(nodes []NodeCollectionElement, ) *Nodes {
+func NewNodes(nodes []NodeCollectionElement) *Nodes {
 	this := Nodes{}
 	this.Nodes = nodes
 	return &this
@@ -40,7 +40,7 @@ func NewNodesWithDefaults() *Nodes {
 
 // GetNodes returns the Nodes field value
 func (o *Nodes) GetNodes() []NodeCollectionElement {
-	if o == nil  {
+	if o == nil {
 		var ret []NodeCollectionElement
 		return ret
 	}

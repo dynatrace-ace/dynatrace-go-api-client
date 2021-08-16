@@ -24,8 +24,16 @@ type BrowserSyntheticMonitorUpdate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewBrowserSyntheticMonitorUpdate(keyPerformanceMetrics KeyPerformanceMetrics, ) *BrowserSyntheticMonitorUpdate {
+func NewBrowserSyntheticMonitorUpdate(keyPerformanceMetrics KeyPerformanceMetrics, frequencyMin int32, type_ string, name string, locations []string, enabled bool, script map[string]interface{}, tags []TagWithSourceInfo, manuallyAssignedApps []string) *BrowserSyntheticMonitorUpdate {
 	this := BrowserSyntheticMonitorUpdate{}
+	this.FrequencyMin = frequencyMin
+	this.Type = type_
+	this.Name = name
+	this.Locations = locations
+	this.Enabled = enabled
+	this.Script = script
+	this.Tags = tags
+	this.ManuallyAssignedApps = manuallyAssignedApps
 	this.KeyPerformanceMetrics = keyPerformanceMetrics
 	return &this
 }
@@ -40,7 +48,7 @@ func NewBrowserSyntheticMonitorUpdateWithDefaults() *BrowserSyntheticMonitorUpda
 
 // GetKeyPerformanceMetrics returns the KeyPerformanceMetrics field value
 func (o *BrowserSyntheticMonitorUpdate) GetKeyPerformanceMetrics() KeyPerformanceMetrics {
-	if o == nil  {
+	if o == nil {
 		var ret KeyPerformanceMetrics
 		return ret
 	}

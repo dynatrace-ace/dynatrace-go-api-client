@@ -34,7 +34,7 @@ type MaintenanceWindow struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMaintenanceWindow(type_ string, schedule MaintenanceWindowSchedule, ) *MaintenanceWindow {
+func NewMaintenanceWindow(type_ string, schedule MaintenanceWindowSchedule) *MaintenanceWindow {
 	this := MaintenanceWindow{}
 	this.Type = type_
 	this.Schedule = schedule
@@ -83,7 +83,7 @@ func (o *MaintenanceWindow) SetId(v string) {
 
 // GetType returns the Type field value
 func (o *MaintenanceWindow) GetType() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -235,7 +235,7 @@ func (o *MaintenanceWindow) SetScope(v MaintenanceWindowScope) {
 
 // GetSchedule returns the Schedule field value
 func (o *MaintenanceWindow) GetSchedule() MaintenanceWindowSchedule {
-	if o == nil  {
+	if o == nil {
 		var ret MaintenanceWindowSchedule
 		return ret
 	}

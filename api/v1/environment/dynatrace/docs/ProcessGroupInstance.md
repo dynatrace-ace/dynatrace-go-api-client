@@ -11,8 +11,8 @@ Name | Type | Description | Notes
 **FirstSeenTimestamp** | Pointer to **int64** | The timestamp of when the entity was first detected, in UTC milliseconds | [optional] 
 **LastSeenTimestamp** | Pointer to **int64** | The timestamp of when the entity was last detected, in UTC milliseconds | [optional] 
 **Tags** | Pointer to [**[]TagInfo**](TagInfo.md) | The list of entity tags. | [optional] 
-**ToRelationships** | Pointer to [**ProcessGroupInstanceToRelationships**](ProcessGroupInstance_toRelationships.md) |  | [optional] 
-**Metadata** | Pointer to [**ProcessGroupMetadata**](ProcessGroup_metadata.md) |  | [optional] 
+**ToRelationships** | Pointer to [**ProcessGroupInstanceToRelationships**](ProcessGroupInstanceToRelationships.md) |  | [optional] 
+**Metadata** | Pointer to [**ProcessGroupMetadata**](ProcessGroupMetadata.md) |  | [optional] 
 **AzureHostName** | Pointer to **string** |  | [optional] 
 **MonitoringState** | Pointer to [**MonitoringState**](MonitoringState.md) |  | [optional] 
 **Bitness** | Pointer to **string** |  | [optional] 
@@ -23,7 +23,7 @@ Name | Type | Description | Notes
 **AgentVersions** | Pointer to [**[]AgentVersion**](AgentVersion.md) | Versions of OneAgents currently running on the entity. | [optional] 
 **AzureSiteName** | Pointer to **string** |  | [optional] 
 **ManagementZones** | Pointer to [**[]EntityShortRepresentation**](EntityShortRepresentation.md) | The management zones that the entity is part of. | [optional] 
-**FromRelationships** | Pointer to [**ProcessGroupInstanceFromRelationships**](ProcessGroupInstance_fromRelationships.md) |  | [optional] 
+**FromRelationships** | Pointer to [**ProcessGroupInstanceFromRelationships**](ProcessGroupInstanceFromRelationships.md) |  | [optional] 
 
 ## Methods
 

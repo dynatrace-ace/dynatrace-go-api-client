@@ -28,7 +28,7 @@ type TagInfo struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTagInfo(context string, key string, ) *TagInfo {
+func NewTagInfo(context string, key string) *TagInfo {
 	this := TagInfo{}
 	this.Context = context
 	this.Key = key
@@ -45,7 +45,7 @@ func NewTagInfoWithDefaults() *TagInfo {
 
 // GetContext returns the Context field value
 func (o *TagInfo) GetContext() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -69,7 +69,7 @@ func (o *TagInfo) SetContext(v string) {
 
 // GetKey returns the Key field value
 func (o *TagInfo) GetKey() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}

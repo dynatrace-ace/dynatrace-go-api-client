@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **FirstSeenTimestamp** | Pointer to **int64** | The timestamp of when the entity was first detected, in UTC milliseconds | [optional] 
 **LastSeenTimestamp** | Pointer to **int64** | The timestamp of when the entity was last detected, in UTC milliseconds | [optional] 
 **Tags** | Pointer to [**[]TagInfo**](TagInfo.md) | The list of entity tags. | [optional] 
-**ToRelationships** | Pointer to [**HostToRelationships**](Host_toRelationships.md) |  | [optional] 
+**ToRelationships** | Pointer to [**HostToRelationships**](HostToRelationships.md) |  | [optional] 
 **OsVersion** | Pointer to **string** |  | [optional] 
 **LogicalCpus** | Pointer to **int32** | The AIX instance logical CPU count. | [optional] 
 **AzureVmName** | Pointer to **string** |  | [optional] 
@@ -63,7 +63,7 @@ Name | Type | Description | Notes
 **BoshAvailabilityZone** | Pointer to **string** | The Cloud Foundry BOSH availability zone. | [optional] 
 **CloudType** | Pointer to **string** |  | [optional] 
 **PublicHostName** | Pointer to **string** |  | [optional] 
-**ConsumedHostUnits** | Pointer to **string** |  | [optional] 
+**ConsumedHostUnits** | Pointer to **float32** |  | [optional] 
 **HostGroup** | Pointer to [**HostGroup**](HostGroup.md) |  | [optional] 
 **SimultaneousMultithreading** | Pointer to **int32** | The AIX instance simultaneous threads count. | [optional] 
 **BoshStemcellVersion** | Pointer to **string** | The Cloud Foundry BOSH stemcell version. | [optional] 
@@ -85,7 +85,7 @@ Name | Type | Description | Notes
 **HypervisorType** | Pointer to **string** |  | [optional] 
 **IpAddresses** | Pointer to **[]string** |  | [optional] 
 **LocalIp** | Pointer to **string** |  | [optional] 
-**FromRelationships** | Pointer to [**HostFromRelationships**](Host_fromRelationships.md) |  | [optional] 
+**FromRelationships** | Pointer to [**HostFromRelationships**](HostFromRelationships.md) |  | [optional] 
 
 ## Methods
 
@@ -1583,20 +1583,20 @@ HasPublicHostName returns a boolean if a field has been set.
 
 ### GetConsumedHostUnits
 
-`func (o *Host) GetConsumedHostUnits() string`
+`func (o *Host) GetConsumedHostUnits() float32`
 
 GetConsumedHostUnits returns the ConsumedHostUnits field if non-nil, zero value otherwise.
 
 ### GetConsumedHostUnitsOk
 
-`func (o *Host) GetConsumedHostUnitsOk() (*string, bool)`
+`func (o *Host) GetConsumedHostUnitsOk() (*float32, bool)`
 
 GetConsumedHostUnitsOk returns a tuple with the ConsumedHostUnits field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetConsumedHostUnits
 
-`func (o *Host) SetConsumedHostUnits(v string)`
+`func (o *Host) SetConsumedHostUnits(v float32)`
 
 SetConsumedHostUnits sets ConsumedHostUnits field to given value.
 

@@ -50,7 +50,7 @@ type Node struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewNode(entityId string, hostname string, ips []string, version string, browserMonitorsEnabled bool, activeGateVersion string, oneAgentRoutingEnabled bool, operatingSystem string, autoUpdateEnabled bool, status string, playerVersion string, healthCheckStatus string, browserType string, browserVersion string, ) *Node {
+func NewNode(entityId string, hostname string, ips []string, version string, browserMonitorsEnabled bool, activeGateVersion string, oneAgentRoutingEnabled bool, operatingSystem string, autoUpdateEnabled bool, status string, playerVersion string, healthCheckStatus string, browserType string, browserVersion string) *Node {
 	this := Node{}
 	this.EntityId = entityId
 	this.Hostname = hostname
@@ -79,7 +79,7 @@ func NewNodeWithDefaults() *Node {
 
 // GetEntityId returns the EntityId field value
 func (o *Node) GetEntityId() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -103,7 +103,7 @@ func (o *Node) SetEntityId(v string) {
 
 // GetHostname returns the Hostname field value
 func (o *Node) GetHostname() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -127,7 +127,7 @@ func (o *Node) SetHostname(v string) {
 
 // GetIps returns the Ips field value
 func (o *Node) GetIps() []string {
-	if o == nil  {
+	if o == nil {
 		var ret []string
 		return ret
 	}
@@ -151,7 +151,7 @@ func (o *Node) SetIps(v []string) {
 
 // GetVersion returns the Version field value
 func (o *Node) GetVersion() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -175,7 +175,7 @@ func (o *Node) SetVersion(v string) {
 
 // GetBrowserMonitorsEnabled returns the BrowserMonitorsEnabled field value
 func (o *Node) GetBrowserMonitorsEnabled() bool {
-	if o == nil  {
+	if o == nil {
 		var ret bool
 		return ret
 	}
@@ -199,7 +199,7 @@ func (o *Node) SetBrowserMonitorsEnabled(v bool) {
 
 // GetActiveGateVersion returns the ActiveGateVersion field value
 func (o *Node) GetActiveGateVersion() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -223,7 +223,7 @@ func (o *Node) SetActiveGateVersion(v string) {
 
 // GetOneAgentRoutingEnabled returns the OneAgentRoutingEnabled field value
 func (o *Node) GetOneAgentRoutingEnabled() bool {
-	if o == nil  {
+	if o == nil {
 		var ret bool
 		return ret
 	}
@@ -247,7 +247,7 @@ func (o *Node) SetOneAgentRoutingEnabled(v bool) {
 
 // GetOperatingSystem returns the OperatingSystem field value
 func (o *Node) GetOperatingSystem() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -271,7 +271,7 @@ func (o *Node) SetOperatingSystem(v string) {
 
 // GetAutoUpdateEnabled returns the AutoUpdateEnabled field value
 func (o *Node) GetAutoUpdateEnabled() bool {
-	if o == nil  {
+	if o == nil {
 		var ret bool
 		return ret
 	}
@@ -295,7 +295,7 @@ func (o *Node) SetAutoUpdateEnabled(v bool) {
 
 // GetStatus returns the Status field value
 func (o *Node) GetStatus() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -319,7 +319,7 @@ func (o *Node) SetStatus(v string) {
 
 // GetPlayerVersion returns the PlayerVersion field value
 func (o *Node) GetPlayerVersion() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -343,7 +343,7 @@ func (o *Node) SetPlayerVersion(v string) {
 
 // GetHealthCheckStatus returns the HealthCheckStatus field value
 func (o *Node) GetHealthCheckStatus() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -367,7 +367,7 @@ func (o *Node) SetHealthCheckStatus(v string) {
 
 // GetBrowserType returns the BrowserType field value
 func (o *Node) GetBrowserType() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -391,7 +391,7 @@ func (o *Node) SetBrowserType(v string) {
 
 // GetBrowserVersion returns the BrowserVersion field value
 func (o *Node) GetBrowserVersion() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}

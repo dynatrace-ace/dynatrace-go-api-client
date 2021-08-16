@@ -24,7 +24,7 @@ type Monitors struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitors(monitors []MonitorCollectionElement, ) *Monitors {
+func NewMonitors(monitors []MonitorCollectionElement) *Monitors {
 	this := Monitors{}
 	this.Monitors = monitors
 	return &this
@@ -40,7 +40,7 @@ func NewMonitorsWithDefaults() *Monitors {
 
 // GetMonitors returns the Monitors field value
 func (o *Monitors) GetMonitors() []MonitorCollectionElement {
-	if o == nil  {
+	if o == nil {
 		var ret []MonitorCollectionElement
 		return ret
 	}

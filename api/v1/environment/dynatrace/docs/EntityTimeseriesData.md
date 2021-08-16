@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **TimeseriesId** | **string** | The ID of the metric, where you want to post data points. | 
 **Dimensions** | Pointer to **map[string]string** | Dimensions of the data points you&#39;re posting.   The key of the metric dimension must be defined earlier in the metric definition. | [optional] 
-**DataPoints** | [**[][]float32**](array.md) | List of data points.   Each data point is an array, containing the timestamp and the value.   Timestamp is UTC milliseconds reported as a number, for example: &#x60;1520523365557&#x60;.   You have the guaranteed timeframe of **30 minutes** into the past.   A custom metric must be registered **before** you can report a metric value. Therefore, the timestamp for reporting a value must be after the registration time of the metric. | 
+**DataPoints** | **[][]float32** | List of data points.   Each data point is an array, containing the timestamp and the value.   Timestamp is UTC milliseconds reported as a number, for example: &#x60;1520523365557&#x60;.   You have the guaranteed timeframe of **30 minutes** into the past.   A custom metric must be registered **before** you can report a metric value. Therefore, the timestamp for reporting a value must be after the registration time of the metric. | 
 
 ## Methods
 

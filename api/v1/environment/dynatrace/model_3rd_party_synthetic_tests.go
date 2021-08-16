@@ -34,7 +34,7 @@ type Model3rdPartySyntheticTests struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewModel3rdPartySyntheticTests(syntheticEngineName string, messageTimestamp int64, locations []Model3rdPartySyntheticLocation, tests []Model3rdPartySyntheticMonitor, ) *Model3rdPartySyntheticTests {
+func NewModel3rdPartySyntheticTests(syntheticEngineName string, messageTimestamp int64, locations []Model3rdPartySyntheticLocation, tests []Model3rdPartySyntheticMonitor) *Model3rdPartySyntheticTests {
 	this := Model3rdPartySyntheticTests{}
 	this.SyntheticEngineName = syntheticEngineName
 	this.MessageTimestamp = messageTimestamp
@@ -53,7 +53,7 @@ func NewModel3rdPartySyntheticTestsWithDefaults() *Model3rdPartySyntheticTests {
 
 // GetSyntheticEngineName returns the SyntheticEngineName field value
 func (o *Model3rdPartySyntheticTests) GetSyntheticEngineName() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -109,7 +109,7 @@ func (o *Model3rdPartySyntheticTests) SetSyntheticEngineIconUrl(v string) {
 
 // GetMessageTimestamp returns the MessageTimestamp field value
 func (o *Model3rdPartySyntheticTests) GetMessageTimestamp() int64 {
-	if o == nil  {
+	if o == nil {
 		var ret int64
 		return ret
 	}
@@ -133,7 +133,7 @@ func (o *Model3rdPartySyntheticTests) SetMessageTimestamp(v int64) {
 
 // GetLocations returns the Locations field value
 func (o *Model3rdPartySyntheticTests) GetLocations() []Model3rdPartySyntheticLocation {
-	if o == nil  {
+	if o == nil {
 		var ret []Model3rdPartySyntheticLocation
 		return ret
 	}
@@ -157,7 +157,7 @@ func (o *Model3rdPartySyntheticTests) SetLocations(v []Model3rdPartySyntheticLoc
 
 // GetTests returns the Tests field value
 func (o *Model3rdPartySyntheticTests) GetTests() []Model3rdPartySyntheticMonitor {
-	if o == nil  {
+	if o == nil {
 		var ret []Model3rdPartySyntheticMonitor
 		return ret
 	}

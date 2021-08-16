@@ -29,7 +29,7 @@ type Model3rdPartySyntheticTestResult struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewModel3rdPartySyntheticTestResult(id string, locationResults []Model3rdPartySyntheticLocationTestResult, ) *Model3rdPartySyntheticTestResult {
+func NewModel3rdPartySyntheticTestResult(id string, locationResults []Model3rdPartySyntheticLocationTestResult) *Model3rdPartySyntheticTestResult {
 	this := Model3rdPartySyntheticTestResult{}
 	this.Id = id
 	this.LocationResults = locationResults
@@ -46,7 +46,7 @@ func NewModel3rdPartySyntheticTestResultWithDefaults() *Model3rdPartySyntheticTe
 
 // GetId returns the Id field value
 func (o *Model3rdPartySyntheticTestResult) GetId() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -134,7 +134,7 @@ func (o *Model3rdPartySyntheticTestResult) SetTotalStepCount(v int32) {
 
 // GetLocationResults returns the LocationResults field value
 func (o *Model3rdPartySyntheticTestResult) GetLocationResults() []Model3rdPartySyntheticLocationTestResult {
-	if o == nil  {
+	if o == nil {
 		var ret []Model3rdPartySyntheticLocationTestResult
 		return ret
 	}

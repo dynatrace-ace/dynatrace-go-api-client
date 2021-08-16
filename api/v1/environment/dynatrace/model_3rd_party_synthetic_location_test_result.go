@@ -34,7 +34,7 @@ type Model3rdPartySyntheticLocationTestResult struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewModel3rdPartySyntheticLocationTestResult(id string, startTimestamp int64, success bool, ) *Model3rdPartySyntheticLocationTestResult {
+func NewModel3rdPartySyntheticLocationTestResult(id string, startTimestamp int64, success bool) *Model3rdPartySyntheticLocationTestResult {
 	this := Model3rdPartySyntheticLocationTestResult{}
 	this.Id = id
 	this.StartTimestamp = startTimestamp
@@ -52,7 +52,7 @@ func NewModel3rdPartySyntheticLocationTestResultWithDefaults() *Model3rdPartySyn
 
 // GetId returns the Id field value
 func (o *Model3rdPartySyntheticLocationTestResult) GetId() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -76,7 +76,7 @@ func (o *Model3rdPartySyntheticLocationTestResult) SetId(v string) {
 
 // GetStartTimestamp returns the StartTimestamp field value
 func (o *Model3rdPartySyntheticLocationTestResult) GetStartTimestamp() int64 {
-	if o == nil  {
+	if o == nil {
 		var ret int64
 		return ret
 	}
@@ -132,7 +132,7 @@ func (o *Model3rdPartySyntheticLocationTestResult) SetSuccessRate(v float64) {
 
 // GetSuccess returns the Success field value
 func (o *Model3rdPartySyntheticLocationTestResult) GetSuccess() bool {
-	if o == nil  {
+	if o == nil {
 		var ret bool
 		return ret
 	}

@@ -36,7 +36,7 @@ type Model3rdPartyEventOpenNotification struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewModel3rdPartyEventOpenNotification(testId string, eventId string, name string, eventType string, reason string, startTimestamp int64, locationIds []string, ) *Model3rdPartyEventOpenNotification {
+func NewModel3rdPartyEventOpenNotification(testId string, eventId string, name string, eventType string, reason string, startTimestamp int64, locationIds []string) *Model3rdPartyEventOpenNotification {
 	this := Model3rdPartyEventOpenNotification{}
 	this.TestId = testId
 	this.EventId = eventId
@@ -58,7 +58,7 @@ func NewModel3rdPartyEventOpenNotificationWithDefaults() *Model3rdPartyEventOpen
 
 // GetTestId returns the TestId field value
 func (o *Model3rdPartyEventOpenNotification) GetTestId() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -82,7 +82,7 @@ func (o *Model3rdPartyEventOpenNotification) SetTestId(v string) {
 
 // GetEventId returns the EventId field value
 func (o *Model3rdPartyEventOpenNotification) GetEventId() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -106,7 +106,7 @@ func (o *Model3rdPartyEventOpenNotification) SetEventId(v string) {
 
 // GetName returns the Name field value
 func (o *Model3rdPartyEventOpenNotification) GetName() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -130,7 +130,7 @@ func (o *Model3rdPartyEventOpenNotification) SetName(v string) {
 
 // GetEventType returns the EventType field value
 func (o *Model3rdPartyEventOpenNotification) GetEventType() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -154,7 +154,7 @@ func (o *Model3rdPartyEventOpenNotification) SetEventType(v string) {
 
 // GetReason returns the Reason field value
 func (o *Model3rdPartyEventOpenNotification) GetReason() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -178,7 +178,7 @@ func (o *Model3rdPartyEventOpenNotification) SetReason(v string) {
 
 // GetStartTimestamp returns the StartTimestamp field value
 func (o *Model3rdPartyEventOpenNotification) GetStartTimestamp() int64 {
-	if o == nil  {
+	if o == nil {
 		var ret int64
 		return ret
 	}
@@ -202,7 +202,7 @@ func (o *Model3rdPartyEventOpenNotification) SetStartTimestamp(v int64) {
 
 // GetLocationIds returns the LocationIds field value
 func (o *Model3rdPartyEventOpenNotification) GetLocationIds() []string {
-	if o == nil  {
+	if o == nil {
 		var ret []string
 		return ret
 	}

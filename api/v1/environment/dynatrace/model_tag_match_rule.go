@@ -26,7 +26,7 @@ type TagMatchRule struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTagMatchRule(meTypes []string, tags []TagInfo, ) *TagMatchRule {
+func NewTagMatchRule(meTypes []string, tags []TagInfo) *TagMatchRule {
 	this := TagMatchRule{}
 	this.MeTypes = meTypes
 	this.Tags = tags
@@ -43,7 +43,7 @@ func NewTagMatchRuleWithDefaults() *TagMatchRule {
 
 // GetMeTypes returns the MeTypes field value
 func (o *TagMatchRule) GetMeTypes() []string {
-	if o == nil  {
+	if o == nil {
 		var ret []string
 		return ret
 	}
@@ -67,7 +67,7 @@ func (o *TagMatchRule) SetMeTypes(v []string) {
 
 // GetTags returns the Tags field value
 func (o *TagMatchRule) GetTags() []TagInfo {
-	if o == nil  {
+	if o == nil {
 		var ret []TagInfo
 		return ret
 	}

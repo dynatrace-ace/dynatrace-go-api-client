@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Problems** | Pointer to [**[]Problem**](Problem.md) | The list of problems and their details.   Contains all problems within specified timeframe, open and closed. | [optional] 
-**Monitored** | Pointer to [**ProblemFeedQueryResultMonitored**](ProblemFeedQueryResult_monitored.md) |  | [optional] 
+**Monitored** | Pointer to [**ProblemFeedQueryResultMonitored**](ProblemFeedQueryResultMonitored.md) |  | [optional] 
 
 ## Methods
 

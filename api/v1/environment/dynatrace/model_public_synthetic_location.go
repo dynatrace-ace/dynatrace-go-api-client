@@ -35,8 +35,13 @@ type PublicSyntheticLocation struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewPublicSyntheticLocation(cloudPlatform string, ips []string, stage string, browserType string, browserVersion string, ) *PublicSyntheticLocation {
+func NewPublicSyntheticLocation(cloudPlatform string, ips []string, stage string, browserType string, browserVersion string, entityId string, type_ string, name string, latitude float64, longitude float64) *PublicSyntheticLocation {
 	this := PublicSyntheticLocation{}
+	this.EntityId = entityId
+	this.Type = type_
+	this.Name = name
+	this.Latitude = latitude
+	this.Longitude = longitude
 	this.CloudPlatform = cloudPlatform
 	this.Ips = ips
 	this.Stage = stage
@@ -55,7 +60,7 @@ func NewPublicSyntheticLocationWithDefaults() *PublicSyntheticLocation {
 
 // GetCloudPlatform returns the CloudPlatform field value
 func (o *PublicSyntheticLocation) GetCloudPlatform() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -79,7 +84,7 @@ func (o *PublicSyntheticLocation) SetCloudPlatform(v string) {
 
 // GetIps returns the Ips field value
 func (o *PublicSyntheticLocation) GetIps() []string {
-	if o == nil  {
+	if o == nil {
 		var ret []string
 		return ret
 	}
@@ -103,7 +108,7 @@ func (o *PublicSyntheticLocation) SetIps(v []string) {
 
 // GetStage returns the Stage field value
 func (o *PublicSyntheticLocation) GetStage() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -127,7 +132,7 @@ func (o *PublicSyntheticLocation) SetStage(v string) {
 
 // GetBrowserType returns the BrowserType field value
 func (o *PublicSyntheticLocation) GetBrowserType() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -151,7 +156,7 @@ func (o *PublicSyntheticLocation) SetBrowserType(v string) {
 
 // GetBrowserVersion returns the BrowserVersion field value
 func (o *PublicSyntheticLocation) GetBrowserVersion() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}

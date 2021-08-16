@@ -29,7 +29,7 @@ type SyntheticMonitorStepResult struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSyntheticMonitorStepResult(id int64, startTimestamp int64, ) *SyntheticMonitorStepResult {
+func NewSyntheticMonitorStepResult(id int64, startTimestamp int64) *SyntheticMonitorStepResult {
 	this := SyntheticMonitorStepResult{}
 	this.Id = id
 	this.StartTimestamp = startTimestamp
@@ -46,7 +46,7 @@ func NewSyntheticMonitorStepResultWithDefaults() *SyntheticMonitorStepResult {
 
 // GetId returns the Id field value
 func (o *SyntheticMonitorStepResult) GetId() int64 {
-	if o == nil  {
+	if o == nil {
 		var ret int64
 		return ret
 	}
@@ -70,7 +70,7 @@ func (o *SyntheticMonitorStepResult) SetId(v int64) {
 
 // GetStartTimestamp returns the StartTimestamp field value
 func (o *SyntheticMonitorStepResult) GetStartTimestamp() int64 {
-	if o == nil  {
+	if o == nil {
 		var ret int64
 		return ret
 	}

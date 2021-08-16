@@ -36,7 +36,7 @@ type EntityBaselineData struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEntityBaselineData(entityId string, ) *EntityBaselineData {
+func NewEntityBaselineData(entityId string) *EntityBaselineData {
 	this := EntityBaselineData{}
 	this.EntityId = entityId
 	return &this
@@ -52,7 +52,7 @@ func NewEntityBaselineDataWithDefaults() *EntityBaselineData {
 
 // GetEntityId returns the EntityId field value
 func (o *EntityBaselineData) GetEntityId() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}

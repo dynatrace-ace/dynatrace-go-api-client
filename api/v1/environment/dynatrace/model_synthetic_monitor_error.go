@@ -26,7 +26,7 @@ type SyntheticMonitorError struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSyntheticMonitorError(code int32, message string, ) *SyntheticMonitorError {
+func NewSyntheticMonitorError(code int32, message string) *SyntheticMonitorError {
 	this := SyntheticMonitorError{}
 	this.Code = code
 	this.Message = message
@@ -43,7 +43,7 @@ func NewSyntheticMonitorErrorWithDefaults() *SyntheticMonitorError {
 
 // GetCode returns the Code field value
 func (o *SyntheticMonitorError) GetCode() int32 {
-	if o == nil  {
+	if o == nil {
 		var ret int32
 		return ret
 	}
@@ -67,7 +67,7 @@ func (o *SyntheticMonitorError) SetCode(v int32) {
 
 // GetMessage returns the Message field value
 func (o *SyntheticMonitorError) GetMessage() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}

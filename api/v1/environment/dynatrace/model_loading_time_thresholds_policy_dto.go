@@ -26,7 +26,7 @@ type LoadingTimeThresholdsPolicyDto struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewLoadingTimeThresholdsPolicyDto(enabled bool, ) *LoadingTimeThresholdsPolicyDto {
+func NewLoadingTimeThresholdsPolicyDto(enabled bool) *LoadingTimeThresholdsPolicyDto {
 	this := LoadingTimeThresholdsPolicyDto{}
 	this.Enabled = enabled
 	return &this
@@ -42,7 +42,7 @@ func NewLoadingTimeThresholdsPolicyDtoWithDefaults() *LoadingTimeThresholdsPolic
 
 // GetEnabled returns the Enabled field value
 func (o *LoadingTimeThresholdsPolicyDto) GetEnabled() bool {
-	if o == nil  {
+	if o == nil {
 		var ret bool
 		return ret
 	}

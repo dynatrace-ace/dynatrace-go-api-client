@@ -29,7 +29,7 @@ type OutageHandlingPolicy struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewOutageHandlingPolicy(globalOutage bool, localOutage bool, localOutagePolicy LocalOutagePolicy, ) *OutageHandlingPolicy {
+func NewOutageHandlingPolicy(globalOutage bool, localOutage bool, localOutagePolicy LocalOutagePolicy) *OutageHandlingPolicy {
 	this := OutageHandlingPolicy{}
 	this.GlobalOutage = globalOutage
 	this.LocalOutage = localOutage
@@ -51,7 +51,7 @@ func NewOutageHandlingPolicyWithDefaults() *OutageHandlingPolicy {
 
 // GetGlobalOutage returns the GlobalOutage field value
 func (o *OutageHandlingPolicy) GetGlobalOutage() bool {
-	if o == nil  {
+	if o == nil {
 		var ret bool
 		return ret
 	}
@@ -75,7 +75,7 @@ func (o *OutageHandlingPolicy) SetGlobalOutage(v bool) {
 
 // GetLocalOutage returns the LocalOutage field value
 func (o *OutageHandlingPolicy) GetLocalOutage() bool {
-	if o == nil  {
+	if o == nil {
 		var ret bool
 		return ret
 	}
@@ -99,7 +99,7 @@ func (o *OutageHandlingPolicy) SetLocalOutage(v bool) {
 
 // GetLocalOutagePolicy returns the LocalOutagePolicy field value
 func (o *OutageHandlingPolicy) GetLocalOutagePolicy() LocalOutagePolicy {
-	if o == nil  {
+	if o == nil {
 		var ret LocalOutagePolicy
 		return ret
 	}

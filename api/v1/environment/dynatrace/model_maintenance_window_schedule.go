@@ -31,7 +31,7 @@ type MaintenanceWindowSchedule struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMaintenanceWindowSchedule(type_ string, maintenanceStart string, maintenanceEnd string, ) *MaintenanceWindowSchedule {
+func NewMaintenanceWindowSchedule(type_ string, maintenanceStart string, maintenanceEnd string) *MaintenanceWindowSchedule {
 	this := MaintenanceWindowSchedule{}
 	this.Type = type_
 	this.MaintenanceStart = maintenanceStart
@@ -49,7 +49,7 @@ func NewMaintenanceWindowScheduleWithDefaults() *MaintenanceWindowSchedule {
 
 // GetType returns the Type field value
 func (o *MaintenanceWindowSchedule) GetType() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -105,7 +105,7 @@ func (o *MaintenanceWindowSchedule) SetTimezoneId(v string) {
 
 // GetMaintenanceStart returns the MaintenanceStart field value
 func (o *MaintenanceWindowSchedule) GetMaintenanceStart() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -129,7 +129,7 @@ func (o *MaintenanceWindowSchedule) SetMaintenanceStart(v string) {
 
 // GetMaintenanceEnd returns the MaintenanceEnd field value
 func (o *MaintenanceWindowSchedule) GetMaintenanceEnd() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}

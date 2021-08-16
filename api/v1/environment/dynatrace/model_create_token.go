@@ -27,7 +27,7 @@ type CreateToken struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCreateToken(name string, scopes []string, ) *CreateToken {
+func NewCreateToken(name string, scopes []string) *CreateToken {
 	this := CreateToken{}
 	this.Name = name
 	this.Scopes = scopes
@@ -44,7 +44,7 @@ func NewCreateTokenWithDefaults() *CreateToken {
 
 // GetName returns the Name field value
 func (o *CreateToken) GetName() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -100,7 +100,7 @@ func (o *CreateToken) SetExpiresIn(v Duration) {
 
 // GetScopes returns the Scopes field value
 func (o *CreateToken) GetScopes() []string {
-	if o == nil  {
+	if o == nil {
 		var ret []string
 		return ret
 	}

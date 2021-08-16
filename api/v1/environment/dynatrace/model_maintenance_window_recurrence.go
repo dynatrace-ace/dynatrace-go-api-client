@@ -30,7 +30,7 @@ type MaintenanceWindowRecurrence struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMaintenanceWindowRecurrence(start string, duration int32, ) *MaintenanceWindowRecurrence {
+func NewMaintenanceWindowRecurrence(start string, duration int32) *MaintenanceWindowRecurrence {
 	this := MaintenanceWindowRecurrence{}
 	this.Start = start
 	this.Duration = duration
@@ -111,7 +111,7 @@ func (o *MaintenanceWindowRecurrence) SetDayOfMonth(v int32) {
 
 // GetStart returns the Start field value
 func (o *MaintenanceWindowRecurrence) GetStart() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -135,7 +135,7 @@ func (o *MaintenanceWindowRecurrence) SetStart(v string) {
 
 // GetDuration returns the Duration field value
 func (o *MaintenanceWindowRecurrence) GetDuration() int32 {
-	if o == nil  {
+	if o == nil {
 		var ret int32
 		return ret
 	}

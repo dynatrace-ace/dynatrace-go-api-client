@@ -47,7 +47,7 @@ type PrivateSyntheticLocationUpdate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewPrivateSyntheticLocationUpdate(nodes []string, name string, latitude float64, longitude float64, ) *PrivateSyntheticLocationUpdate {
+func NewPrivateSyntheticLocationUpdate(nodes []string, name string, latitude float64, longitude float64) *PrivateSyntheticLocationUpdate {
 	this := PrivateSyntheticLocationUpdate{}
 	this.Nodes = nodes
 	this.Name = name
@@ -66,7 +66,7 @@ func NewPrivateSyntheticLocationUpdateWithDefaults() *PrivateSyntheticLocationUp
 
 // GetNodes returns the Nodes field value
 func (o *PrivateSyntheticLocationUpdate) GetNodes() []string {
-	if o == nil  {
+	if o == nil {
 		var ret []string
 		return ret
 	}
@@ -90,7 +90,7 @@ func (o *PrivateSyntheticLocationUpdate) SetNodes(v []string) {
 
 // GetName returns the Name field value
 func (o *PrivateSyntheticLocationUpdate) GetName() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -210,7 +210,7 @@ func (o *PrivateSyntheticLocationUpdate) SetCity(v string) {
 
 // GetLatitude returns the Latitude field value
 func (o *PrivateSyntheticLocationUpdate) GetLatitude() float64 {
-	if o == nil  {
+	if o == nil {
 		var ret float64
 		return ret
 	}
@@ -234,7 +234,7 @@ func (o *PrivateSyntheticLocationUpdate) SetLatitude(v float64) {
 
 // GetLongitude returns the Longitude field value
 func (o *PrivateSyntheticLocationUpdate) GetLongitude() float64 {
-	if o == nil  {
+	if o == nil {
 		var ret float64
 		return ret
 	}

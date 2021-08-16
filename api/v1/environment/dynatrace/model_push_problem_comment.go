@@ -28,7 +28,7 @@ type PushProblemComment struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewPushProblemComment(comment string, user string, ) *PushProblemComment {
+func NewPushProblemComment(comment string, user string) *PushProblemComment {
 	this := PushProblemComment{}
 	this.Comment = comment
 	this.User = user
@@ -45,7 +45,7 @@ func NewPushProblemCommentWithDefaults() *PushProblemComment {
 
 // GetComment returns the Comment field value
 func (o *PushProblemComment) GetComment() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -69,7 +69,7 @@ func (o *PushProblemComment) SetComment(v string) {
 
 // GetUser returns the User field value
 func (o *PushProblemComment) GetUser() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}

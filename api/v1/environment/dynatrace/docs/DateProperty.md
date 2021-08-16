@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Key** | Pointer to **string** | The custom key of the property. | [optional] 
-**Value** | Pointer to [**time.Time**](time.Time.md) | The date value of the property. | [optional] 
+**Value** | Pointer to **time.Time** | The date value of the property. | [optional] 
 
 ## Methods
 

@@ -29,7 +29,7 @@ type UniversalTag struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUniversalTag(key string, ) *UniversalTag {
+func NewUniversalTag(key string) *UniversalTag {
 	this := UniversalTag{}
 	this.Key = key
 	return &this
@@ -109,7 +109,7 @@ func (o *UniversalTag) SetValue(v string) {
 
 // GetKey returns the Key field value
 func (o *UniversalTag) GetKey() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}

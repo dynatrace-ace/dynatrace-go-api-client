@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Id** | **string** | The ID of the third-party synthetic monitor. | 
 **ScheduleIntervalInSeconds** | Pointer to **int32** |  | [optional] 
 **TotalStepCount** | Pointer to **int32** | Number of steps in the monitor. Defaults to number of SyntheticTestSteps. | [optional] 
-**LocationResults** | [**[]Model3rdPartySyntheticLocationTestResult**](3rdPartySyntheticLocationTestResult.md) | Results of third-party monitor executions per location. | 
+**LocationResults** | [**[]Model3rdPartySyntheticLocationTestResult**](Model3rdPartySyntheticLocationTestResult.md) | Results of third-party monitor executions per location. | 
 
 ## Methods
 

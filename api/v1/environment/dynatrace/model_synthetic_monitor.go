@@ -47,7 +47,7 @@ type SyntheticMonitor struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSyntheticMonitor(entityId string, name string, frequencyMin int32, enabled bool, type_ string, createdFrom string, script map[string]interface{}, locations []string, tags []TagWithSourceInfo, managementZones []ManagementZoneDto, automaticallyAssignedApps []string, manuallyAssignedApps []string, ) *SyntheticMonitor {
+func NewSyntheticMonitor(entityId string, name string, frequencyMin int32, enabled bool, type_ string, createdFrom string, script map[string]interface{}, locations []string, tags []TagWithSourceInfo, managementZones []ManagementZoneDto, automaticallyAssignedApps []string, manuallyAssignedApps []string) *SyntheticMonitor {
 	this := SyntheticMonitor{}
 	this.EntityId = entityId
 	this.Name = name
@@ -74,7 +74,7 @@ func NewSyntheticMonitorWithDefaults() *SyntheticMonitor {
 
 // GetEntityId returns the EntityId field value
 func (o *SyntheticMonitor) GetEntityId() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -98,7 +98,7 @@ func (o *SyntheticMonitor) SetEntityId(v string) {
 
 // GetName returns the Name field value
 func (o *SyntheticMonitor) GetName() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -122,7 +122,7 @@ func (o *SyntheticMonitor) SetName(v string) {
 
 // GetFrequencyMin returns the FrequencyMin field value
 func (o *SyntheticMonitor) GetFrequencyMin() int32 {
-	if o == nil  {
+	if o == nil {
 		var ret int32
 		return ret
 	}
@@ -146,7 +146,7 @@ func (o *SyntheticMonitor) SetFrequencyMin(v int32) {
 
 // GetEnabled returns the Enabled field value
 func (o *SyntheticMonitor) GetEnabled() bool {
-	if o == nil  {
+	if o == nil {
 		var ret bool
 		return ret
 	}
@@ -170,7 +170,7 @@ func (o *SyntheticMonitor) SetEnabled(v bool) {
 
 // GetType returns the Type field value
 func (o *SyntheticMonitor) GetType() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -194,7 +194,7 @@ func (o *SyntheticMonitor) SetType(v string) {
 
 // GetCreatedFrom returns the CreatedFrom field value
 func (o *SyntheticMonitor) GetCreatedFrom() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -218,7 +218,7 @@ func (o *SyntheticMonitor) SetCreatedFrom(v string) {
 
 // GetScript returns the Script field value
 func (o *SyntheticMonitor) GetScript() map[string]interface{} {
-	if o == nil  {
+	if o == nil {
 		var ret map[string]interface{}
 		return ret
 	}
@@ -242,7 +242,7 @@ func (o *SyntheticMonitor) SetScript(v map[string]interface{}) {
 
 // GetLocations returns the Locations field value
 func (o *SyntheticMonitor) GetLocations() []string {
-	if o == nil  {
+	if o == nil {
 		var ret []string
 		return ret
 	}
@@ -298,7 +298,7 @@ func (o *SyntheticMonitor) SetAnomalyDetection(v AnomalyDetection) {
 
 // GetTags returns the Tags field value
 func (o *SyntheticMonitor) GetTags() []TagWithSourceInfo {
-	if o == nil  {
+	if o == nil {
 		var ret []TagWithSourceInfo
 		return ret
 	}
@@ -322,7 +322,7 @@ func (o *SyntheticMonitor) SetTags(v []TagWithSourceInfo) {
 
 // GetManagementZones returns the ManagementZones field value
 func (o *SyntheticMonitor) GetManagementZones() []ManagementZoneDto {
-	if o == nil  {
+	if o == nil {
 		var ret []ManagementZoneDto
 		return ret
 	}
@@ -346,7 +346,7 @@ func (o *SyntheticMonitor) SetManagementZones(v []ManagementZoneDto) {
 
 // GetAutomaticallyAssignedApps returns the AutomaticallyAssignedApps field value
 func (o *SyntheticMonitor) GetAutomaticallyAssignedApps() []string {
-	if o == nil  {
+	if o == nil {
 		var ret []string
 		return ret
 	}
@@ -370,7 +370,7 @@ func (o *SyntheticMonitor) SetAutomaticallyAssignedApps(v []string) {
 
 // GetManuallyAssignedApps returns the ManuallyAssignedApps field value
 func (o *SyntheticMonitor) GetManuallyAssignedApps() []string {
-	if o == nil  {
+	if o == nil {
 		var ret []string
 		return ret
 	}

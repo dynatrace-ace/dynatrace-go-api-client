@@ -26,7 +26,7 @@ type KeyPerformanceMetrics struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewKeyPerformanceMetrics(loadActionKpm string, xhrActionKpm string, ) *KeyPerformanceMetrics {
+func NewKeyPerformanceMetrics(loadActionKpm string, xhrActionKpm string) *KeyPerformanceMetrics {
 	this := KeyPerformanceMetrics{}
 	this.LoadActionKpm = loadActionKpm
 	this.XhrActionKpm = xhrActionKpm
@@ -43,7 +43,7 @@ func NewKeyPerformanceMetricsWithDefaults() *KeyPerformanceMetrics {
 
 // GetLoadActionKpm returns the LoadActionKpm field value
 func (o *KeyPerformanceMetrics) GetLoadActionKpm() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -67,7 +67,7 @@ func (o *KeyPerformanceMetrics) SetLoadActionKpm(v string) {
 
 // GetXhrActionKpm returns the XhrActionKpm field value
 func (o *KeyPerformanceMetrics) GetXhrActionKpm() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}

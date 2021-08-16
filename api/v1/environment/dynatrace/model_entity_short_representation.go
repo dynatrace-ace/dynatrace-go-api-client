@@ -28,7 +28,7 @@ type EntityShortRepresentation struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEntityShortRepresentation(id string, ) *EntityShortRepresentation {
+func NewEntityShortRepresentation(id string) *EntityShortRepresentation {
 	this := EntityShortRepresentation{}
 	this.Id = id
 	return &this
@@ -44,7 +44,7 @@ func NewEntityShortRepresentationWithDefaults() *EntityShortRepresentation {
 
 // GetId returns the Id field value
 func (o *EntityShortRepresentation) GetId() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}

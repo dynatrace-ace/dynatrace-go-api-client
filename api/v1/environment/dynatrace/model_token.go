@@ -24,7 +24,7 @@ type Token struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewToken(token string, ) *Token {
+func NewToken(token string) *Token {
 	this := Token{}
 	this.Token = token
 	return &this
@@ -40,7 +40,7 @@ func NewTokenWithDefaults() *Token {
 
 // GetToken returns the Token field value
 func (o *Token) GetToken() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}

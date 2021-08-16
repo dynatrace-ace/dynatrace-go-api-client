@@ -39,7 +39,7 @@ type SyntheticMonitorUpdate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSyntheticMonitorUpdate(frequencyMin int32, type_ string, name string, locations []string, enabled bool, script map[string]interface{}, tags []TagWithSourceInfo, manuallyAssignedApps []string, ) *SyntheticMonitorUpdate {
+func NewSyntheticMonitorUpdate(frequencyMin int32, type_ string, name string, locations []string, enabled bool, script map[string]interface{}, tags []TagWithSourceInfo, manuallyAssignedApps []string) *SyntheticMonitorUpdate {
 	this := SyntheticMonitorUpdate{}
 	this.FrequencyMin = frequencyMin
 	this.Type = type_
@@ -62,7 +62,7 @@ func NewSyntheticMonitorUpdateWithDefaults() *SyntheticMonitorUpdate {
 
 // GetFrequencyMin returns the FrequencyMin field value
 func (o *SyntheticMonitorUpdate) GetFrequencyMin() int32 {
-	if o == nil  {
+	if o == nil {
 		var ret int32
 		return ret
 	}
@@ -118,7 +118,7 @@ func (o *SyntheticMonitorUpdate) SetAnomalyDetection(v AnomalyDetection) {
 
 // GetType returns the Type field value
 func (o *SyntheticMonitorUpdate) GetType() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -142,7 +142,7 @@ func (o *SyntheticMonitorUpdate) SetType(v string) {
 
 // GetName returns the Name field value
 func (o *SyntheticMonitorUpdate) GetName() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -166,7 +166,7 @@ func (o *SyntheticMonitorUpdate) SetName(v string) {
 
 // GetLocations returns the Locations field value
 func (o *SyntheticMonitorUpdate) GetLocations() []string {
-	if o == nil  {
+	if o == nil {
 		var ret []string
 		return ret
 	}
@@ -190,7 +190,7 @@ func (o *SyntheticMonitorUpdate) SetLocations(v []string) {
 
 // GetEnabled returns the Enabled field value
 func (o *SyntheticMonitorUpdate) GetEnabled() bool {
-	if o == nil  {
+	if o == nil {
 		var ret bool
 		return ret
 	}
@@ -214,7 +214,7 @@ func (o *SyntheticMonitorUpdate) SetEnabled(v bool) {
 
 // GetScript returns the Script field value
 func (o *SyntheticMonitorUpdate) GetScript() map[string]interface{} {
-	if o == nil  {
+	if o == nil {
 		var ret map[string]interface{}
 		return ret
 	}
@@ -238,7 +238,7 @@ func (o *SyntheticMonitorUpdate) SetScript(v map[string]interface{}) {
 
 // GetTags returns the Tags field value
 func (o *SyntheticMonitorUpdate) GetTags() []TagWithSourceInfo {
-	if o == nil  {
+	if o == nil {
 		var ret []TagWithSourceInfo
 		return ret
 	}
@@ -262,7 +262,7 @@ func (o *SyntheticMonitorUpdate) SetTags(v []TagWithSourceInfo) {
 
 // GetManuallyAssignedApps returns the ManuallyAssignedApps field value
 func (o *SyntheticMonitorUpdate) GetManuallyAssignedApps() []string {
-	if o == nil  {
+	if o == nil {
 		var ret []string
 		return ret
 	}

@@ -103,7 +103,7 @@ type Host struct {
 	BoshAvailabilityZone *string `json:"boshAvailabilityZone,omitempty"`
 	CloudType *string `json:"cloudType,omitempty"`
 	PublicHostName *string `json:"publicHostName,omitempty"`
-	ConsumedHostUnits *float64 `json:"consumedHostUnits,omitempty"`
+	ConsumedHostUnits *float32 `json:"consumedHostUnits,omitempty"`
 	HostGroup *HostGroup `json:"hostGroup,omitempty"`
 	// The AIX instance simultaneous threads count.
 	SimultaneousMultithreading *int32 `json:"simultaneousMultithreading,omitempty"`
@@ -2044,9 +2044,9 @@ func (o *Host) SetPublicHostName(v string) {
 }
 
 // GetConsumedHostUnits returns the ConsumedHostUnits field value if set, zero value otherwise.
-func (o *Host) GetConsumedHostUnits() string {
+func (o *Host) GetConsumedHostUnits() float32 {
 	if o == nil || o.ConsumedHostUnits == nil {
-		var ret string
+		var ret float32
 		return ret
 	}
 	return *o.ConsumedHostUnits
@@ -2054,7 +2054,7 @@ func (o *Host) GetConsumedHostUnits() string {
 
 // GetConsumedHostUnitsOk returns a tuple with the ConsumedHostUnits field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Host) GetConsumedHostUnitsOk() (*string, bool) {
+func (o *Host) GetConsumedHostUnitsOk() (*float32, bool) {
 	if o == nil || o.ConsumedHostUnits == nil {
 		return nil, false
 	}
@@ -2070,8 +2070,8 @@ func (o *Host) HasConsumedHostUnits() bool {
 	return false
 }
 
-// SetConsumedHostUnits gets a reference to the given string and assigns it to the ConsumedHostUnits field.
-func (o *Host) SetConsumedHostUnits(v string) {
+// SetConsumedHostUnits gets a reference to the given float32 and assigns it to the ConsumedHostUnits field.
+func (o *Host) SetConsumedHostUnits(v float32) {
 	o.ConsumedHostUnits = &v
 }
 

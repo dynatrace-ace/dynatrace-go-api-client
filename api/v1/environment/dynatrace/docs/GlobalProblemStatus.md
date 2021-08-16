@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **TotalOpenProblemsCount** | Pointer to **int32** | The total number of open problems in your environment. | [optional] 
-**OpenProblemCounts** | Pointer to [**GlobalProblemStatusOpenProblemCounts**](GlobalProblemStatus_openProblemCounts.md) |  | [optional] 
+**OpenProblemCounts** | Pointer to [**GlobalProblemStatusOpenProblemCounts**](GlobalProblemStatusOpenProblemCounts.md) |  | [optional] 
 
 ## Methods
 

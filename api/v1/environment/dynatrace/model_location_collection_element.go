@@ -36,7 +36,7 @@ type LocationCollectionElement struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewLocationCollectionElement(name string, entityId string, type_ string, ) *LocationCollectionElement {
+func NewLocationCollectionElement(name string, entityId string, type_ string) *LocationCollectionElement {
 	this := LocationCollectionElement{}
 	this.Name = name
 	this.EntityId = entityId
@@ -54,7 +54,7 @@ func NewLocationCollectionElementWithDefaults() *LocationCollectionElement {
 
 // GetName returns the Name field value
 func (o *LocationCollectionElement) GetName() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -78,7 +78,7 @@ func (o *LocationCollectionElement) SetName(v string) {
 
 // GetEntityId returns the EntityId field value
 func (o *LocationCollectionElement) GetEntityId() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -102,7 +102,7 @@ func (o *LocationCollectionElement) SetEntityId(v string) {
 
 // GetType returns the Type field value
 func (o *LocationCollectionElement) GetType() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}

@@ -28,7 +28,7 @@ type Model3rdPartySyntheticLocation struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewModel3rdPartySyntheticLocation(id string, name string, ) *Model3rdPartySyntheticLocation {
+func NewModel3rdPartySyntheticLocation(id string, name string) *Model3rdPartySyntheticLocation {
 	this := Model3rdPartySyntheticLocation{}
 	this.Id = id
 	this.Name = name
@@ -45,7 +45,7 @@ func NewModel3rdPartySyntheticLocationWithDefaults() *Model3rdPartySyntheticLoca
 
 // GetId returns the Id field value
 func (o *Model3rdPartySyntheticLocation) GetId() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -69,7 +69,7 @@ func (o *Model3rdPartySyntheticLocation) SetId(v string) {
 
 // GetName returns the Name field value
 func (o *Model3rdPartySyntheticLocation) GetName() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}

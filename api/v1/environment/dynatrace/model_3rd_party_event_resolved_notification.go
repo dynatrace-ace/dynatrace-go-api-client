@@ -28,7 +28,7 @@ type Model3rdPartyEventResolvedNotification struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewModel3rdPartyEventResolvedNotification(testId string, eventId string, endTimestamp int64, ) *Model3rdPartyEventResolvedNotification {
+func NewModel3rdPartyEventResolvedNotification(testId string, eventId string, endTimestamp int64) *Model3rdPartyEventResolvedNotification {
 	this := Model3rdPartyEventResolvedNotification{}
 	this.TestId = testId
 	this.EventId = eventId
@@ -46,7 +46,7 @@ func NewModel3rdPartyEventResolvedNotificationWithDefaults() *Model3rdPartyEvent
 
 // GetTestId returns the TestId field value
 func (o *Model3rdPartyEventResolvedNotification) GetTestId() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -70,7 +70,7 @@ func (o *Model3rdPartyEventResolvedNotification) SetTestId(v string) {
 
 // GetEventId returns the EventId field value
 func (o *Model3rdPartyEventResolvedNotification) GetEventId() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -94,7 +94,7 @@ func (o *Model3rdPartyEventResolvedNotification) SetEventId(v string) {
 
 // GetEndTimestamp returns the EndTimestamp field value
 func (o *Model3rdPartyEventResolvedNotification) GetEndTimestamp() int64 {
-	if o == nil  {
+	if o == nil {
 		var ret int64
 		return ret
 	}

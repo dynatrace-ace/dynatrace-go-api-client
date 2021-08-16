@@ -28,7 +28,7 @@ type ServiceBaselineValues struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewServiceBaselineValues(entityId string, ) *ServiceBaselineValues {
+func NewServiceBaselineValues(entityId string) *ServiceBaselineValues {
 	this := ServiceBaselineValues{}
 	this.EntityId = entityId
 	return &this
@@ -44,7 +44,7 @@ func NewServiceBaselineValuesWithDefaults() *ServiceBaselineValues {
 
 // GetEntityId returns the EntityId field value
 func (o *ServiceBaselineValues) GetEntityId() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}

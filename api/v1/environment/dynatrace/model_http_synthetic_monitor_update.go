@@ -23,8 +23,16 @@ type HttpSyntheticMonitorUpdate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewHttpSyntheticMonitorUpdate() *HttpSyntheticMonitorUpdate {
+func NewHttpSyntheticMonitorUpdate(frequencyMin int32, type_ string, name string, locations []string, enabled bool, script map[string]interface{}, tags []TagWithSourceInfo, manuallyAssignedApps []string) *HttpSyntheticMonitorUpdate {
 	this := HttpSyntheticMonitorUpdate{}
+	this.FrequencyMin = frequencyMin
+	this.Type = type_
+	this.Name = name
+	this.Locations = locations
+	this.Enabled = enabled
+	this.Script = script
+	this.Tags = tags
+	this.ManuallyAssignedApps = manuallyAssignedApps
 	return &this
 }
 

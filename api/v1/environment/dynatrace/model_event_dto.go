@@ -28,7 +28,7 @@ type EventDto struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEventDto(entityId string, name string, sequenceNumber int32, ) *EventDto {
+func NewEventDto(entityId string, name string, sequenceNumber int32) *EventDto {
 	this := EventDto{}
 	this.EntityId = entityId
 	this.Name = name
@@ -46,7 +46,7 @@ func NewEventDtoWithDefaults() *EventDto {
 
 // GetEntityId returns the EntityId field value
 func (o *EventDto) GetEntityId() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -70,7 +70,7 @@ func (o *EventDto) SetEntityId(v string) {
 
 // GetName returns the Name field value
 func (o *EventDto) GetName() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -94,7 +94,7 @@ func (o *EventDto) SetName(v string) {
 
 // GetSequenceNumber returns the SequenceNumber field value
 func (o *EventDto) GetSequenceNumber() int32 {
-	if o == nil  {
+	if o == nil {
 		var ret int32
 		return ret
 	}

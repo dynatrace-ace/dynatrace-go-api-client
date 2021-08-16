@@ -25,7 +25,7 @@ type SyntheticPublicLocationUpdate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSyntheticPublicLocationUpdate(status string, ) *SyntheticPublicLocationUpdate {
+func NewSyntheticPublicLocationUpdate(status string) *SyntheticPublicLocationUpdate {
 	this := SyntheticPublicLocationUpdate{}
 	this.Status = status
 	return &this
@@ -41,7 +41,7 @@ func NewSyntheticPublicLocationUpdateWithDefaults() *SyntheticPublicLocationUpda
 
 // GetStatus returns the Status field value
 func (o *SyntheticPublicLocationUpdate) GetStatus() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}

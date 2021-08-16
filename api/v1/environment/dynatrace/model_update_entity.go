@@ -24,7 +24,7 @@ type UpdateEntity struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUpdateEntity(tags []string, ) *UpdateEntity {
+func NewUpdateEntity(tags []string) *UpdateEntity {
 	this := UpdateEntity{}
 	this.Tags = tags
 	return &this
@@ -40,7 +40,7 @@ func NewUpdateEntityWithDefaults() *UpdateEntity {
 
 // GetTags returns the Tags field value
 func (o *UpdateEntity) GetTags() []string {
-	if o == nil  {
+	if o == nil {
 		var ret []string
 		return ret
 	}

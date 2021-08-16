@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **FirstSeenTimestamp** | Pointer to **int64** | The timestamp of when the entity was first detected, in UTC milliseconds | [optional] 
 **LastSeenTimestamp** | Pointer to **int64** | The timestamp of when the entity was last detected, in UTC milliseconds | [optional] 
 **Tags** | Pointer to [**[]TagInfo**](TagInfo.md) | The list of entity tags. | [optional] 
-**ToRelationships** | Pointer to [**ServiceToRelationships**](Service_toRelationships.md) |  | [optional] 
+**ToRelationships** | Pointer to [**ServiceToRelationships**](ServiceToRelationships.md) |  | [optional] 
 **AkkaActorSystem** | Pointer to **string** | The services of the akka actor system. | [optional] 
 **WebServiceNamespace** | Pointer to **string** |  | [optional] 
 **ClassName** | Pointer to **string** |  | [optional] 
@@ -36,7 +36,7 @@ Name | Type | Description | Notes
 **WebServiceName** | Pointer to **string** |  | [optional] 
 **ServiceType** | Pointer to **string** |  | [optional] 
 **Path** | Pointer to **string** |  | [optional] 
-**FromRelationships** | Pointer to [**ServiceFromRelationships**](Service_fromRelationships.md) |  | [optional] 
+**FromRelationships** | Pointer to [**ServiceFromRelationships**](ServiceFromRelationships.md) |  | [optional] 
 
 ## Methods
 

@@ -5,8 +5,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **SyntheticEngineName** | **string** | The type of the third-party synthetic monitor. | 
-**Open** | Pointer to [**[]Model3rdPartyEventOpenNotification**](3rdPartyEventOpenNotification.md) | The list of open third-party synthetic events. | [optional] 
-**Resolved** | Pointer to [**[]Model3rdPartyEventResolvedNotification**](3rdPartyEventResolvedNotification.md) | The list of closed third-party synthetic events. | [optional] 
+**Open** | Pointer to [**[]Model3rdPartyEventOpenNotification**](Model3rdPartyEventOpenNotification.md) | The list of open third-party synthetic events. | [optional] 
+**Resolved** | Pointer to [**[]Model3rdPartyEventResolvedNotification**](Model3rdPartyEventResolvedNotification.md) | The list of closed third-party synthetic events. | [optional] 
 
 ## Methods
 

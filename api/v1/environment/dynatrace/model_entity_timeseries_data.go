@@ -28,7 +28,7 @@ type EntityTimeseriesData struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEntityTimeseriesData(timeseriesId string, dataPoints [][]float32, ) *EntityTimeseriesData {
+func NewEntityTimeseriesData(timeseriesId string, dataPoints [][]float32) *EntityTimeseriesData {
 	this := EntityTimeseriesData{}
 	this.TimeseriesId = timeseriesId
 	this.DataPoints = dataPoints
@@ -45,7 +45,7 @@ func NewEntityTimeseriesDataWithDefaults() *EntityTimeseriesData {
 
 // GetTimeseriesId returns the TimeseriesId field value
 func (o *EntityTimeseriesData) GetTimeseriesId() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -101,7 +101,7 @@ func (o *EntityTimeseriesData) SetDimensions(v map[string]string) {
 
 // GetDataPoints returns the DataPoints field value
 func (o *EntityTimeseriesData) GetDataPoints() [][]float32 {
-	if o == nil  {
+	if o == nil {
 		var ret [][]float32
 		return ret
 	}

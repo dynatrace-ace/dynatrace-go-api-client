@@ -28,7 +28,7 @@ type Model3rdPartySyntheticEvents struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewModel3rdPartySyntheticEvents(syntheticEngineName string, ) *Model3rdPartySyntheticEvents {
+func NewModel3rdPartySyntheticEvents(syntheticEngineName string) *Model3rdPartySyntheticEvents {
 	this := Model3rdPartySyntheticEvents{}
 	this.SyntheticEngineName = syntheticEngineName
 	return &this
@@ -44,7 +44,7 @@ func NewModel3rdPartySyntheticEventsWithDefaults() *Model3rdPartySyntheticEvents
 
 // GetSyntheticEngineName returns the SyntheticEngineName field value
 func (o *Model3rdPartySyntheticEvents) GetSyntheticEngineName() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}

@@ -26,7 +26,7 @@ type SyntheticTestStep struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSyntheticTestStep(id int64, title string, ) *SyntheticTestStep {
+func NewSyntheticTestStep(id int64, title string) *SyntheticTestStep {
 	this := SyntheticTestStep{}
 	this.Id = id
 	this.Title = title
@@ -43,7 +43,7 @@ func NewSyntheticTestStepWithDefaults() *SyntheticTestStep {
 
 // GetId returns the Id field value
 func (o *SyntheticTestStep) GetId() int64 {
-	if o == nil  {
+	if o == nil {
 		var ret int64
 		return ret
 	}
@@ -67,7 +67,7 @@ func (o *SyntheticTestStep) SetId(v int64) {
 
 // GetTitle returns the Title field value
 func (o *SyntheticTestStep) GetTitle() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}

@@ -23,10 +23,10 @@ type EventCreation struct {
 	// The end timestamp of the event, in UTC milliseconds.   If not set, the current time is used for information-only events.   Not applicable to problem-opening events. Such an event stays open until it times out depending on the **timeoutMinutes** parameter.
 	End *int64 `json:"end,omitempty"`
 	// The timeout for problem-opening events in minutes. Not applicable to information-only events.   If not set, 15 minutes is used. The maximum allowed value is 120 minutes.   You can refresh the event by sending the same payload again.
-	TimeoutMinutes *int32               `json:"timeoutMinutes,omitempty"`
-	AttachRules    PushEventAttachRules `json:"attachRules"`
+	TimeoutMinutes *int32 `json:"timeoutMinutes,omitempty"`
+	AttachRules PushEventAttachRules `json:"attachRules"`
 	// The set of any properties related to the event, in the *\"key\" : \"value\"* format.
-	CustomProperties *map[string]interface{} `json:"customProperties,omitempty"`
+	CustomProperties *map[string]map[string]interface{} `json:"customProperties,omitempty"`
 	// The name or ID of the external source of the event.
 	Source string `json:"source"`
 	// The type of the custom annotation, for example `DNS route has been changed`.
@@ -92,7 +92,7 @@ func (o *EventCreation) GetEventType() string {
 // GetEventTypeOk returns a tuple with the EventType field value
 // and a boolean to check if the value has been set.
 func (o *EventCreation) GetEventTypeOk() (*string, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.EventType, true
@@ -212,7 +212,7 @@ func (o *EventCreation) GetAttachRules() PushEventAttachRules {
 // GetAttachRulesOk returns a tuple with the AttachRules field value
 // and a boolean to check if the value has been set.
 func (o *EventCreation) GetAttachRulesOk() (*PushEventAttachRules, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.AttachRules, true
@@ -224,9 +224,9 @@ func (o *EventCreation) SetAttachRules(v PushEventAttachRules) {
 }
 
 // GetCustomProperties returns the CustomProperties field value if set, zero value otherwise.
-func (o *EventCreation) GetCustomProperties() map[string]interface{} {
+func (o *EventCreation) GetCustomProperties() map[string]map[string]interface{} {
 	if o == nil || o.CustomProperties == nil {
-		var ret map[string]interface{}
+		var ret map[string]map[string]interface{}
 		return ret
 	}
 	return *o.CustomProperties
@@ -234,7 +234,7 @@ func (o *EventCreation) GetCustomProperties() map[string]interface{} {
 
 // GetCustomPropertiesOk returns a tuple with the CustomProperties field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EventCreation) GetCustomPropertiesOk() (*map[string]interface{}, bool) {
+func (o *EventCreation) GetCustomPropertiesOk() (*map[string]map[string]interface{}, bool) {
 	if o == nil || o.CustomProperties == nil {
 		return nil, false
 	}
@@ -250,8 +250,8 @@ func (o *EventCreation) HasCustomProperties() bool {
 	return false
 }
 
-// SetCustomProperties gets a reference to the given map[string]interface{} and assigns it to the CustomProperties field.
-func (o *EventCreation) SetCustomProperties(v map[string]interface{}) {
+// SetCustomProperties gets a reference to the given map[string]map[string]interface{} and assigns it to the CustomProperties field.
+func (o *EventCreation) SetCustomProperties(v map[string]map[string]interface{}) {
 	o.CustomProperties = &v
 }
 
@@ -268,7 +268,7 @@ func (o *EventCreation) GetSource() string {
 // GetSourceOk returns a tuple with the Source field value
 // and a boolean to check if the value has been set.
 func (o *EventCreation) GetSourceOk() (*string, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.Source, true
@@ -830,3 +830,5 @@ func (v *NullableEventCreation) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

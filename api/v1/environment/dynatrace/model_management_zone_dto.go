@@ -26,7 +26,7 @@ type ManagementZoneDto struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewManagementZoneDto(id string, name string, ) *ManagementZoneDto {
+func NewManagementZoneDto(id string, name string) *ManagementZoneDto {
 	this := ManagementZoneDto{}
 	this.Id = id
 	this.Name = name
@@ -43,7 +43,7 @@ func NewManagementZoneDtoWithDefaults() *ManagementZoneDto {
 
 // GetId returns the Id field value
 func (o *ManagementZoneDto) GetId() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -67,7 +67,7 @@ func (o *ManagementZoneDto) SetId(v string) {
 
 // GetName returns the Name field value
 func (o *ManagementZoneDto) GetName() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
