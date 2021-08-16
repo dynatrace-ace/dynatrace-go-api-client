@@ -103,7 +103,7 @@ type Host struct {
 	BoshAvailabilityZone *string `json:"boshAvailabilityZone,omitempty"`
 	CloudType *string `json:"cloudType,omitempty"`
 	PublicHostName *string `json:"publicHostName,omitempty"`
-	ConsumedHostUnits *string `json:"consumedHostUnits,omitempty"`
+	ConsumedHostUnits *float64 `json:"consumedHostUnits,omitempty"`
 	HostGroup *HostGroup `json:"hostGroup,omitempty"`
 	// The AIX instance simultaneous threads count.
 	SimultaneousMultithreading *int32 `json:"simultaneousMultithreading,omitempty"`
